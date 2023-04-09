@@ -1,6 +1,6 @@
 # 【施工中】Tiny UI
 
-[English](/README.md) [繁體中文](/README.zh-cmn-Hant.md)
+[English](/README.md) [繁體中文](/README.cmn-Hant.md)
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 

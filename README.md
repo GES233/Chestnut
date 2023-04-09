@@ -4,7 +4,7 @@
 > 
 > This project is still in progress and may be deprecated at any time.
 
-[简体中文](/README.cmn-Hans.md) [繁體中文](/README.zh-cmn-Hant.md)
+[简体中文](/README.cmn-Hans.md) [繁體中文](/README.cmn-Hant.md)
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
