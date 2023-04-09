@@ -7,7 +7,7 @@ from ..helpers.config import AppConfig, DepsConfig
 def configure_app(customize: bool, app_id: int | str | None = None) -> AppConfig:
     """A helper function to generate AppConfig."""
 
-    app_config = AppConfig(name="Pico UI.", introduction="", installed=False)
+    app_config = AppConfig(name="Tiny UI.", introduction="", installed=False)
 
     if customize:
         info_of_app = (
