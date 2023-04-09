@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<main>
+  <article>
+    {% if exc_dict.content %}
+    <hgroup>
+      <h4>{{ exc_dict.title }}</h4>
+      <h5>{{ exc_dict.content }}</h5>
+    </hgroup>
+    {%- else -%}
+    <h4>{{ exc_dict.title }}</h4>
+    {% endif %}
+    {% if exc_dict.debug %} {# Related to exc_dict.detail #}
+      <details>
+        <summary><small>Details for developers (DEBUG mode only)</small></summary>
+        {% if exc_dict.extra %}
+        <article>
+          <main>
+            <header><strong>Extra data in exception</strong></header>
+            <figure>
+              <table>
+                <thead>
+                  <tr>
+                  {% for extra_item in exc_dict.extra %}
+                    <td>{{ extra_item }}</td>
+                  {% endfor %}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    {% for extra_item in exc_dict.extra %}
+                    <td><small>{{ exc_dict.extra[extra_item] }}</small></td>
+                  {% endfor %}
+                  </tr>
+                </tbody>
+              </table>
+            </figure>
+          </main>
+        </article>
+        {% endif %}
+        <p>Exception in <code>{{ exc_dict.detail.route }}</code></p>
+        <hr>
+        {% for exc in exc_dict.detail.exc_frames %}
+        <p><mark>{{ exc.type }}</mark> {{ exc.summary if exc.summary else "" }}</p>
+        {% for frame in exc.frames %}
+          <p><small>In <code>{{ frame.filename }}:{{ frame.lineno }}</code></small></p>
+          {{ frame.lines|safe }}
+        {% endfor %}
+        {% endfor %}
+        <article>
+          <main>
+            <header><strong>{{ exc_dict.detail.request }}</strong></header>
+            <small>Headers in request:</small>
+            <figure>
+              <table>
+                <thead>
+                  <tr>
+                  {% for headers_item in exc_dict.detail.headers %}
+                    <td>{{ headers_item }}</td>
+                  {% endfor %}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    {% for headers_item in exc_dict.detail.headers %}
+                    <td><small>{{ exc_dict.detail.headers[headers_item] }}</small></td>
+                  {% endfor %}
+                  </tr>
+                </tbody>
+              </table>
+            </figure>
+          </main>
+        </article>
+      </details>
+    {%- else -%}
+    <main>
+      <p>{{ exc_dict.abstract.content|safe }}</p>
+    </main>
+    {% endif %}
+  </article>
+</main>
+{% endblock %}
+
+{% block modal %}
+<dialog id="exception" open>
+  <article>
+    <a href="#close" aria-label="Close" class="close" data-target="exception" onclick="toggleModal(event)"></a>
+    <header><h6>Ooops~</h6></header>
+    <p>Application <kbd>{{ exc_dict.name }}</kbd> cannot handle your request because some exception happend.</p>
+    <footer>
+      <a href="#confirm" data-target="exception" onclick="toggleModal(event)" class="outline" role="button">Confirm</a>
+    </footer>
+  </article>
+</dialog>
+{% endblock %}

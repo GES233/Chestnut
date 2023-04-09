@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<article class="container">
+  <!--<article aria-busy="true"></article>-->
+  <article>
+    <!--<div class="highlight">
+      <pre>
+        <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
+      </pre>
+    </div>-->
+  </article>
+  <!--<button onclick="toggleModal(event)" data-target="launch">Act</button>-->
+</article>
+{% endblock %}
+
+{% block modal %}
+<dialog id="launch">
+  <article>
+    <a href="#close" aria-label="Close" class="close" data-target="launch" onclick="toggleModal(event)"></a>
+    <h4>This is the content in modal.</h4>
+    <footer>
+      <a href="#confirm" data-target="launch" onclick="toggleModal(event)">Confirm</a>
+    </footer>
+  </article>
+</dialog>
+{% endblock %}

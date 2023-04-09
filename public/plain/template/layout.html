@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="{{ app_config.lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Anomynous">
+  <meta name="description" content="{{ app_config.description }}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    {% block title %}
+    {#- type: tinyui.infrastructure.helpers.config.page.PageConfig -#}
+      {%- if page_config -%}
+        {%- if page_config.name_as_role -%}
+          {{ app_config.name }} :: {{ page_config.role }}
+        {%- else -%}
+          {{ page_config.title }} - {{ app_config.name }}
+        {%- endif -%}
+      {%- else -%}
+        {{ app_config.name }} - {{ app_config.introduction }}
+      {%- endif -%}
+    {% endblock %}
+  </title>
+
+  {% block stylesheet %}
+  <!-- style -->
+  <link rel="stylesheet" href="/static/css/pico.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/code.css">
+  {% endblock %}
+
+  {% block extra_css %}
+  {% endblock %}
+
+  {% block extra_head %}
+  {% endblock %}
+</head>
+<body>
+  <nav class="container-fluid">
+    {% block header %}
+    <ul>
+      <li><a href="/"><kbd>Tiny UI</kbd> Launcher</a></li>
+      {% if page_config.header_items -%}
+      {%- for header_item in page_config.header_items -%}
+      <li>{{ header_item }}</li>
+      {%- endfor -%}
+      {%- endif %}
+    </ul>
+    <ul>
+      <li><details role="list">
+        <summary aria-haspopup="listbox" role="button" class="secondary">
+          <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="25px">
+            <path fill="currentColor" d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705 0 184 82.311 184 184 0 101.705-82.311 184-184 184z">
+            </path>
+          </svg>
+        </summary>
+        <ul>
+          <li><a href="#" data-theme-switcher="auto">Auto</a></li>
+          <li><a href="#" data-theme-switcher="dark">Dark</a></li>
+          <li><a href="#" data-theme-switcher="light">Light</a></li>
+        </ul>
+      </details></li>
+    </ul>
+    {% endblock %}
+  </nav>
+
+  {% block content %}
+  {% endblock %}
+
+  <footer class="container-fluid">
+    <small>
+      Built with <a href="https://sanic.dev" class="secondary">Sanic</a> • <a href="https://jinja.palletsprojects.com/en" class="secondary">Jinja2</a> • <a href="https://picocss.com" class="secondary">PicoCSS</a>
+    </small>
+  </footer>
+
+  <script src="/static/js/minimal-theme-switcher.js"></script>
+  <script src="/static/js/modal.js"></script>
+  <!--<script src="/static/js/sse-client.js"></script>-->
+
+  {% block modal %}{% endblock %}
+
+  {% block script %}
+  {% endblock %}
+</body>
+</html>
