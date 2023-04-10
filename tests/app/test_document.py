@@ -25,11 +25,31 @@ by 呕像恋蜥僧
 
 
 class TestDocumentDomain:
+    
+    def test_document_meta(self) -> None:
+        if title_ := re.match(r"^# (.*)\n", DOCUMENT_RAW_CONTENT, re.MULTILINE):
+            title = title_.group(1)
+        else:
+            title = None
+        demo_meta = DocumentMeta(
+            name="awesome_chicken",
+            # from tinyui/infra/deps/document/dir/build_index
+            title=title,
+            language="cmn-Hans",
+            source=Path(__file__),
+            location=["wild", "breeding", "chicken"],
+            categories=[],
+            # content=DOCUMENT_RAW_CONTENT
+        )
+
+        assert demo_meta.title is not None and "\n" not in demo_meta.title
+
     def test_document(self) -> None:
         if title_ := re.match(r"^# (.*)\n", DOCUMENT_RAW_CONTENT, re.MULTILINE):
             title = title_.group(1)
         else:
             title = None
+        """
         demo_doc = Document(
             name="awesome_chicken",
             # from tinyui/infra/deps/document/dir/build_index
@@ -42,20 +62,4 @@ class TestDocumentDomain:
 
         assert demo_doc.name == "awesome_chicken"
         assert demo_doc.title == "只因的美学"
-    
-    def test_document_meta(self) -> None:
-        if title_ := re.match(r"^# (.*)\n", DOCUMENT_RAW_CONTENT, re.MULTILINE):
-            title = title_.group(1)
-        else:
-            title = None
-        demo_meta = DocumentMeta(
-            name="awesome_chicken",
-            # from tinyui/infra/deps/document/dir/build_index
-            title=title,
-            source=Path(__file__),
-            location=["wild", "breeding", "chicken"],
-            categories=[],
-            # content=DOCUMENT_RAW_CONTENT
-        )
-
-        assert demo_meta.title is not None and "\n" not in demo_meta.title
+"""

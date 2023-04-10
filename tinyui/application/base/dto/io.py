@@ -5,7 +5,7 @@ from typing import Dict, Any
 class InputSchemaMixin(ABC):
     @classmethod
     @abstractmethod
-    def fromdict(cls, dict: Dict) -> "InputSchemaMixin" | Any:
+    def fromdict(cls, input_dict: Dict) -> "InputSchemaMixin" | Any:
         """Load DTO from dict."""
 
         raise NotImplementedError
@@ -20,7 +20,7 @@ class InputSchemaMixin(ABC):
 class OutputSchemaMixin(ABC):
     @classmethod
     @abstractmethod
-    def fromentity(cls, entity: Any) -> "InputSchemaMixin" | Any:
+    def fromentity(cls, entity: Any) -> "OutputSchemaMixin" | Any:
         """Load DTO from from entity or value-object."""
 
         raise NotImplementedError
