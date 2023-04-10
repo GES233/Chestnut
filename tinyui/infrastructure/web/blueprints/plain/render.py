@@ -20,7 +20,7 @@ if not EXTENSION_INSTLLED:
         FileSystemLoader,
     )
 
-    from .paths import TEMPLATE_PATH
+    from ....helpers.path import TEMPLATE_PATH
 
     loader, launch_environment = returnloaderandenv(TEMPLATE_PATH, True)
 

@@ -6,16 +6,9 @@
 from pathlib import Path
 from sanic import Blueprint
 
-from ....helpers.path import MAIN_PUBLIC_PATH, ASSETS_PATH
+from ....helpers.path import MAIN_PUBLIC_PATH, ASSETS_PATH, STATIC_PATH
 
 
-# Configure Paths(it is stable).
-PLAIN_PATH = Path(MAIN_PUBLIC_PATH / "plain")
-
-# Add to `reload_dir`!
-TEMPLATE_PATH = Path(PLAIN_PATH / "template")
-
-STATIC_PATH = Path(PLAIN_PATH / "static")
 CSS_PATH = Path(STATIC_PATH / "css")
 JS_PATH = Path(STATIC_PATH / "js")
 FONTS_PATH = Path(MAIN_PUBLIC_PATH / "fonts")  # Common.

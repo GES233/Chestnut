@@ -8,7 +8,7 @@ from jinja2 import (
 )
 
 from ..extend import CustomeExtend
-from ...blueprints.plain.paths import TEMPLATE_PATH
+from ....helpers.path import TEMPLATE_PATH
 from ....dependencies.html import returnloaderandenv
 
 

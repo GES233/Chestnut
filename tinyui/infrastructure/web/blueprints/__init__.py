@@ -20,8 +20,7 @@ def register_blueprint(app: Sanic) -> None:
 
 
 def reload_paths() -> List:
-    from .web.paths import WEB_DIR_PATH
-    from .plain.paths import PLAIN_PATH as LAUNCH_WEB_PATH
+    from .web.paths import MAIN_PUBLIC_PATH
     from ...helpers.path import BACKEND_PATH, DOCS_PATH
 
-    return [WEB_DIR_PATH, LAUNCH_WEB_PATH, BACKEND_PATH, DOCS_PATH]
+    return [MAIN_PUBLIC_PATH, BACKEND_PATH, DOCS_PATH]

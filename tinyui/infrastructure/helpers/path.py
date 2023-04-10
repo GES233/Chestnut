@@ -18,3 +18,6 @@ DOCS_PATH = Path(PROJECT_PATH / "docs")
 DOCS_ASSETS_PATH = Path(DOCS_PATH / "assets")
 MAIN_PUBLIC_PATH = Path(PROJECT_PATH / "public")
 ASSETS_PATH = Path(MAIN_PUBLIC_PATH / "assets")
+TEMPLATE_PATH = Path(MAIN_PUBLIC_PATH / "template")
+STATIC_PATH = Path(MAIN_PUBLIC_PATH / "static")
+FONTS_PATH = Path(MAIN_PUBLIC_PATH / "fonts")  # Common.
