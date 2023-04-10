@@ -120,18 +120,18 @@ def run_sync(func: Callable[..., Any], **inputs) -> Any:
     return asyncio.get_event_loop().run_until_complete(func(**inputs))
 
 
-markdown_fake_database: List[Dict[str, Document | DocumentMeta]] = []
+markdown_fake_database: List[Document] = []
 
 
-class TestRepo(DocRepo, DocMetaRepo):
+class SimpleRepoImpl(DocRepo, DocMetaRepo):
     async def display(self) -> List[DocumentMeta | None]:
-        return await super().display()
+        return [item.meta for item in (doc_item for doc_item in markdown_fake_database)]
 
     async def loadbyname(self, name: str) -> List[Document | None]:
-        return await super().loadbyname(name)
-    
-    async def loadbycondition(self, **condition) -> List[Document | None]:
-        return await super().loadbycondition(**condition)
+        return [item for item in markdown_fake_database if item.meta.name == name]
 
-    async def upgrade(self, add_object) -> None:
-        return await super().upgrade(add_object)
+    async def loadbycondition(self, **condition) -> List[Document | None]:
+        raise NotImplementedError
+
+    async def upgrade(self, add_object: Document) -> None:
+        markdown_fake_database.append(add_object)

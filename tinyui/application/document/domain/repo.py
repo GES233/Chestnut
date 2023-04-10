@@ -31,4 +31,3 @@ class DocMetaRepo(ABC):
         """Display ALL existed documents's META(except raw content)."""
 
         raise NotImplementedError
-
