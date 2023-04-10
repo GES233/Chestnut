@@ -9,6 +9,8 @@ from sqlalchemy.orm import registry
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncConnection
 from typing import Any, Callable, Dict, List
 
+# If this architecture is still used for the next project, 
+# I'll DEFINENITELY NOT use the full word.
 from tinyui.application.document.domain.document import Document
 from tinyui.application.document.domain.meta import DocumentMeta
 from tinyui.application.document.domain.repo import DocRepo, DocMetaRepo
@@ -129,21 +131,24 @@ def run_sync(func: Callable[..., Any], **inputs) -> Any:
     return asyncio.get_event_loop().run_until_complete(func(**inputs))
 
 
-markdown_fake_database: List[Document] = []
-
-
 class SimpleRepoImpl(DocRepo, DocMetaRepo):
+
+    db: List[Document] = []
+
+    def __init__(self) -> None:
+        self.db = []
+
     async def display(self) -> List[DocumentMeta | None]:
-        return [item.meta for item in (doc_item for doc_item in markdown_fake_database)]
+        return [item.meta for item in (doc_item for doc_item in self.db)]
 
     async def loadbyname(self, name: str) -> List[Document | None]:
-        return [item for item in markdown_fake_database if item.meta.name == name]
+        return [item for item in self.db if item.meta.name == name]
 
     async def loadbycondition(self, **condition) -> List[Document | None]:
         raise NotImplementedError
 
     async def upgrade(self, add_object: Document) -> None:
-        markdown_fake_database.append(add_object)
+        self.db.append(add_object)
 
 
 mapper_registry = registry()
@@ -158,22 +163,32 @@ class DefaultRepo(DocRepo, DocMetaRepo):
         self.table = table
 
         # TODO: create all.
-        mapper_registry.map_imperatively(
-            Document,
-            document_table,
-            properties={},
-        )
-    
+        mapper_registry.map_imperatively(Document, document_table)
+
     async def display(self) -> List[DocumentMeta | None]:
         async with self.engine.begin() as conn:
+            stmt = select(document_table)
+            await conn.execute(stmt)
+            ...
+        # Table => DTO => DomainModel
+        # Table =mapper=> DomainModel
+        raise NotImplementedError
+
+    async def loadbycondition(self, **condition) -> List[Document | None]:
+        async with self.engine.begin() as conn:
+            stmt = select(document_table).where()
             ...
         raise NotImplementedError
-    
-    async def loadbycondition(self, **condition) -> List[Document | None]:
-        return await super().loadbycondition(**condition)
-    
+
     async def loadbyname(self, name: str) -> List[Document | None]:
         return await self.loadbycondition(name=name)
-    
+
     async def upgrade(self, add_object: Any) -> None:
-        return await super().upgrade(add_object)
+        async with self.engine.begin() as conn:
+            stmt = update(document_table).where().values()
+            ...
+        raise NotImplementedError
+
+
+class TestUsecase:
+    ...
