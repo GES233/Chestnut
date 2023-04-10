@@ -29,7 +29,7 @@
   - 本地 `<Repo1Path>/Repo1` 下有文档，其中我们要读取 `/test/q.md` 以及 `/test/a.zh.md`
   - 在浏览器上为 `/docs/Repo1/en/test/q` 以及 `/docs/Repo1/cmn/test/a`
 
-对文件的一些约束：参见[约定](/development/spec.cmn-Hans.md)。
+对文件的一些约束：参见[约定](/docs/development/spec.cmn-Hans.md)。
 
 ### 如何实现
 

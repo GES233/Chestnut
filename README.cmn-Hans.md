@@ -1,8 +1,8 @@
 # 【施工中】Tiny UI
 
-[English](/README.md) [繁體中文](/README.cmn-Hant.md)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black) [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[English](/README.md) [繁體中文](/README.cmn-Hant.md)
 
 基于 [Sanic](https://github.com/sanic-org/sanic) 以及 [AppRun](https://apprun.js.org) 构建的用于演示以及通过网络使用 AI 项目的脚手架。
 

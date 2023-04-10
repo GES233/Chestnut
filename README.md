@@ -4,9 +4,9 @@
 > 
 > This project is still in progress and may be deprecated at any time.
 
-[简体中文](/README.cmn-Hans.md) [繁體中文](/README.cmn-Hant.md)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black) [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[简体中文](/README.cmn-Hans.md) [繁體中文](/README.cmn-Hant.md)
 
 A scaffold built with Sanic and AppRun. 
 

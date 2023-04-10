@@ -1,8 +1,8 @@
 # TinyUI
 
-[English](/README.md) [简体中文](/README.cmn-Hans.md)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black) [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[English](/README.md) [简体中文](/README.cmn-Hans.md)
 
 Tiny UI 是基於 Web 的腳手架，用於展示人工智慧項目，使用了 Sanic 和 AppRun 構建，並從作者的某個私密倉庫（如果該項目成型也將會公開倉庫）克隆而來。
 

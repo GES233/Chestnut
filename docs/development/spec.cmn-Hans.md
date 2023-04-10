@@ -10,7 +10,7 @@ Windows 11 下的 VSCode 。
 
 > _Add some segment._
 
-略。
+需要等到项目具备一定的完成度再讨论。
 
 ### 工作流
 
@@ -22,7 +22,11 @@ Windows 11 下的 VSCode 。
 
 英文文档：`{name}.md`
 
-其他语言的文档：`{名字}.{语言代号}.md` ，如果项目为单一语言是可以为 `{name}.md` 。
+其他语言的文档：`{名字}.{语言代号}.md` ，如果项目仅有单一语言时也可以为 `{name}.md` 。
+
+> **Note**
+>
+> 关于单一语言文档：原则上**不建议**非英文的省略掉，因为一旦未在文件名中检测出语言，`TinyUI` 的缺省值就是英文。
 
 当文档作为模板时，其名字为：`{原来的名字}-sample`/`{原来的名字}-template`
 
@@ -30,7 +34,28 @@ Windows 11 下的 VSCode 。
 
 ### 关于 `README`
 
-其参考了 [standard-readme](https://github.com/RichardLitt/standard-readme) 。
+其参考了 [standard-readme](https://github.com/RichardLitt/standard-readme) ，目前 `TinyUI` 的格式如下：
+
+- 标题
+  - 大写
+- 目录前
+  - 提示以及警告(可选)
+  - 项目简介
+  - 徽章
+  - 其他语言
+  - 简短的描述
+- TOC
+- 正文
+
+## 环境
+
+我们将项目分为开发环境（`dev`）、测试环境（`test`）以及生产环境（`pro`/`prod`）。
+
+### 实例
+
+项目有一个实例文件夹 `/instance` ，`python -m tinyui set` 命令能够在初始化应用的同时创建这个文件夹。
+
+### 关于 Docker
 
 ## 代码格式与编码约定
 
@@ -111,3 +136,9 @@ from .c import c_inst
 ### Javascript
 
 ### Typescript
+
+前端的 SPA 采用 AppRun 框架，而 AppRun 可以同时选择 Typescript 以及 Javascript ，为了避免发生后来看不懂自己之前写的代码的情况发生，我们更倾向于针对那些需要打包的代码（`/webapp` 内）选择 Typescript。
+
+#### 代码指导
+
+略。
