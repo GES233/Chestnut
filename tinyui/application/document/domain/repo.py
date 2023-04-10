@@ -19,7 +19,7 @@ class DocRepo(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def upgrade(self) -> None:
+    async def upgrade(self, add_object: Any) -> None:
         """Upgrade document and meta."""
 
         raise NotImplementedError

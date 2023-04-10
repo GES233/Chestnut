@@ -103,19 +103,24 @@ class TestDTO:
         assert parsed_meta.get("name") == "chicken_is_nice"
         assert parsed_meta.get("language") == "zh"
 
-    def test_fetchfile(self) -> None:
+    def test_fetchfile_and_present(self) -> None:
+        # 1. Fetch.
         file_path, root_path = self._store_file("chicken_is_nice.zh.md", DOCUMENT_RAW_CONTENT)
         demo_loader = DocumentLoader.fromdict(dict(file_path=file_path, root_path=root_path))
         demo_obj = demo_loader.toentity()
 
         assert demo_obj.meta.title == "只因的美学"
 
+        # 2. Present.
+        presenter = DocumentPresenter.fromentity(demo_obj)
+        assert presenter.dict()["title"] == "只因的美学"
+
 
 def run_sync(func: Callable[..., Any], **inputs) -> Any:
     return asyncio.get_event_loop().run_until_complete(func(**inputs))
 
 
-markdown_fake_database: List[Dict[str, str | Path | None]] = []
+markdown_fake_database: List[Dict[str, Document | DocumentMeta]] = []
 
 
 class TestRepo(DocRepo, DocMetaRepo):
@@ -128,5 +133,5 @@ class TestRepo(DocRepo, DocMetaRepo):
     async def loadbycondition(self, **condition) -> List[Document | None]:
         return await super().loadbycondition(**condition)
 
-    async def upgrade(self) -> None:
-        return await super().upgrade()
+    async def upgrade(self, add_object) -> None:
+        return await super().upgrade(add_object)
