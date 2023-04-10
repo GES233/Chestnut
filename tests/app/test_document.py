@@ -1,7 +1,9 @@
 import pytest
 
 import re
-from pathlib import Path, PurePath
+import asyncio
+from pathlib import Path
+from typing import Any, Callable, Dict, List
 
 from tinyui.application.document.domain.document import Document
 from tinyui.application.document.domain.meta import DocumentMeta
@@ -39,7 +41,7 @@ class TestDocumentDomain:
             title=title,
             language="cmn-Hans",
             source=Path(__file__),
-            location=["wild", "breeding", "chicken"],
+            location="/".join(["wild", "breeding", "chicken"]),
             categories=[],
             # content=DOCUMENT_RAW_CONTENT
         )
@@ -58,7 +60,7 @@ class TestDocumentDomain:
             title=title,
             language="cmn-Hans",
             source=Path(__file__),
-            location=["wild", "breeding", "chicken"],
+            location="/".join(["wild", "breeding", "chicken"]),
             categories=[],
             # content=DOCUMENT_RAW_CONTENT
         )
@@ -98,8 +100,8 @@ class TestDTO:
             root_path=fake_root_path,
         )
 
-        assert parsed_meta.name == "chicken_is_nice"
-        assert parsed_meta.language == "zh"
+        assert parsed_meta.get("name") == "chicken_is_nice"
+        assert parsed_meta.get("language") == "zh"
 
     def test_fetchfile(self) -> None:
         file_path, root_path = self._store_file("chicken_is_nice.zh.md", DOCUMENT_RAW_CONTENT)
@@ -107,3 +109,24 @@ class TestDTO:
         demo_obj = demo_loader.toentity()
 
         assert demo_obj.meta.title == "只因的美学"
+
+
+def run_sync(func: Callable[..., Any], **inputs) -> Any:
+    return asyncio.get_event_loop().run_until_complete(func(**inputs))
+
+
+markdown_fake_database: List[Dict[str, str | Path | None]] = []
+
+
+class TestRepo(DocRepo, DocMetaRepo):
+    async def display(self) -> List[DocumentMeta | None]:
+        return await super().display()
+
+    async def loadbyname(self, name: str) -> List[Document | None]:
+        return await super().loadbyname(name)
+    
+    async def loadbycondition(self, **condition) -> List[Document | None]:
+        return await super().loadbycondition(**condition)
+
+    async def upgrade(self) -> None:
+        return await super().upgrade()

@@ -16,3 +16,9 @@ class DocumentPresenter(OutputSchemaMixin, BaseModel):
         if isinstance(entity, Document):
             return DocumentPresenter(document=entity)
         raise TypeError
+
+    def todict(self) -> dict:
+        return dict(
+            meta=self.document.meta,
+            content=self.document.content
+        )

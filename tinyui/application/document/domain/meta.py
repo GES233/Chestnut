@@ -14,7 +14,7 @@ class DocumentMeta(ValueObject):
     language: str
     source: Path
     """The path of the raw document."""
-    location: Iterable[str | None]
+    location: str
     """How to locate the document object in application."""
     categories: Iterable[str | None]
 

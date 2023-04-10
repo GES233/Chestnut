@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
 from pydantic import BaseModel
-from typing import Any, Tuple
+from typing import List, Any, Tuple
 
 from .. import exception as doc_exc
 from ..domain.meta import DocumentMeta
@@ -10,8 +10,14 @@ from ...base.dto.io import InputSchemaMixin
 
 
 class DocumentLoader(InputSchemaMixin, BaseModel):
-    content: str | None
-    meta: DocumentMeta
+    content: str
+    # Same as DocumentMeta.
+    name: str
+    title: str | None
+    language: str
+    source: Path
+    location: str
+    categories: List[str | None]
 
     @classmethod
     def fromdict(cls, input_dict: dict) -> "DocumentLoader":
@@ -22,15 +28,25 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
 
         return DocumentLoader(
             content=content,
-            meta=DocumentLoader.parse(
+            **DocumentLoader.parse(
                 content=content,
                 file_path=input_dict["file_path"],
-                root_path=input_dict["root_path"]
-            )
+                root_path=input_dict["root_path"],
+            ),
         )
 
     def toentity(self) -> Document:
-        return DocumentLoader.sqeeze(self.content, self.meta)
+        return DocumentLoader.sqeeze(
+            content=self.content,
+            meta_dict=dict(
+                name=self.name,
+                title=self.title,
+                language=self.language,
+                source=self.source,
+                location=self.location,
+                categories=self.categories,
+            ),
+        )
 
     @staticmethod
     def fetchfile(path: str | Path) -> str:
@@ -39,7 +55,7 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
 
         if not path.exists():
             raise doc_exc.DocumentNotFound
-        
+
         return path.read_text(encoding="utf-8")
 
     @staticmethod
@@ -47,8 +63,11 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
         content: str,
         file_path: Path | str,
         root_path: Path | str | None,
-    ) -> DocumentMeta:
+    ) -> dict:
         # Let the limitation of spec into domain knowledge.
+
+        if not isinstance(file_path, Path):
+            file_path = Path(file_path).absolute()
 
         # Check suffix.
         if file_path.suffix not in [".md", ".rst", ".html"]:
@@ -57,24 +76,24 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
             doc_format = file_path.suffix
 
         # Parse paths.
-        if isinstance(file_path, str):
-            file_path = Path(file_path)
-            if not file_path.is_absolute():
-                file_path = file_path.absolute()
         if root_path is not None:
             if isinstance(root_path, str):
                 root_path = Path(root_path)
         else:
             # Let's guess root_path.
             path_segments = file_path.parts
-            root_path = []
+            root_path_list: List[Any] = []
             for dir_ in path_segments:
-                if dir_ in ["doc", "docs", "document",]:
+                if dir_ in [
+                    "doc",
+                    "docs",
+                    "document",
+                ]:
                     break
                 else:
-                    root_path.append(dir_)
-            root = root_path.pop(0)
-            root_path = Path(root).joinpath(*root_path)
+                    root_path_list.append(dir_)
+            root = root_path_list.pop(0)
+            root_path = Path(root).joinpath(*root_path_list)
         if not root_path.is_absolute():
             root_path = root_path.absolute()
 
@@ -88,13 +107,13 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
 
         # assert len(file_path.suffixes.remove(file_path.suffix)) == 1
         suffixes = file_path.suffixes.copy()
-        suffixes.remove(file_path.suffix)
+        suffixes.remove(doc_format)
         language = (suffixes or [".en"])[0].strip(".")
 
         if title := re.match(r"^# (.*)\n", content, re.MULTILINE):
-                title = title.group(1)
+            title = title.group(1)
 
-        return DocumentMeta(
+        return dict(
             name=file_path.name.split(".")[0],
             title=title,
             language=language,
@@ -102,11 +121,19 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
             location=location,
             categories=[],
         )
-    
+
     @staticmethod
-    def sqeeze(content: str, meta: DocumentMeta) -> Document:
-        return Document(
-            id=meta.name,
-            meta=meta,
-            content=content
+    def sqeezetometa(meta_dict: dict) -> DocumentMeta:
+        return DocumentMeta(
+            name=meta_dict["name"],
+            title=meta_dict.get("title", None),
+            language=meta_dict["language"],
+            source=meta_dict["source"],
+            location=meta_dict["location"],
+            categories=meta_dict["categories"],
         )
+
+    @staticmethod
+    def sqeeze(content: str, meta_dict: dict) -> Document:
+        meta = DocumentLoader.sqeezetometa(meta_dict=meta_dict)
+        return Document(id=meta.name, meta=meta, content=content)
