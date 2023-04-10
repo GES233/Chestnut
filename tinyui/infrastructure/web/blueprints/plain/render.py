@@ -27,6 +27,7 @@ if not EXTENSION_INSTLLED:
         loader=loader,
         autoescape=select_autoescape(),
         enable_async=True,
+        extensions=["jinja2.ext.i18n"]
     )
 
     async def render(

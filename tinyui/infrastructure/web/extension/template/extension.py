@@ -24,6 +24,7 @@ class CustomeTemplatingExtension(TemplatingExtension):
                 loader=loader,
                 autoescape=select_autoescape(),
                 enable_async=self.config.TEMPLATING_ENABLE_ASYNC,
+                extensions=["jinja2.ext.i18n"]
             )
         if not hasattr(bootstrap, "templating"):
             bootstrap.templating = Templating(

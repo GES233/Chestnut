@@ -35,6 +35,7 @@ def launch_render_sync(
         loader=loader,
         autoescape=select_autoescape(),
         enable_async=False,
+        extensions=["jinja2.ext.i18n"]
     )
 
     kwargs = context if context else {}
