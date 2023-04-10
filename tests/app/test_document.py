@@ -7,15 +7,17 @@ from sqlalchemy import Table
 from sqlalchemy.sql import select, update
 from sqlalchemy.orm import registry
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncConnection
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable, Dict, Coroutine, List
 
-# If this architecture is still used for the next project, 
+# If this architecture is still used for the next project,
 # I'll DEFINENITELY NOT use the full word.
 from tinyui.application.document.domain.document import Document
 from tinyui.application.document.domain.meta import DocumentMeta
 from tinyui.application.document.domain.repo import DocRepo, DocMetaRepo
 from tinyui.application.document.dto.load import DocumentLoader
 from tinyui.application.document.dto.present import DocumentPresenter
+from tinyui.application.document.usecase.display import DisplayIndex
+from tinyui.application.document.usecase.shown import DisplayDocument
 from tinyui.infrastructure.helpers.config import DepsConfig
 from tinyui.infrastructure.helpers.path import INSTANCE_PATH
 from tinyui.infrastructure.dependencies.database.dao.base import tiny_sqlite_metadata
@@ -99,11 +101,13 @@ class TestDTO:
         if not (TEST_FILE_PATH / file_name).exists():
             (TEST_FILE_PATH / file_name).touch()
             (TEST_FILE_PATH / file_name).write_text(data=content, encoding="utf-8")
-        
+
         return (TEST_FILE_PATH / file_name), TEST_FILE_PATH
 
     def test_parse(self) -> None:
-        fake_file_path = Path("C:/root/docs/why/chicken/is/beautiful/chicken_is_nice.zh.md")
+        fake_file_path = Path(
+            "C:/root/docs/why/chicken/is/beautiful/chicken_is_nice.zh.md"
+        )
         fake_root_path = Path("C:/root/docs")
         parsed_meta = DocumentLoader.parse(
             content=DOCUMENT_RAW_CONTENT,
@@ -116,8 +120,12 @@ class TestDTO:
 
     def test_fetchfile_and_present(self) -> None:
         # 1. Fetch.
-        file_path, root_path = self._store_file("chicken_is_nice.zh.md", DOCUMENT_RAW_CONTENT)
-        demo_loader = DocumentLoader.fromdict(dict(file_path=file_path, root_path=root_path))
+        file_path, root_path = self._store_file(
+            "chicken_is_nice.zh.md", DOCUMENT_RAW_CONTENT
+        )
+        demo_loader = DocumentLoader.fromdict(
+            dict(file_path=file_path, root_path=root_path)
+        )
         demo_obj = demo_loader.toentity()
 
         assert demo_obj.meta.title == "只因的美学"
@@ -127,12 +135,11 @@ class TestDTO:
         assert presenter.dict()["title"] == "只因的美学"
 
 
-def run_sync(func: Callable[..., Any], **inputs) -> Any:
+def run_sync(func: Callable[..., Coroutine], **inputs) -> Any:
     return asyncio.get_event_loop().run_until_complete(func(**inputs))
 
 
 class SimpleRepoImpl(DocRepo, DocMetaRepo):
-
     db: List[Document] = []
 
     def __init__(self) -> None:
@@ -153,8 +160,10 @@ class SimpleRepoImpl(DocRepo, DocMetaRepo):
 
 mapper_registry = registry()
 
+
 class DefaultRepo(DocRepo, DocMetaRepo):
     """Implementation with database"""
+
     engine: AsyncEngine
     table: Table
 
@@ -191,4 +200,12 @@ class DefaultRepo(DocRepo, DocMetaRepo):
 
 
 class TestUsecase:
-    ...
+    def _add_markdown(self, repo: DocRepo, add_object: Any) -> None:
+        run_sync(repo.upgrade, add_object=add_object)
+
+    def test_diaplay_index(self) -> None:
+        repo = SimpleRepoImpl()
+        self._add_markdown(repo=repo, add_object=None)
+        usecase = DisplayIndex(repo=repo)
+
+        index_list = run_sync(usecase)

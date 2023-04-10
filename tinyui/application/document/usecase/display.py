@@ -6,13 +6,16 @@ from ..domain.repo import DocMetaRepo
 from ..dto.present import DocumentPresenter
 
 
-class DisplayDocument:
+class DisplayIndex:
     repo: DocMetaRepo
 
     def __init__(self, repo: DocMetaRepo) -> None:
         self.repo = repo
 
-    async def __call__(self) -> List[DocumentPresenter]:
+    async def __call__(self, *args: Any, **kwds: Any) -> Any:
+        return await self.display()
+
+    async def display(self) -> List[DocumentPresenter]:
         meta_list: List[DocumentMeta | None] = await self.repo.display()
 
         return [
