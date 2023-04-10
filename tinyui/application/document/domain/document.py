@@ -11,3 +11,6 @@ class Document(AggregateRoot):
     id: str
     meta: DocumentMeta
     content: str | None
+
+    # SQLAlchemy mapper args.
+    __mapper_args__ = dict()

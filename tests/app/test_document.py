@@ -3,6 +3,10 @@ import pytest
 import re
 import asyncio
 from pathlib import Path
+from sqlalchemy import Table
+from sqlalchemy.sql import select, update
+from sqlalchemy.orm import registry
+from sqlalchemy.ext.asyncio import AsyncEngine, AsyncConnection
 from typing import Any, Callable, Dict, List
 
 from tinyui.application.document.domain.document import Document
@@ -10,7 +14,12 @@ from tinyui.application.document.domain.meta import DocumentMeta
 from tinyui.application.document.domain.repo import DocRepo, DocMetaRepo
 from tinyui.application.document.dto.load import DocumentLoader
 from tinyui.application.document.dto.present import DocumentPresenter
+from tinyui.infrastructure.helpers.config import DepsConfig
 from tinyui.infrastructure.helpers.path import INSTANCE_PATH
+from tinyui.infrastructure.dependencies.database.dao.base import tiny_sqlite_metadata
+from tinyui.infrastructure.dependencies.database.dao.document import document_table
+from tinyui.infrastructure.dependencies.database.service import enginefromconfig
+from tinyui.infrastructure.dependencies.database.settings import database_test
 
 
 DOCUMENT_RAW_CONTENT = """# 只因的美学
@@ -135,3 +144,36 @@ class SimpleRepoImpl(DocRepo, DocMetaRepo):
 
     async def upgrade(self, add_object: Document) -> None:
         markdown_fake_database.append(add_object)
+
+
+mapper_registry = registry()
+
+class DefaultRepo(DocRepo, DocMetaRepo):
+    """Implementation with database"""
+    engine: AsyncEngine
+    table: Table
+
+    def __init__(self, config: DepsConfig, table: Table) -> None:
+        self.engine = enginefromconfig(config)
+        self.table = table
+
+        # TODO: create all.
+        mapper_registry.map_imperatively(
+            Document,
+            document_table,
+            properties={},
+        )
+    
+    async def display(self) -> List[DocumentMeta | None]:
+        async with self.engine.begin() as conn:
+            ...
+        raise NotImplementedError
+    
+    async def loadbycondition(self, **condition) -> List[Document | None]:
+        return await super().loadbycondition(**condition)
+    
+    async def loadbyname(self, name: str) -> List[Document | None]:
+        return await self.loadbycondition(name=name)
+    
+    async def upgrade(self, add_object: Any) -> None:
+        return await super().upgrade(add_object)
