@@ -84,16 +84,19 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
             .replace("\\", "/")
         )
 
-        language = (file_path.suffixes.remove[doc_format] or ["en"])[0]
+        # assert len(file_path.suffixes.remove(file_path.suffix)) == 1
+        suffixes = file_path.suffixes.copy()
+        suffixes.remove(file_path.suffix)
+        language = (suffixes or [".en"])[0].strip(".")
 
         if title := re.match(r"^# (.*)\n", content, re.MULTILINE):
                 title = title.group(1)
 
         return DocumentMeta(
-            name=file_path.name.split["."][0],
+            name=file_path.name.split(".")[0],
             title=title,
             language=language,
-            source=root,
+            source=file_path,
             location=location,
             categories=[],
         )

@@ -1,7 +1,7 @@
 import pytest
 
 import re
-from pathlib import Path
+from pathlib import Path, PurePath
 
 from tinyui.application.document.domain.document import Document
 from tinyui.application.document.domain.meta import DocumentMeta
@@ -28,7 +28,6 @@ by 呕像恋蜥僧
 
 
 class TestDocumentDomain:
-
     def test_document_meta(self) -> None:
         if title_ := re.match(r"^# (.*)\n", DOCUMENT_RAW_CONTENT, re.MULTILINE):
             title = title_.group(1)
@@ -77,5 +76,14 @@ class TestDTO:
     def _store_file(self, path: Path, content: str) -> None:
         pass
 
-    def test_file_load(self) -> None:
-        ...
+    def test_parse(self) -> None:
+        fake_file_path = Path("C:/root/docs/why/chicken/is/beautiful/cxk.zh.md")
+        fake_root_path = Path("C:/root/docs")
+        parsed_meta = DocumentLoader.parse(
+            content=DOCUMENT_RAW_CONTENT,
+            file_path=fake_file_path,
+            root_path=fake_root_path,
+        )
+
+        assert parsed_meta.name == "cxk"
+        assert parsed_meta.language == "zh"
