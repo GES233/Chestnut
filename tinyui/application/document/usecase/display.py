@@ -20,7 +20,8 @@ class DisplayIndex:
 
         return [
             DocumentPresenter.fromentity(
-                Document(id=meta_item.name, meta=meta_item, content="")
+                Document(id=meta_item.name, meta=meta_item, content=""),
+                has_content=False
             )
             for meta_item in meta_list
             if meta_item

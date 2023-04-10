@@ -200,12 +200,62 @@ class DefaultRepo(DocRepo, DocMetaRepo):
 
 
 class TestUsecase:
-    def _add_markdown(self, repo: DocRepo, add_object: Any) -> None:
+    def _store_file(self, file_name: str, content: str) -> tuple:
+        if not INSTANCE_PATH.exists():
+            INSTANCE_PATH.mkdir()
+        if not (INSTANCE_PATH / "test").exists():
+            (INSTANCE_PATH / "test").mkdir()
+        if not (INSTANCE_PATH / "test/docs/").exists():
+            (INSTANCE_PATH / "test/docs/").mkdir()
+
+        TEST_FILE_PATH = INSTANCE_PATH / "test/docs/"
+
+        if not (TEST_FILE_PATH / file_name).exists():
+            (TEST_FILE_PATH / file_name).touch()
+            (TEST_FILE_PATH / file_name).write_text(data=content, encoding="utf-8")
+
+        return (TEST_FILE_PATH / file_name), TEST_FILE_PATH
+
+    def _add_markdown(self, repo: DocRepo, add_object: Document) -> None:
         run_sync(repo.upgrade, add_object=add_object)
+
+    def _pre(self, repo: DocRepo) -> None:
+        """Append file when test."""
+
+        file_path, root_path = self._store_file("1.md", DOCUMENT_RAW_CONTENT)
+        self._add_markdown(
+            repo=repo,
+            add_object=DocumentLoader.fromdict(
+                dict(file_path=file_path, root_path=root_path)
+            ).toentity(),
+        )
+
+        file_path, root_path = self._store_file("2.md", DOCUMENT_RAW_CONTENT)
+        self._add_markdown(
+            repo=repo,
+            add_object=DocumentLoader.fromdict(
+                dict(file_path=file_path, root_path=root_path)
+            ).toentity(),
+        )
 
     def test_diaplay_index(self) -> None:
         repo = SimpleRepoImpl()
-        self._add_markdown(repo=repo, add_object=None)
+        self._pre(repo=repo)
         usecase = DisplayIndex(repo=repo)
 
         index_list = run_sync(usecase)
+
+        assert len(index_list) == 2
+
+        item_1: DocumentPresenter = index_list[0]
+
+        assert item_1.name == "1"
+        assert item_1.language == "en"
+    
+    def test_display_file(self) -> None:
+        repo = SimpleRepoImpl()
+        self._pre(repo=repo)
+        usecase = DisplayDocument(repo=repo)
+
+        item_1: DocumentPresenter = run_sync(usecase.show, name="2")
+        assert item_1.name == "2"
