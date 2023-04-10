@@ -1,10 +1,6 @@
-""" `tinyui.adapter.command.prerequisite`
-
-    Set it to `adapter` because it's close to application.
-"""
 import click
 
-from ...infrastructure.command import manage
+from ....infrastructure.command import manage
 
 
 @manage.group

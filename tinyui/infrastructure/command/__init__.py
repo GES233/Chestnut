@@ -16,5 +16,6 @@ from .run import running
 
 
 # Application related:
-from ...adapter.command.prerequisite import prerequisite
-from ...adapter.command.required import required
+from ...adapter.dependent_item.command.prerequisite import prerequisite
+from ...adapter.dependent_item.command.required import required
+from ...adapter.document.command import document

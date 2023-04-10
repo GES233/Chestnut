@@ -1,7 +1,6 @@
-"""`tinyui.adapter.command.required`"""
 import click
 
-from ...infrastructure.command import manage
+from ....infrastructure.command import manage
 
 
 @manage.group
