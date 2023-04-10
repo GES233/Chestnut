@@ -12,11 +12,12 @@ document_table = Table(
     "document",
     tiny_sqlite_metadata,
     Column("name", String),  # Route `a/b` => `a_b`
+    Column("repo_name", String, default="main"),
     Column("lang", String),
     Column("path", String),  # Physical path in device.
     Column("title", String),
     Column("content", String),
     Column("change_time", DateTime),
-    PrimaryKeyConstraint("name", "lang", name="document_pk"),  # Name and language
+    PrimaryKeyConstraint("name", "repo_name", "lang", name="document_pk"),  # Name and language
 )
 """Table of raw markdown file with some classification."""

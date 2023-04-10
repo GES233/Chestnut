@@ -1,6 +1,6 @@
 from pathlib import Path
 from pydantic import BaseModel
-from typing import Iterable
+from typing import Iterable, Callable
 
 from .. import exception as doc_exc
 from ..domain.meta import DocumentMeta
@@ -39,3 +39,18 @@ class DocumentPresenter(OutputSchemaMixin, BaseModel):
             location=document.meta.location,
             categories=document.meta.categories,
         )
+
+    def present(
+        self,
+        render_service: Callable[[str], str] | None,
+        link_process_service: Callable[[str], str] = lambda x: x,
+        as_json: bool = False,
+    ) -> str:
+        content = link_process_service(self.content)
+        if as_json:
+            return content
+        else:
+            if render_service:
+                return render_service(content)
+            else:
+                return content

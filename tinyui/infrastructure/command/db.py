@@ -140,8 +140,6 @@ def updatedocs(mode: str) -> None:
     from ..dependencies.document.settings import document as docconf
     from ..dependencies.database.dao.document import document_table
 
-    # This function is application-agnostic.
-
     # Same as init.
     if mode == "dev":
         database_config = database_dev

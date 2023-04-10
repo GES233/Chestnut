@@ -10,5 +10,6 @@ document = DepsConfig(
     dict(
         path=DOCS_PATH,
         assets=DOCS_ASSETS_PATH,
+        language="en",
     ),
 )

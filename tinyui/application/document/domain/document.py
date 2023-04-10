@@ -14,3 +14,10 @@ class Document(AggregateRoot):
 
     # SQLAlchemy mapper args.
     __mapper_args__ = dict()
+
+
+class ContentUpdateService:
+    """Replace document link to route(relative)."""
+
+    def toentity(self) -> Document:
+        ...
