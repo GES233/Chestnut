@@ -75,7 +75,7 @@ from ...foo.bar.alg import lsp
 
 
 # 如果要导入的包是用应用属性的话（e.g. 下属的蓝图）
-# 单独写一行注释声明
+# 需要再单独写一行注释声明
 from .index import index_bp
 from .docs import docs_bp
 
@@ -91,6 +91,7 @@ from . import a
 
 
 a_instance = a()
+
 
 # 导入用到 a 的其他包
 from .b import b_inst

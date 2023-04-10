@@ -83,3 +83,10 @@
   - `NotConfigured`
 - 唯一值（可选）
 - 调用方法（和 `PrerequisiteItem` 一样）
+
+## 例子
+
+我们想要包括两个例子来演示这套机制：
+
+- `Node.js`
+- `sanic_ext`
