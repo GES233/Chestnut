@@ -12,10 +12,6 @@ def database():
     ...
 
 
-@database.command("init")
-@click.option("--dev", "mode", flag_value="dev", default=True)
-@click.option("--pro", "mode", flag_value="prod")
-@click.option("-d", "--drop", "loss", is_flag=True)
 def initializedb(mode: str, loss: bool) -> None:
     """Initialize database."""
 
@@ -111,6 +107,15 @@ def initializedb(mode: str, loss: bool) -> None:
                 click.secho("[INFO]    OK.", fg="green")
         else:
             click.secho("[INFO]    OK.", fg="green")
+
+
+click.option("--dev", "mode", flag_value="dev", default=True)(
+    click.option("--pro", "mode", flag_value="prod")(
+        click.option("-d", "--drop", "loss", is_flag=True)(
+            database.command("init")(initializedb)
+        )
+    )
+)
 
 
 @database.command("docs")

@@ -18,6 +18,7 @@ from tinyui.application.document.dto.load import DocumentLoader
 from tinyui.application.document.dto.present import DocumentPresenter
 from tinyui.application.document.usecase.display import DisplayIndex
 from tinyui.application.document.usecase.shown import DisplayDocument
+from tinyui.application.document import exception as doc_exc
 from tinyui.infrastructure.helpers.config import DepsConfig
 from tinyui.infrastructure.helpers.path import INSTANCE_PATH
 from tinyui.infrastructure.dependencies.database.dao.base import tiny_sqlite_metadata
@@ -40,6 +41,16 @@ by 呕像恋蜥僧
 > _——《只因你太美》_
 
 """
+
+
+def fetchfile(path: str | Path) -> str:
+    if not isinstance(path, Path):
+        path = Path(path)
+
+    if not path.exists():
+        raise doc_exc.DocumentNotFound
+
+    return path.read_text(encoding="utf-8")
 
 
 class TestDocumentDomain:
@@ -124,7 +135,8 @@ class TestDTO:
             "chicken_is_nice.zh.md", DOCUMENT_RAW_CONTENT
         )
         demo_loader = DocumentLoader.fromdict(
-            dict(file_path=file_path, root_path=root_path)
+            input_dict=dict(file_path=file_path, root_path=root_path),
+            read_service=fetchfile,
         )
         demo_obj = demo_loader.toentity()
 
@@ -226,7 +238,8 @@ class TestUsecase:
         self._add_markdown(
             repo=repo,
             add_object=DocumentLoader.fromdict(
-                dict(file_path=file_path, root_path=root_path)
+                input_dict=dict(file_path=file_path, root_path=root_path),
+                read_service=fetchfile,
             ).toentity(),
         )
 
@@ -234,7 +247,8 @@ class TestUsecase:
         self._add_markdown(
             repo=repo,
             add_object=DocumentLoader.fromdict(
-                dict(file_path=file_path, root_path=root_path)
+                input_dict=dict(file_path=file_path, root_path=root_path),
+                read_service=fetchfile,
             ).toentity(),
         )
 
@@ -250,7 +264,7 @@ class TestUsecase:
 
         assert item_1.name == "1"
         assert item_1.language == "en"
-    
+
     def test_display_file(self, repo=SimpleRepoImpl()) -> None:
         self._pre(repo=repo)
         usecase = DisplayDocument(repo=repo)

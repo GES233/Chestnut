@@ -21,5 +21,5 @@ class DisplayDocument:
             content = content[0]
         if content is None:
             raise doc_exc.DocumentNotFound
-        
+
         return DocumentPresenter.fromentity(entity=content)

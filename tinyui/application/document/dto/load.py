@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
-from pydantic import BaseModel
-from typing import List, Any, Tuple
+from pydantic import BaseModel, Field
+from typing import List, Any, Tuple, Callable
 
 from .. import exception as doc_exc
 from ..domain.meta import DocumentMeta
@@ -20,11 +20,13 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
     categories: List[str | None]
 
     @classmethod
-    def fromdict(cls, input_dict: dict) -> "DocumentLoader":
+    def fromdict(
+        cls, input_dict: dict, read_service: Callable[[str | Path], str]
+    ) -> "DocumentLoader":
         """`file_path` and `root_path` required."""
 
         # input_dict: ["file_path"], ["root_path"]
-        content = cls.fetchfile(input_dict["file_path"])
+        content = read_service(input_dict["file_path"])
 
         return DocumentLoader(
             content=content,
@@ -47,16 +49,6 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
                 categories=self.categories,
             ),
         )
-
-    @staticmethod
-    def fetchfile(path: str | Path) -> str:
-        if not isinstance(path, Path):
-            path = Path(path)
-
-        if not path.exists():
-            raise doc_exc.DocumentNotFound
-
-        return path.read_text(encoding="utf-8")
 
     @staticmethod
     def parse(

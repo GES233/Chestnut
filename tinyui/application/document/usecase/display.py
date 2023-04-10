@@ -12,7 +12,7 @@ class DisplayIndex:
     def __init__(self, repo: DocMetaRepo) -> None:
         self.repo = repo
 
-    async def __call__(self, *args: Any, **kwds: Any) -> Any:
+    async def __call__(self) -> Any:
         return await self.display()
 
     async def display(self) -> List[DocumentPresenter]:

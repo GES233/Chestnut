@@ -18,19 +18,15 @@ class DocumentPresenter(OutputSchemaMixin, BaseModel):
     categories: Iterable[str | None]
 
     @classmethod
-    def fromentity(
-        cls, entity: Document | DocumentMeta
-    ) -> "DocumentPresenter":
+    def fromentity(cls, entity: Document | DocumentMeta) -> "DocumentPresenter":
         if isinstance(entity, Document):
-            return DocumentPresenter(
-                **DocumentPresenter.parse(document=entity)
-            )
+            return DocumentPresenter(**DocumentPresenter.parse(document=entity))
         elif isinstance(entity, DocumentMeta):
             document_entity = Document(id=entity.name, meta=entity, content="")
             return DocumentPresenter(
                 **DocumentPresenter.parse(document=document_entity)
             )
-        raise TypeError
+        raise doc_exc.DomainModelTypeInvalid
 
     @staticmethod
     def parse(document: Document) -> dict:

@@ -1,8 +1,6 @@
 import pytest
 import typing as t
 import pathlib as p, sys
-sys.path.append(p.Path(p.Path(__file__).parent.parent.parent).__str__())
-print(sys.path)
 
 from tinyui.infrastructure.helpers.fbp.meta.node import NodeMeta
 from tinyui.infrastructure.helpers.fbp.components.node import Node
@@ -22,7 +20,7 @@ class TestPort:
         a.value = 1
         assert isinstance(a.value, int)
 
-        b = Port("a", ...)
+        b = Port("a", type_=object)
         b.t = str
         b.value = ""
 
@@ -32,18 +30,20 @@ class TestPort:
 
 class TestNode:
     def test_node_abstract(self):
-
         class Node4Test(Node):
             __abstract__ = True
 
-            input = Port("input", int | str)
-            output = Port("output", int)
+            input = Port("input", type_=int | str)
+            output = Port("output", type_=int)
 
 
-class TestPipe: ...
+class TestPipe:
+    ...
 
 
-class TestConfig: ...
+class TestConfig:
+    ...
 
 
-class TestRun: ...
+class TestRun:
+    ...

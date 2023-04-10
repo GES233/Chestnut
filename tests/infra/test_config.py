@@ -62,7 +62,7 @@ class TestConfig:
 
         deps_config.update_items(sqlalchemy_uri="sqlite:...")
         assert deps_config.push(True)["TEST_SQLALCHEMY_URI"] == "sqlite:..."
-    
+
     def test_page_config(self) -> None:
         title_config = PageConfig.generate(title="Geene")
         role_config = PageConfig.generate(role="Video")
