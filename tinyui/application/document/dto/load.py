@@ -15,6 +15,8 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
 
     @classmethod
     def fromdict(cls, input_dict: dict) -> "DocumentLoader":
+        """`file_path` and `root_path` required."""
+
         # input_dict: ["file_path"], ["root_path"]
         content = cls.fetchfile(input_dict["file_path"])
 

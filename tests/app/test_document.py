@@ -73,11 +73,24 @@ class TestDocumentDomain:
 
 
 class TestDTO:
-    def _store_file(self, path: Path, content: str) -> None:
-        pass
+    def _store_file(self, file_name: str, content: str) -> tuple:
+        if not INSTANCE_PATH.exists():
+            INSTANCE_PATH.mkdir()
+        if not (INSTANCE_PATH / "test").exists():
+            (INSTANCE_PATH / "test").mkdir()
+        if not (INSTANCE_PATH / "test/docs/").exists():
+            (INSTANCE_PATH / "test/docs/").mkdir()
+
+        TEST_FILE_PATH = INSTANCE_PATH / "test/docs/"
+
+        if not (TEST_FILE_PATH / file_name).exists():
+            (TEST_FILE_PATH / file_name).touch()
+            (TEST_FILE_PATH / file_name).write_text(data=content, encoding="utf-8")
+        
+        return (TEST_FILE_PATH / file_name), TEST_FILE_PATH
 
     def test_parse(self) -> None:
-        fake_file_path = Path("C:/root/docs/why/chicken/is/beautiful/cxk.zh.md")
+        fake_file_path = Path("C:/root/docs/why/chicken/is/beautiful/chicken_is_nice.zh.md")
         fake_root_path = Path("C:/root/docs")
         parsed_meta = DocumentLoader.parse(
             content=DOCUMENT_RAW_CONTENT,
@@ -85,5 +98,12 @@ class TestDTO:
             root_path=fake_root_path,
         )
 
-        assert parsed_meta.name == "cxk"
+        assert parsed_meta.name == "chicken_is_nice"
         assert parsed_meta.language == "zh"
+
+    def test_fetchfile(self) -> None:
+        file_path, root_path = self._store_file("chicken_is_nice.zh.md", DOCUMENT_RAW_CONTENT)
+        demo_loader = DocumentLoader.fromdict(dict(file_path=file_path, root_path=root_path))
+        demo_obj = demo_loader.toentity()
+
+        assert demo_obj.meta.title == "只因的美学"
