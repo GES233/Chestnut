@@ -11,6 +11,7 @@ from typing import Dict, Any
 
 
 from ....web.app import EXTENSION_INSTLLED
+from ....dependencies.html import returnloaderandenv
 
 if not EXTENSION_INSTLLED:
     from jinja2 import (
@@ -21,14 +22,7 @@ if not EXTENSION_INSTLLED:
 
     from .paths import TEMPLATE_PATH
 
-    loader = FileSystemLoader([TEMPLATE_PATH])
-
-    launch_environment = Environment(
-        loader=loader,
-        autoescape=select_autoescape(),
-        enable_async=True,
-        extensions=["jinja2.ext.i18n"]
-    )
+    loader, launch_environment = returnloaderandenv(TEMPLATE_PATH, True)
 
     async def render(
         template_name: str = "",

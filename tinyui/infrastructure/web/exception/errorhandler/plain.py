@@ -10,6 +10,7 @@ from typing import Any, Dict, List
 from tracerite.trace import extract_exception
 
 from ...blueprints.plain.paths import TEMPLATE_PATH
+from ....dependencies.html import returnloaderandenv
 from ....dependencies.highlight import rendercode
 
 
@@ -29,14 +30,7 @@ def launch_render_sync(
     appended_context.update(app_config=request.ctx.app_config)
     appended_context.update(page_config=request.ctx.page_config)
 
-    loader = FileSystemLoader([TEMPLATE_PATH])
-
-    launch_environment = Environment(
-        loader=loader,
-        autoescape=select_autoescape(),
-        enable_async=False,
-        extensions=["jinja2.ext.i18n"]
-    )
+    loader, launch_environment = returnloaderandenv(TEMPLATE_PATH, False)
 
     kwargs = context if context else {}
     template = launch_environment.get_template(template_name)

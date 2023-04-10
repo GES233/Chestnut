@@ -9,6 +9,7 @@ from jinja2 import (
 
 from ..extend import CustomeExtend
 from ...blueprints.plain.paths import TEMPLATE_PATH
+from ....dependencies.html import returnloaderandenv
 
 
 class CustomeTemplatingExtension(TemplatingExtension):
@@ -17,15 +18,10 @@ class CustomeTemplatingExtension(TemplatingExtension):
     def startup(self, bootstrap: CustomeExtend) -> None:
         self._add_template_paths_to_reloader([TEMPLATE_PATH])
 
-        loader = FileSystemLoader([TEMPLATE_PATH])
+        loader, launch_environment = returnloaderandenv(TEMPLATE_PATH, True)
 
         if not hasattr(bootstrap, "environment"):
-            bootstrap.environment = Environment(
-                loader=loader,
-                autoescape=select_autoescape(),
-                enable_async=self.config.TEMPLATING_ENABLE_ASYNC,
-                extensions=["jinja2.ext.i18n"]
-            )
+            bootstrap.environment = launch_environment
         if not hasattr(bootstrap, "templating"):
             bootstrap.templating = Templating(
                 environment=bootstrap.environment, config=self.config
