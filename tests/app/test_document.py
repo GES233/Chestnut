@@ -238,8 +238,7 @@ class TestUsecase:
             ).toentity(),
         )
 
-    def test_diaplay_index(self) -> None:
-        repo = SimpleRepoImpl()
+    def test_diaplay_index(self, repo=SimpleRepoImpl()) -> None:
         self._pre(repo=repo)
         usecase = DisplayIndex(repo=repo)
 
@@ -252,10 +251,11 @@ class TestUsecase:
         assert item_1.name == "1"
         assert item_1.language == "en"
     
-    def test_display_file(self) -> None:
-        repo = SimpleRepoImpl()
+    def test_display_file(self, repo=SimpleRepoImpl()) -> None:
         self._pre(repo=repo)
         usecase = DisplayDocument(repo=repo)
 
         item_1: DocumentPresenter = run_sync(usecase.show, name="2")
+
         assert item_1.name == "2"
+        assert "\n" in item_1.content

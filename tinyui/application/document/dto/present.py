@@ -16,21 +16,24 @@ class DocumentPresenter(OutputSchemaMixin, BaseModel):
     source: str | Path
     location: str
     categories: Iterable[str | None]
-    content_enable: bool
-    """Different by Usecase. In only meta required, it is `False`."""
 
     @classmethod
     def fromentity(
-        cls, entity: Document, has_content: bool = True
+        cls, entity: Document | DocumentMeta
     ) -> "DocumentPresenter":
         if isinstance(entity, Document):
             return DocumentPresenter(
                 **DocumentPresenter.parse(document=entity)
             )
+        elif isinstance(entity, DocumentMeta):
+            document_entity = Document(id=entity.name, meta=entity, content="")
+            return DocumentPresenter(
+                **DocumentPresenter.parse(document=document_entity)
+            )
         raise TypeError
 
     @staticmethod
-    def parse(document: Document, has_content: bool = True) -> dict:
+    def parse(document: Document) -> dict:
         return dict(
             content=document.content,
             name=document.meta.name,
@@ -39,5 +42,4 @@ class DocumentPresenter(OutputSchemaMixin, BaseModel):
             source=document.meta.source,
             location=document.meta.location,
             categories=document.meta.categories,
-            content_enable=has_content,
         )
