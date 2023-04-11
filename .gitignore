@@ -1,19 +1,25 @@
-
 # Python
 .py[cod]
 __pycache__/
+.pytest_cache/
+
+# Pyinstruments
+.profiles/
 
 
 # Editor
-.pytest_cache/
+# VSCode
 .vscode/
 .VSCodeCounter/
+# Obsidian
 .obsidian/
+.trash/
 
 
 # Application
 instance/
 .well-known/
+
 
 # Webapp
 node_modules/
@@ -23,8 +29,6 @@ loader/
 # If you want to distribute your application, it's better to save `public/webapp/`.
 public/webapp/
 
-# Pyinstruments
-.profiles/
 
 # SQLite Database
 *_local.db
