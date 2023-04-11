@@ -6,7 +6,9 @@
 
 > **Warning**
 > 
-> 引导应用最好仅仅在本机部署，因为那样做会导致安全问题，除非运行应用的设备的厂商提供了额外的安全保障。如果要选择这么做的话请确保**你知道你在做什么**。
+> 引导应用最好仅仅在本机部署，因为如果不那样做会导致安全问题，除非运行应用的设备的厂商提供了额外的安全保障。如果要选择这么做的话请确保**你知道你在做什么**。
+>
+> 我们可能会在后期设置好针对 launch app 的保护。
 
 ### 应用场景
 
@@ -63,7 +65,7 @@ Commands:
 首先，项目的入口为 `tinyui.__main__`，其代码为：
 
 ```python
-from .infra.cli import manage
+from .infra.command import manage
 
 
 if __name__ == "__main__":
@@ -87,9 +89,11 @@ if __name__ == "__main__":
 
 该函数位于 `tinyui.infra.web.app` 中，参数如下（都需要显式地指定）：
 
-- `mode` 模式，包括 `dev` `test` `prod` 以及 `launch` ，分别是「开发」、「测试」、「生产」以及「引导」
+- `mode` 模式，包括 `dev` `test` `prod` 以及 `launch` ，分别是「开发」、「测试」、「生产」以及「引导安装」
 - `use_instance` 如果为真，将会从实例文件夹 `/instance` 中读取配置
+  - 在 `launch` mode 下，`use_instance` 为 `False`
 - `app_id` 应用的 ID ，为了适用于多应用的环境下
+  - 来自于之前项目的遗留成果
 
 引导模式下，首先依靠 `create_config()` 生成配置，然后生成 Sanic 实例。
 
