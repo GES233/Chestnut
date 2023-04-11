@@ -22,7 +22,7 @@ A scaffold built with Sanic and AppRun.
 
 ## Feature
 
-- DDD + Clean Architecture => obey Open-Close Principle.
+- DDD + Clean Architecture => obey Open-Close Principle, and easy to extend
 - Fewer params in command => easy to read and operate
 
 ## Getting Start
