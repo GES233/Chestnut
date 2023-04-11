@@ -1,5 +1,6 @@
 from sanic.request import Request
 from sanic.compat import Header
+from typing import NoReturn
 
 from .event import EventItem
 
@@ -12,7 +13,7 @@ sse_header: Header = Header(
 )
 
 
-async def publisher(request: Request):
+async def publisher(request: Request) -> NoReturn:
     response = await request.respond(
         headers=sse_header,
         content_type="text/event-stream; charset=utf-8",
@@ -27,4 +28,6 @@ async def publisher(request: Request):
     await response.send(EventItem.event(0, "site", None, ["Pong"]))  # type: ignore
 
     # Set here to recieve singals.
-    ...
+    while True:
+        # Recieve singals.
+        ...

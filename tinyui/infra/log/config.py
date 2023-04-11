@@ -27,7 +27,7 @@ LOGGING_CONFIG: Dict[str, Any] = dict(  # no cov
             "propagate": True,
             "qualname": "sanic.server",
         },
-        # "tiny.root": {"level": "INFO", "handlers": ["console"]},
+        "tiny.root": {"level": "INFO", "handlers": ["console"]},
     },
     handlers={
         "console": {
@@ -48,14 +48,14 @@ LOGGING_CONFIG: Dict[str, Any] = dict(  # no cov
     },
     formatters={
         "generic": {
-            "format": "%(asctime)s [%(process)s] [%(levelname)s] %(message)s",
-            "datefmt": "[%Y-%m-%d %H:%M:%S %z]",
+            "format": "%(levelname)-8s :: %(asctime)s :: %(process)-6s :: %(message)s",
+            "datefmt": "%y-%m-%d %H:%M:%S %z",
             "class": "logging.Formatter",
         },
         "access": {
-            "format": "%(asctime)s - (%(name)s)[%(levelname)s][%(host)s]: "
+            "format": "%(levelname)-8s :: %(asctime)s :: [%(name)s@%(host)s]: "
             + "%(request)s %(message)s %(status)s %(byte)s",
-            "datefmt": "[%Y-%m-%d %H:%M:%S %z]",
+            "datefmt": "%y-%m-%d %H:%M:%S %z",
             "class": "logging.Formatter",
         },
     },

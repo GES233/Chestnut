@@ -1,8 +1,3 @@
-from jinja2 import (
-    Environment,
-    select_autoescape,
-    FileSystemLoader,
-)
 from sanic.request import Request
 from sanic.response import HTTPResponse
 from sanic.errorpages import HTMLRenderer

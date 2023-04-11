@@ -1,4 +1,4 @@
-"""Used to register Dependency Injection in app."""
+"""Used to register Dependency Injection for Sanic app."""
 from sanic import Sanic
 
 from .database import add_dependency_database

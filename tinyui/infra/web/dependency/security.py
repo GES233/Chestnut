@@ -13,6 +13,7 @@ class SecurityDep(DepsInterface):
 
     @classmethod
     def fromrequest(cls, request: Request) -> "SecurityDep":
+        # TODO: Ensure security.
         assert "crypto_dict" in request.app.ctx and isinstance(
             request.app.ctx.crypto_dict, dict
         )

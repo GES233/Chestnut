@@ -1,10 +1,11 @@
 from sanic import Sanic
+from sanic_ext.bootstrap import Extend
 from sanic_ext.extensions.http.extension import HTTPExtension
 from sanic_ext.extensions.openapi.extension import OpenAPIExtension
 from sanic_ext.extensions.injection.extension import InjectionExtension
 from typing import List
 
-from .extend import CustomeExtend as Extend
+# from .extend import CustomeExtend as Extend
 from .template.extension import CustomeTemplatingExtension
 
 
