@@ -1,4 +1,4 @@
-""" tinyui.infrastructrue.dependencies.markdown.plugins.url_from_id
+""" tinyui.infrastructrue.deps.markdown.plugins.url_from_id
 
     Generate url from web-id.
 """

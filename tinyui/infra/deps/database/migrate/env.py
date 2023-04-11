@@ -19,7 +19,7 @@ if config.config_file_name is not None:
 
 # add MetaData object here
 # for 'autogenerate' support
-from tinyui.infra.dependencies.database.dao import tiny_sqlite_metadata
+from tinyui.infra.deps.database.dao import tiny_sqlite_metadata
 
 target_metadata = tiny_sqlite_metadata
 

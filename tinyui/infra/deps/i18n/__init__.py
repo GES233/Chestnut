@@ -1,4 +1,4 @@
-""" `tinyui.infra.dependencies.i18n`
+""" `tinyui.infra.deps.i18n`
     ~~~~
 
     Internationalization.

@@ -2,7 +2,7 @@ from pathlib import Path
 from sanic import Blueprint
 
 from .page import add_router
-from .....dependencies.document.dir import build_index
+from .....deps.document.dir import build_index
 
 
 def create_blueprint(

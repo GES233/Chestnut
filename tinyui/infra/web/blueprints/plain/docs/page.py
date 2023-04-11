@@ -2,8 +2,8 @@ from sanic import Request, HTTPResponse
 from typing import Callable, Any
 
 from ..render import launch_render as render
-from .....dependencies.document.language import nametoroute
-from .....dependencies.markdown.service import DocumentMarkdown
+from .....deps.document.language import nametoroute
+from .....deps.markdown.service import DocumentMarkdown
 from .....helpers.config.page import PageConfig
 
 

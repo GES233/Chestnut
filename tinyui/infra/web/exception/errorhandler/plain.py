@@ -10,8 +10,8 @@ from typing import Any, Dict, List
 from tracerite.trace import extract_exception
 
 from ....helpers.path import TEMPLATE_PATH
-from ....dependencies.html.service import returnloaderandenv
-from ....dependencies.highlight import rendercode
+from ....deps.html.service import returnloaderandenv
+from ....deps.highlight import rendercode
 
 
 def launch_render_sync(

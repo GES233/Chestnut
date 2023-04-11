@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio.session import AsyncSession, async_sessionmaker
 
 from .base import DepsInterface
 from ..settings.location import CONFIG_LOCATION
-from ...dependencies.database import service
+from ...deps.database import service
 
 
 class DatabaseDep(DepsInterface):

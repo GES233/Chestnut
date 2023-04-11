@@ -2,7 +2,7 @@ import click
 from typing import Any
 
 from . import manage
-from ..dependencies.database.settings import database_dev, database_test, database_prod
+from ..deps.database.settings import database_dev, database_test, database_prod
 
 
 @manage.group
@@ -135,10 +135,10 @@ def updatedocs(mode: str) -> None:
     from sqlalchemy import Table
     from sqlalchemy.sql import delete, update
     from sqlalchemy.ext.asyncio import AsyncEngine
-    from ..dependencies.database.service import enginefromconfig
-    from ..dependencies.document.dir import build_index
-    from ..dependencies.document.settings import document as docconf
-    from ..dependencies.database.dao.document import document_table
+    from ..deps.database.service import enginefromconfig
+    from ..deps.document.dir import build_index
+    from ..deps.document.settings import document as docconf
+    from ..deps.database.dao.document import document_table
 
     # Same as init.
     if mode == "dev":

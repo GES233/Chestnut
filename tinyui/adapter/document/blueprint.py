@@ -1,6 +1,6 @@
 from sanic import Blueprint, Request, HTTPResponse
 
-from ...infra.dependencies.markdown.service import DocumentMarkdown
+from ...infra.deps.markdown.service import DocumentMarkdown
 
 
 def registerdocs(bp: Blueprint) -> None:

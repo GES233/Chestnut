@@ -69,7 +69,7 @@ def create_deps_config(
         )
 
     # Common.
-    from ...dependencies.message.settings import message
+    from ...deps.message.settings import message
 
     for append_item in [database, security, message]:
         deps_dict[append_item.name.upper()] = append_item
@@ -133,7 +133,7 @@ def create_config(
         app_config.name = "TinyUI-Launcher"
 
         # Using `dev` mode to mininum dependency.
-        from ...dependencies.message.settings import message
+        from ...deps.message.settings import message
 
         config.update(
             {

@@ -9,8 +9,6 @@ from sqlalchemy.orm import registry
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncConnection
 from typing import Any, Callable, Dict, Coroutine, List
 
-# If this architecture is still used for the next project,
-# I'll DEFINENITELY NOT use the full word.
 from tinyui.application.document.domain.document import Document
 from tinyui.application.document.domain.meta import DocumentMeta
 from tinyui.application.document.domain.repo import DocRepo, DocMetaRepo
@@ -21,10 +19,10 @@ from tinyui.application.document.usecase.shown import DisplayDocument
 from tinyui.application.document import exception as doc_exc
 from tinyui.infra.helpers.config import DepsConfig
 from tinyui.infra.helpers.path import INSTANCE_PATH
-from tinyui.infra.dependencies.database.dao.base import tiny_sqlite_metadata
-from tinyui.infra.dependencies.database.dao.document import document_table
-from tinyui.infra.dependencies.database.service import enginefromconfig
-from tinyui.infra.dependencies.database.settings import database_test
+from tinyui.infra.deps.database.dao.base import tiny_sqlite_metadata
+from tinyui.infra.deps.database.dao.document import document_table
+from tinyui.infra.deps.database.service import enginefromconfig
+from tinyui.infra.deps.database.settings import database_test
 
 
 DOCUMENT_RAW_CONTENT = """# 只因的美学

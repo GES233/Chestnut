@@ -54,7 +54,7 @@ def set_inst_func(
 
     from ..helpers.config.inst.render import createdepsconfig, createappconfig
     from ..helpers.path import INSTANCE_PATH, INSTANCE_CONFIG_PATH
-    from ..dependencies.security.settings import set_security_inst_setting
+    from ..deps.security.settings import set_security_inst_setting
 
     # Create instance firstly.
     if not INSTANCE_PATH.exists():

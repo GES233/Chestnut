@@ -4,7 +4,7 @@ from typing import Dict, Any
 
 from .base import DepsInterface
 from ..settings.location import CONFIG_LOCATION
-from ...dependencies.security import service
+from ...deps.security import service
 
 
 class SecurityDep(DepsInterface):

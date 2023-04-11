@@ -9,7 +9,7 @@ from sanic.response import HTTPResponse
 
 from .render import launch_render as render
 from ....helpers.config.page import PageConfig
-from ....dependencies.i18n.language import parse_headers
+from ....deps.i18n.language import parse_headers
 
 
 index_bp = Blueprint("launch_index_bp")

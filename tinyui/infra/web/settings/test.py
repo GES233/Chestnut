@@ -1,2 +1,2 @@
-from ...dependencies.database.settings import database_test
-from ...dependencies.security.settings import security_test
+from ...deps.database.settings import database_test
+from ...deps.security.settings import security_test

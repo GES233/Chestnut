@@ -34,7 +34,7 @@
 - [`/tinyui/infra/helpers/link.py`](/tinyui/infra/helpers/link.py): `APP_LINK` => 你的代码仓库/网站链接
 - [`/tinyui/infra/cli/init.py`](/tinyui/infra/cli/init.py): `configure_app()` => 更新对应的名字以及介绍
 - [`/tinyui/application`](/tinyui/application/) & [`/tinyui/adapter`](/tinyui/adapter/) -> 在这里添加你的代码，并且将其注册到应用上
-- [`/tinyui/infra/dependencies/database/settings.py`](/tinyui/infra/dependencies/database/settings.py): `database_dev` & `database_prod` => 你起的名字
+- [`/tinyui/infra/deps/database/settings.py`](/tinyui/infra/deps/database/settings.py): `database_dev` & `database_prod` => 你起的名字
 - [`/tinyui`](/tinyui/) => 你起的名字
 - [`/alembic.ini`](/alembic.ini): script_location & sqlalchemy.url => 对应的修改到你的包名以及你起的数据库的名
 - [`/tests`](/tests/) -> 如果 IDE 没有工作的话，那么手动修改吧，顺便还有每个 module 的注释
