@@ -1,5 +1,6 @@
 import asyncio
 from logging.config import fileConfig
+from pathlib import Path
 
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
@@ -7,6 +8,16 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 from alembic.config import Config as AlembicConfig
+from alembic.script import write_hooks
+
+try:
+    import black
+    from black.mode import Mode
+    from black.report import Report
+
+    BLACK_FORMATTER_INSTALLED = True
+except (ModuleNotFoundError, ImportError):
+    BLACK_FORMATTER_INSTALLED = False
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -91,3 +102,20 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     run_migrations_online()
+
+
+# Use formatter in here is better.
+@write_hooks.register("black")
+def format_script_with_black(filename: str, option) -> None:
+    if not BLACK_FORMATTER_INSTALLED:
+        pass
+    else:
+        black.reformat_one(
+            src=Path(filename),
+            fast=True,
+            write_back=black.WriteBack.YES,
+            mode=Mode(
+                line_length=79,  # Same as alembic.
+            ),
+            report=Report(),
+        )

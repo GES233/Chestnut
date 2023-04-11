@@ -12,7 +12,7 @@ def database():
     ...
 
 
-def initializedb(mode: str, loss: bool) -> None:
+def initializedb(mode: str) -> None:
     """Initialize database."""
 
     import sqlite3
@@ -91,17 +91,22 @@ def initializedb(mode: str, loss: bool) -> None:
             alembic_command.revision(
                 config, message="Generating migrate scripts.", autogenerate=True
             )
-            if loss:
-                click.secho(
-                    "[WARINING] The following operation will change the contents of the "
-                    "database and may cause data loss.",
-                    fg="yellow",
-                )
-                click.confirm("Do you still want to operate it?", default=False)
-                # TODO: Drop all.
-                # click.secho("[INFO]    OK.", fg="green")
+            click.secho(
+                "[WARINING] The following operation will change the contents of the "
+                "database and may cause data loss.",
+                fg="yellow",
+            )
+            loss = click.confirm(click.style("Do you still want to operate it?", fg="red"), default=False)
+            # TODO: Drop all.
+            # click.secho("[INFO]    OK.", fg="green")
         except CommandError:
             # database not followed script.
+            click.secho(
+                "[WARINING] The following operation will change the contents of the "
+                "database and may cause data loss.",
+                fg="yellow",
+            )
+            loss = click.confirm(click.style("Do you still want to operate it?", fg="red"), abort=True)
             if loss:
                 alembic_command.upgrade(config, "head")
                 click.secho("[INFO]    OK.", fg="green")
@@ -111,9 +116,7 @@ def initializedb(mode: str, loss: bool) -> None:
 
 click.option("--dev", "mode", flag_value="dev", default=True)(
     click.option("--pro", "mode", flag_value="prod")(
-        click.option("-d", "--drop", "loss", is_flag=True)(
-            database.command("init")(initializedb)
-        )
+        database.command("init")(initializedb)
     )
 )
 
