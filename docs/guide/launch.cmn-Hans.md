@@ -8,7 +8,7 @@
 > 
 > 引导应用最好仅仅在本机部署，因为如果不那样做会导致安全问题，除非运行应用的设备的厂商提供了额外的安全保障。如果要选择这么做的话请确保**你知道你在做什么**。
 >
-> 我们可能会在后期设置好针对 launch app 的保护。
+> 我们可能会在后期实现针对 launch app 的安全设置以及服务。
 
 ### 应用场景
 
@@ -52,12 +52,13 @@ Options:
   --help  Show this message and exit.
 
 Commands:
-  database          Command reated to database(if you are not developer,...
-  launch            Launch user to install all dependencies(web solution...
-  prerequisite      Command interface for change prerequisite.
-  required          Command interface for change required.
-  run               Run application.
-  set               Configure and set instance.
+  database      Command reated to database(if you are not developer, do...
+  document
+  launch        Launch user to install all dependencies(web solution of...
+  prerequisite  Command interface for change prerequisite item.
+  required      Command interface for change required item.
+  run           Run application.
+  set           Configure and set instance.
 ```
 
 我们只需要在意其中的 `launch` 即可，其他的命令到时再说。
@@ -116,4 +117,8 @@ SSE 就是 Server-sent event ，一种让服务端可以向客户端**主动**�
 
 #### 配置异常
 
-设定为指定的 Errorhandler
+设定为指定的 Errorhandler ，其业务逻辑为：
+
+- 如果项目的路径是以 `/api/` 为开头
+  - 返回 JSON
+- 返回魔改 Sanic 报错页面的网页（格式为 PicoCSS）
