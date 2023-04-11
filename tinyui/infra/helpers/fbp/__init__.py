@@ -1,4 +1,4 @@
-""" `tinyui.infrastructure.helpers.fbp`
+""" `tinyui.infra.helpers.fbp`
 
     Provide some simple FBP(Flow-based programming) components.
 """

@@ -1,4 +1,4 @@
-from .infrastructure.command import manage
+from .infra.command import manage
 
 
 if __name__ == "__main__":

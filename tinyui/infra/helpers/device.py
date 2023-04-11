@@ -1,4 +1,4 @@
-""" `tinyui.infrastructure.device`
+""" `tinyui.infra.device`
 
     Provice some infomations about the device.
 """

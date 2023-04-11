@@ -1,4 +1,4 @@
-""" `tinyui.infrastructure.web.exception`
+""" `tinyui.infra.web.exception`
     ~~~~
 
     Implementation some Exceptions.

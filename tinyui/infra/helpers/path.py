@@ -1,4 +1,4 @@
-""" `tinyui.infrastructure.helpers.path`
+""" `tinyui.infra.helpers.path`
     ~~~~
 
     Present Paths.

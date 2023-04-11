@@ -2,15 +2,15 @@ import pytest
 
 from pathlib import Path
 
-from tinyui.infrastructure.helpers.config import AppConfig, DepsConfig, PageConfig
-from tinyui.infrastructure.helpers.config.inst import (
+from tinyui.infra.helpers.config import AppConfig, DepsConfig, PageConfig
+from tinyui.infra.helpers.config.inst import (
     setinstance,
     loadappconfig,
     loaddepsconfig,
     createdepsconfig,
     createappconfig,
 )
-from tinyui.infrastructure.helpers.path import INSTANCE_PATH
+from tinyui.infra.helpers.path import INSTANCE_PATH
 
 TEST_PATH = Path(INSTANCE_PATH / "test")
 

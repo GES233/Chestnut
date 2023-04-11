@@ -1,3 +1,0 @@
-""" `tinyui.infrastructure.dependencies`
-    ~~~~
-"""

@@ -19,12 +19,12 @@ from tinyui.application.document.dto.present import DocumentPresenter
 from tinyui.application.document.usecase.display import DisplayIndex
 from tinyui.application.document.usecase.shown import DisplayDocument
 from tinyui.application.document import exception as doc_exc
-from tinyui.infrastructure.helpers.config import DepsConfig
-from tinyui.infrastructure.helpers.path import INSTANCE_PATH
-from tinyui.infrastructure.dependencies.database.dao.base import tiny_sqlite_metadata
-from tinyui.infrastructure.dependencies.database.dao.document import document_table
-from tinyui.infrastructure.dependencies.database.service import enginefromconfig
-from tinyui.infrastructure.dependencies.database.settings import database_test
+from tinyui.infra.helpers.config import DepsConfig
+from tinyui.infra.helpers.path import INSTANCE_PATH
+from tinyui.infra.dependencies.database.dao.base import tiny_sqlite_metadata
+from tinyui.infra.dependencies.database.dao.document import document_table
+from tinyui.infra.dependencies.database.service import enginefromconfig
+from tinyui.infra.dependencies.database.settings import database_test
 
 
 DOCUMENT_RAW_CONTENT = """# 只因的美学

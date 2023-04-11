@@ -63,7 +63,7 @@ Commands:
 首先，项目的入口为 `tinyui.__main__`，其代码为：
 
 ```python
-from .infrastructure.cli import manage
+from .infra.cli import manage
 
 
 if __name__ == "__main__":
@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
 #### `create_app() -> Sanic`
 
-该函数位于 `tinyui.infrastructure.web.app` 中，参数如下（都需要显式地指定）：
+该函数位于 `tinyui.infra.web.app` 中，参数如下（都需要显式地指定）：
 
 - `mode` 模式，包括 `dev` `test` `prod` 以及 `launch` ，分别是「开发」、「测试」、「生产」以及「引导」
 - `use_instance` 如果为真，将会从实例文件夹 `/instance` 中读取配置

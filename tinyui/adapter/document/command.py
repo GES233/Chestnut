@@ -4,8 +4,8 @@ from typing import Any
 from ...application.document.domain.document import Document
 from ...application.document.domain.meta import DocumentMeta
 from ...application.document.domain.repo import DocRepo, DocMetaRepo
-from ...infrastructure.command import manage
-from ...infrastructure.command.db import initializedb
+from ...infra.command import manage
+from ...infra.command.db import initializedb
 
 
 @manage.group
