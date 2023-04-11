@@ -2,7 +2,7 @@ from typing import overload, Any, Callable
 
 class Port:
     name: str
-    t: type
+    type_: type
     data: Any
     annotation: str
     value: property

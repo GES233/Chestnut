@@ -41,6 +41,8 @@ class PortMeta(FlowMeta):
                 fdel=_fdel_value(),
             ),
         )
+        # __init__
+        setattr(class_, "__init__", _method_init())
         # setattr(class_, "__getattr__", ...)
 
         return class_
@@ -63,6 +65,15 @@ class PortMeta(FlowMeta):
             ...
 
             return cls.__instance[_args_dict["name"]]
+
+
+def _method_init():
+    def __init__(self: object, *args: Any, **kwds: Any) -> None:
+        _args_dict = _func_parseportargs(args, kwds)
+        # self.name = ...
+        setattr(self, "name", _args_dict["name"])
+        setattr(self, "type_", _args_dict["type_"])
+    return __init__
 
 
 def _fget_value():
@@ -102,7 +113,7 @@ def _func_parseportargs(*args, **kwargs) -> Dict[str, Any]:
     """
     _args_dict: Dict[str, Any] = dict(
         name=None,
-        t=None,
+        type_=None,
     )
 
     if "name" not in kwargs:
@@ -117,6 +128,6 @@ def _func_parseportargs(*args, **kwargs) -> Dict[str, Any]:
         if kwargs.get("t") and kwargs.get("type_"):
             raise TypeError
         type_ = kwargs.get("t", kwargs.get("type_"))
-    _args_dict["t"] = type_
+    _args_dict["type_"] = type_
 
     return _args_dict

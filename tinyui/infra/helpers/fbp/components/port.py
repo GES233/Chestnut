@@ -15,6 +15,7 @@ class Port(metaclass=PortMeta):
     annotation: str
     value: property
 
+    """
     def __init__(
         self,
         name: str,
@@ -40,6 +41,7 @@ class Port(metaclass=PortMeta):
         if not role:
             # Analyse role.
             ...
+    # """
 
 
 def toport(name: str, __obj: Any) -> Port:
