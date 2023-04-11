@@ -4,7 +4,7 @@
 
 [English](/README.md) [简体中文](/README.cmn-Hans.md)
 
-Tiny UI 是基於 Web 的腳手架，用於展示人工智慧項目，使用了 Sanic 和 AppRun 構建，並從作者的某個私密倉庫（如果該項目成型也將會公開倉庫）克隆而來。
+TinyUI 是基於 Web 的腳手架，用於展示人工智慧項目，使用了 Sanic 和 AppRun 構建，並從作者的某個私密倉庫（如果該項目成型也將會公開倉庫）克隆而來。
 
 它的靈感來源於 [AUTOMATIC1111's WebUI](https://github.com/AUTOMATIC1111/stable-diffusion-webui) 以及更早之前，通過編程方法完成並能夠隨機生成不同結果以供其他同學參考答案（抄襲但不怕老師檢查）的大作業。
 

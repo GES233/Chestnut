@@ -2,7 +2,7 @@ import { Image } from "./Image";
 
 
 /**
- * The type of Card Component in Tiny UI.
+ * The type of Card Component in TinyUI.
  * 
  * @param title Title of Card
  * @param image `Image` instance
