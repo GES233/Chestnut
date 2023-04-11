@@ -9,7 +9,7 @@ from jinja2 import (
 
 from ..extend import CustomeExtend
 from ....helpers.path import TEMPLATE_PATH
-from ....dependencies.html import returnloaderandenv
+from ....dependencies.html.service import returnloaderandenv
 
 
 class CustomeTemplatingExtension(TemplatingExtension):

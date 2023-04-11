@@ -10,7 +10,7 @@ from typing import Any, Dict, List
 from tracerite.trace import extract_exception
 
 from ....helpers.path import TEMPLATE_PATH
-from ....dependencies.html import returnloaderandenv
+from ....dependencies.html.service import returnloaderandenv
 from ....dependencies.highlight import rendercode
 
 

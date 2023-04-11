@@ -11,7 +11,7 @@ from typing import Dict, Any
 
 
 from ....web.app import EXTENSION_INSTLLED
-from ....dependencies.html import returnloaderandenv
+from ....dependencies.html.service import returnloaderandenv
 
 if not EXTENSION_INSTLLED:
     from jinja2 import (
