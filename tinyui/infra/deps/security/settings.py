@@ -1,4 +1,5 @@
 import os
+import subprocess
 from pathlib import Path
 from typing import Tuple
 
@@ -69,6 +70,7 @@ def set_security_inst_setting(path: Path) -> DepsConfig:
         return DepsConfig("security")
 
     # Secret key
+    # TODO: Use subprocess to replace.
     secret_key = os.popen("openssl rand -base64 32").readline().strip("\n")
 
     # Paths
