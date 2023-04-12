@@ -66,7 +66,7 @@ Commands:
 首先，项目的入口为 `tinyui.__main__`，其代码为：
 
 ```python
-from .infra.command import manage
+from .infra.cmd import manage
 
 
 if __name__ == "__main__":

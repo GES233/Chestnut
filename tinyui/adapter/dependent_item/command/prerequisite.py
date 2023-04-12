@@ -1,6 +1,6 @@
 import click
 
-from ....infra.command import manage
+from ....infra.cmd import manage
 
 
 @manage.group
