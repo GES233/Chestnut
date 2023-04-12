@@ -5,7 +5,7 @@
 import sys
 import shutil
 from pathlib import Path
-from typing import Tuple, Any
+from typing import Any, Callable, Tuple, Type
 from collections import namedtuple
 
 
@@ -17,7 +17,7 @@ def getdisk(path: Path) -> str:
     return path.drive
 
 
-diskStatus = lambda name: namedtuple(
+diskStatus: Callable[[str], Type[Tuple]] = lambda name: namedtuple(
     "Disk_" + name.strip(":"), ["total", "used", "free"]
 )
 

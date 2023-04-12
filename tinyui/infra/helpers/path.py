@@ -4,12 +4,13 @@
     Present Paths.
 """
 from pathlib import Path
+from typing import Callable
 
 
 PROJECT_PATH = Path(__file__).cwd()
 BACKEND_PATH = Path(PROJECT_PATH / "tinyui")
 INSTANCE_PATH = Path(PROJECT_PATH / "instance")
-INSTANCE_CONFIG_PATH = lambda app_id: Path(
+INSTANCE_CONFIG_PATH: Callable[[str], Path] = lambda app_id: Path(
     INSTANCE_PATH / "config.toml"
     if not app_id
     else INSTANCE_PATH / ("config_" + app_id + ".toml")
