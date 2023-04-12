@@ -87,13 +87,13 @@ TinyUI 基于 Python 运行，如果用户的环境里有 Node.js 的话可能�
 
 [^optional]: 这里「可选」的意思是，就算安装失败了也没事，没有必要非要安装，下文同理。
 
-[^templating]: 其实这个功能用不大到，因为我们计划在主应用的后端采用 API+SSE 以返回。但是，如果未安装 Node ，可能会用到。
+[^templating]: 其实这个功能用不大到，因为我们计划在主应用的后端采用 API+SSE 为返回的形式。但是，如果未安装 Node ，可能也就会用到。
 
 ### 目前存在的功能
 
 #### 面向开发者
 
-如果你想通过 TinyUI 来实现你的项目的话，可以看下[开发者说的话](/docs/development/development.cmn-Hans.md)。
+如果你想通过 TinyUI 来实现你的项目的话，可以看下 [开发者说的话](/docs/development/development.cmn-Hans.md) 。
 
 规范参见 [规范](/docs/development/spec.cmn-Hans.md) 。
 

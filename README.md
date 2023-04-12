@@ -66,7 +66,7 @@ Before running, you need install Python and Git.
   - Model:
     - [`torch`](https://pytorch.org)
     - [`safetensors`](https://github.com/huggingface/safetensors) A freamwork-agnostic method to load/store Tensors
-  - Optional for security:
+  - Security:
     - [`ecdsa`](https://github.com/tlsfuzzer/python-ecdsa) Cryptography
 - Decoration for launch application
   - [**PicoCSS**](https://picocss.com)
