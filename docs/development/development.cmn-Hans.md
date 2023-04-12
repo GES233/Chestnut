@@ -1,26 +1,32 @@
-# 开发
+# 【施工中】关于开发
 
 > **Note**
 >
 > 这是项目的设计文档而非面向新人的教程，所以里边部分内容可能会「超纲」，敬请留意。
 
+目前因为 TinyUI 未完成，并没有针对 TinyUI 本体用于演示的代码仓库（长期来讲，我们有写一个的计划，但是短期内没有）。
+
 ## 向 TinyUI 推送分支
 
 参见 [为 TinyUI 添砖加瓦](/docs/development/) 目录。
 
-## 添加你的应用
+## 实现你的应用
 
-### 作为代码仓库的应用
+### 作为完整的代码仓库的包
+
+按照项目的设计目的来讲，项目一旦完成并且敲定，就只会根据 Python 的版本以及相关的库来进行**维护**，不会有更多业务逻辑上的更新。因此用户可以轻松地更新。
 
 ...
 
 ### 作为可被导入的 Python 包
 
+通常用于扩展。
+
 ...
 
 ### 更新应用
 
-复制自己的分支，之后：
+复制自己的分支，之后改下名字：
 
 - [`/tinyui/infra/web/settings/__init__.py`](/tinyui/infra/web/settings/__init__.py): `create_app_config()` => 你起的名字[开发模式下]
 - [`/tinyui/infra/web/settings/__init__.py`](/tinyui/infra/web/settings/__init__.py): `create_app_config()` => 你起的名字[测试模式下]

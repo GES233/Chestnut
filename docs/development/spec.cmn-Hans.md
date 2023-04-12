@@ -1,10 +1,12 @@
 # 规范
 
-关于 TinyUI 项目的规范。
+关于 TinyUI 项目本体的规范[^field]。
+
+[^field]: 仅仅是针对想要给 TinyUI 本体添加代码而非想要用其编写自己的应用的人。从某种意义上讲，我们的规范也是对了用户能够用更自由且不受限制的代码来实现应用。
 
 ## 开发环境
 
-Windows 11 下的 VSCode 。
+我是用 Windows 11 下的 VSCode 来实现 TinyUI 的。
 
 ## Git
 
@@ -18,6 +20,8 @@ Windows 11 下的 VSCode 。
 
 ## 文档约定
 
+我们先介绍下针对文档的约定。
+
 ### 命名
 
 英文文档：`{name}.md`
@@ -26,13 +30,17 @@ Windows 11 下的 VSCode 。
 
 > **Note**
 >
-> 关于单一语言文档：原则上**不建议**非英文的省略掉，因为一旦未在文件名中检测出语言，`TinyUI` 的缺省值就是英文。
+> 关于单一语言文档：原则上**不建议**非英文的语言将这部分省略掉，因为一旦未在文件名中检测出语言，TinyUI 的就会将其识别为英文[^lang_detect]。
 
-当文档作为模板时，其名字为：`{原来的名字}-sample`/`{原来的名字}-template`
+[^lang_detect]: 没错， TinyUI 仅仅根据文件名来判断语言。
 
-关于图片：**统一**在文件项目根目录下的 `/assets` 文件夹。
+而当文档作为模板时，其名字为：`{原来的名字}-sample` 或是 `{原来的名字}-template` 。
+
+关于图片：**统一**选择在文档根目录下的 `/assets` 文件夹，不管文档本身在哪里。
 
 ### 关于 `README`
+
+`README` 并不会在网页的文件读取应用的范畴内。
 
 其参考了 [standard-readme](https://github.com/RichardLitt/standard-readme) ，目前 `TinyUI` 的格式如下：
 
@@ -51,9 +59,11 @@ Windows 11 下的 VSCode 。
 
 我们将项目分为开发环境（`dev`）、测试环境（`test`）以及生产环境（`pro`/`prod`）。
 
+说实话，这些暂时没啥区别。
+
 ### 实例
 
-项目有一个实例文件夹 `/instance` ，`python -m tinyui set` 命令能够在初始化应用的同时创建这个文件夹。
+项目有一个实例文件夹 `/instance` ，`python -m tinyui set` 命令能够在初始化应用写入包含配置文件的实例的同时创建这个文件夹。
 
 ### 关于 Docker
 

@@ -46,7 +46,7 @@ python -m tinyui launch
 
 ### 安装以及运行
 
-需要 Git 以及 Python 。
+需要 Git 、 Python 以及 OpenSSL 。
 
 如果您不知道怎么安装这些的话，参见 [面向萌新的运行环境的搭建](/docs/guide/newbie.cmn-Hans.md#安装前) 。
 
@@ -57,39 +57,45 @@ python -m tinyui launch
 TinyUI 基于 Python 运行，如果用户的环境里有 Node.js 的话可能会涉及到 Javascript/Typescript 的相关内容。所以这里着重介绍 Python 的依赖项，至于其他的部分，因其主要是面向开发者的，所以在会在 [文档](/docs) 里讲到。
 
 - **Python**
-  - WebUI(引导应用):  *最最基本的，如果想要顺利运行的话一定要有*
-    - [`click`](https://palletsprojects.com/p/click/) 命令行
-    - [`sanic`](https://sanic.dev/) 服务器以及网络框架
-    - [`jinja_2`](https://palletsprojects.com/p/jinja/) 通过模板生成要发送到浏览器的 HTML 的库
-    - [`pydantic`](https://pydantic.dev/) 序列化以及反序列化（人话：应用内部以及外部接口的“翻译”）
-    - [`tomli`](https://github.com/hukkin/tomli) 如果是 Python 3.11 以上，不需要再额外安装了，因为在那个版本已经作为标准库的一员(tomllib)
-    - [`aiosqlite`](https://aiosqlite.omnilib.dev) 数据库的读取
-    - [`SQLAlchemy`](https://www.sqlalchemy.org) 用 Python 对象而非 SQL 语句来实现对数据库的操作
-    - [`Alembic`](https://alembic.sqlalchemy.org/) 数据库迁移
-  - WebUI(为了展现以及美化内容可选):
-    - [`mistune`](https://mistune.lepture.com/) 将 Markdown 渲染成 HTML
-    - [`Pygments`](https://https://pygments.org/) 语法高亮工具（确实不是必需的，不过为了代码显示起来好看些，还是被放在了 [Basic requirements](/requirements_basic.txt) 里）
-  - WebUI(主应用):
-    - 上者所有
-    - [`sanic_ext`](https://sanic.dev/en/plugins/sanic-ext/getting-started.html) Sanic 的官方插件，我们主要要用到 DI （依赖注入）、 template （针对 Jinja2 的浅封装）以及 OpenAI （API 文档）等等
-  - 模型: _具体需要哪些取决于应用，因此未在 `requirements` 中体现出来_
-    - [`torch`](https://pytorch.org)
-    - [`safetensors`](https://github.com/huggingface/safetensors) 装载/保存 `*.safetensors` 模型
-  - 安全需要:
-    - [`ecdsa`](https://github.com/tlsfuzzer/python-ecdsa) 椭圆曲线加密
+  - WebUI（引导应用）:  *最最基本的，如果想要顺利运行的话一定要有。*
+    - [`click`](https://palletsprojects.com/p/click/) 实现项目的命令行接口。
+    - [`sanic`](https://sanic.dev/) 服务器以及网络框架。
+    - [`jinja_2`](https://palletsprojects.com/p/jinja/) 生成要返回到浏览器的 HTML 的模板库。
+    - [`pydantic`](https://pydantic.dev/) 序列化以及反序列化（人话：应用内部以及外部接口的“翻译”），
+    - [`tomli`](https://github.com/hukkin/tomli) 对 `*.toml` 配置文件的解析。如果是 Python 3.11 以上，不再需要额外安装，因为在那个版本已经作为标准库的一员（`tomllib`）了。
+    - [`aiosqlite`](https://aiosqlite.omnilib.dev) 负责对硬盘上的数据库的读取。
+    - [`SQLAlchemy`](https://www.sqlalchemy.org) 用 Python 对象而非 SQL 语句来实现对数据库的操作。
+    - [`Alembic`](https://alembic.sqlalchemy.org/) 和 SQLAlchemy 高度耦合的用于实现数据库迁移的库。
+  - WebUI（为了安全需要可选[^optional]）:
+    - [`ecdsa`](https://github.com/tlsfuzzer/python-ecdsa) 椭圆曲线加密的相关库。如果仅仅是本地部署，不是必需安装的。
+  - WebUI（为了展现文档以及美化内容可选）:
+    - [`mistune`](https://mistune.lepture.com/) 将 Markdown 渲染成 HTML（服务端渲染下）。
+    - [`Pygments`](https://https://pygments.org/) 代码高亮工具（确实不是必需的，不过为了代码显示起来好看些，还是被放在了 [Basic requirements](/requirements_basic.txt) 里）。
+  - WebUI（主应用）:
+    - 上者所有（仅包括必需以及 `ecdsa`）。
+    - [`sanic_ext`](https://sanic.dev/en/plugins/sanic-ext/getting-started.html) Sanic 的官方插件，我们主要要用到 DI （依赖注入）、 template （针对 Jinja2 的浅封装[^templating]）以及 OpenAI （API 文档）等等。
+  - 模型: _具体需要哪些取决于应用，因此未在 `requirements` 中体现出来。_
+    - [`torch`](https://pytorch.org) 因为项目的目标是演示**机器学习**项目，所以需要 `PyTorch` 。
+    - [`safetensors`](https://github.com/huggingface/safetensors) 装载/保存 `*.safetensors` 模型。
 - 装饰美化
-  - [**PicoCSS**](https://picocss.com) *这个被放在模型里了*
+  - [**PicoCSS**](https://picocss.com) *这个被放在模型里了。*
 - 前端[不是必须的]
-  - [**Node**](https://nodejs.org): 如果安装了，在 `/webapp` 内的前端项目会重新编译打包，如果你要二次开发是必须的
-  - [**Tailwind CSS**](https://tailwindcss.com) 美化，比 PicoCSS 复杂得多但是可定制性更强
-  - [**AppRun**](https://apprun.js.org) 实现单页面应用
-  - [**Vite**](https://vitejs.dev/) 打包应用
+  - [**Node**](https://nodejs.org): 如果安装了，在 `/webapp` 内的前端项目会重新编译打包，如果你要二次开发是必须的。
+  - [**Tailwind CSS**](https://tailwindcss.com) 美化，比 PicoCSS 复杂得多但是可定制性更强。
+  - [**AppRun**](https://apprun.js.org) 实现单页面应用。
+  - [**Vite**](https://vitejs.dev/) 打包应用。
+
+[^optional]: 这里「可选」的意思是，就算安装失败了也没事，没有必要非要安装，下文同理。
+
+[^templating]: 其实这个功能用不大到，因为我们计划在主应用的后端采用 API+SSE 以返回。但是，如果未安装 Node ，可能会用到。
 
 ### 目前存在的功能
 
 #### 面向开发者
 
-规范参见 [规范](/spec.cmn-Hans.md) 。
+如果你想通过 TinyUI 来实现你的项目的话，可以看下[开发者说的话](/docs/development/development.cmn-Hans.md)。
+
+规范参见 [规范](/docs/development/spec.cmn-Hans.md) 。
 
 #### 面向使用者
 
