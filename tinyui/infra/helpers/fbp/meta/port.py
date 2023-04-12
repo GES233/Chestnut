@@ -4,7 +4,7 @@ from typing import Dict, Any
 from .base import FlowMeta
 
 
-key_conf: Dict[str, str] = {"property": "value"}
+key_conf: Dict[str, str] = {"property": "value", "type": "type_", "value": "data"}
 
 
 class Role(str, Enum):
@@ -19,7 +19,7 @@ class PortMeta(FlowMeta):
     class Port(metaclass=PortMeta):
         pass
 
-    a = Port("name", t=typing.Union[int, str], input=True)
+    a = Port("name", type_=typing.Union[int, str], input=True)
     ```
     """
 
@@ -72,7 +72,8 @@ def _method_init():
         _args_dict = _func_parseportargs(args, kwds)
         # self.name = ...
         setattr(self, "name", _args_dict["name"])
-        setattr(self, "type_", _args_dict["type_"])
+        setattr(self, key_conf["type"], _args_dict["type_"])
+
     return __init__
 
 
@@ -80,27 +81,35 @@ def _fget_value():
     def value(self) -> Any:
         if "data" not in self.__dict__:
             return None
-        if not self.data:
+        if not getattr(self, key_conf["value"]):
             return None
-        if not isinstance(self.data, self.t):
-            raise TypeError(f"Invalid type {type(self.data)} for {self.t}.")
-        return self.data
+        if getattr(self, key_conf["type"]) == Any:  # If type is `Any`, return it directly.
+            return getattr(self, key_conf["value"])
+        if not isinstance(getattr(self, key_conf["value"]), getattr(self, key_conf["type"])):
+            raise TypeError(
+                f"Invalid type {type(getattr(self, key_conf['value']))} for {getattr(self, key_conf['type'])}."
+            )
+        return getattr(self, key_conf["value"])
 
     return value
 
 
 def _fset_value():
     def value(self, value: Any):
-        if not isinstance(value, self.t):
-            raise TypeError(f"Invalid type {type(value)} for {self.t}.")
-        self.data = value
+        if getattr(self, key_conf["type"]) == Any:
+            setattr(self, key_conf["value"], value)
+        if not isinstance(value, getattr(self, key_conf["type"])):
+            raise TypeError(
+                f"Invalid type {type(value)} for {getattr(self, key_conf['type'])}."
+            )
+        setattr(self, key_conf["value"], value)
 
     return value
 
 
 def _fdel_value():
     def value(self):
-        self.data = None
+        setattr(self, key_conf["value"], None)
 
     return value
 
@@ -128,6 +137,8 @@ def _func_parseportargs(*args, **kwargs) -> Dict[str, Any]:
         if kwargs.get("t") and kwargs.get("type_"):
             raise TypeError
         type_ = kwargs.get("t", kwargs.get("type_"))
-    _args_dict["type_"] = type_
+    _args_dict[key_conf["type"]] = type_
+
+    # TODO: Add role related.
 
     return _args_dict
