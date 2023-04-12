@@ -1,5 +1,5 @@
 import os
-import subprocess
+import secrets, base64
 from pathlib import Path
 from typing import Tuple
 
@@ -70,8 +70,8 @@ def set_security_inst_setting(path: Path) -> DepsConfig:
         return DepsConfig("security")
 
     # Secret key
-    # TODO: Use subprocess to replace.
-    secret_key = os.popen("openssl rand -base64 32").readline().strip("\n")
+    # secret_key = os.popen("openssl rand -base64 32").readline().strip("\n")
+    secret_key = str(base64.b64encode(secrets.token_bytes(32)), encoding="latin-1")
 
     # Paths
     sk, pk = generatekeyfile(path)
