@@ -1,7 +1,8 @@
 from dataclasses import dataclass
+from typing import Any, Dict
 
 from .meta import DocumentMeta
-from ...base.domain.entity import AggregateRoot
+from ...base.domain.entity import AggregateRoot, Entity
 
 
 @dataclass
@@ -14,6 +15,10 @@ class Document(AggregateRoot):
 
     # SQLAlchemy mapper args.
     __mapper_args__ = dict()
+
+
+class ParsedDocument(Entity):
+    """"""
 
 
 class ContentUpdateService:
