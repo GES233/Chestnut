@@ -83,9 +83,13 @@ def _fget_value():
             return None
         if not getattr(self, key_conf["value"]):
             return None
-        if getattr(self, key_conf["type"]) == Any:  # If type is `Any`, return it directly.
+        if (
+            getattr(self, key_conf["type"]) == Any
+        ):  # If type is `Any`, return it directly.
             return getattr(self, key_conf["value"])
-        if not isinstance(getattr(self, key_conf["value"]), getattr(self, key_conf["type"])):
+        if not isinstance(
+            getattr(self, key_conf["value"]), getattr(self, key_conf["type"])
+        ):
             raise TypeError(
                 f"Invalid type {type(getattr(self, key_conf['value']))} for {getattr(self, key_conf['type'])}."
             )

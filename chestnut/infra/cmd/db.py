@@ -96,7 +96,9 @@ def initializedb(mode: str) -> None:
                 "database and may cause data loss.",
                 fg="yellow",
             )
-            loss = click.confirm(click.style("Do you still want to operate it?", fg="red"), default=False)
+            loss = click.confirm(
+                click.style("Do you still want to operate it?", fg="red"), default=False
+            )
             # TODO: Drop all.
             # click.secho("[INFO]    OK.", fg="green")
         except CommandError:
@@ -106,7 +108,9 @@ def initializedb(mode: str) -> None:
                 "database and may cause data loss.",
                 fg="yellow",
             )
-            loss = click.confirm(click.style("Do you still want to operate it?", fg="red"), abort=True)
+            loss = click.confirm(
+                click.style("Do you still want to operate it?", fg="red"), abort=True
+            )
             if loss:
                 alembic_command.upgrade(config, "head")
                 click.secho("INFO     :: OK.", fg="green")

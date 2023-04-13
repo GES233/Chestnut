@@ -27,7 +27,7 @@ class RequiredState(tuple, Enum, ValueObject):
             or self.value == RequiredState.REQUIRED_WHEN_DEVELOP
             or self.value == RequiredState.REQUIRED_BUT_NOT_UNIQUE
         )
-    
+
     def targetoptional(self) -> bool:
         return (
             self.value == RequiredState.OPTIONAL
@@ -35,7 +35,7 @@ class RequiredState(tuple, Enum, ValueObject):
             or self.value == RequiredState.OPTIONAL_PERFORMANCE
             or self.value == RequiredState.OPTIONAL_IN_OTHER
         )
-    
+
     def targetuseless(self) -> bool:
         return self.value == RequiredState.USELESS
 

@@ -8,6 +8,7 @@ from . import manage
 @click.option("--dev", "mode", flag_value="dev")
 @click.option("--test", "mode", flag_value="test")
 @click.option("--pro", "mode", flag_value="prod", default=True)
+# TODO: Add host and port.
 def running(mode: str, name: str | None) -> None:
     """Run application."""
 
@@ -17,6 +18,7 @@ def running(mode: str, name: str | None) -> None:
     from ..web.app import create_app
     from ..web.blueprints import reload_paths
     from ..web.settings.location import CONFIG_LOCATION
+    from ..helpers.link import DEPLOY_LINK
 
     loader = AppLoader(
         factory=partial(
@@ -30,7 +32,7 @@ def running(mode: str, name: str | None) -> None:
     click.secho("INFO     :: Sanic instance created.", fg="green")
 
     if mode == "prod":
-        use_https: bool = app.config[CONFIG_LOCATION['app_config']].use_https
+        use_https: bool = app.config[CONFIG_LOCATION["app_config"]].use_https
         app.prepare(
             host="0.0.0.0",
             port=80 if not use_https else 443,
@@ -39,11 +41,13 @@ def running(mode: str, name: str | None) -> None:
             motd=False,
         )
         click.secho("INFO     :: App in `prod` mode.", fg="green")
+        server_location = DEPLOY_LINK(
+            use_https, "0.0.0.0", 80 if not use_https else 443
+        )
         click.secho(
-            f"INFO     :: Deploy on {'http' if not use_https else 'https'}://0.0.0.0:{str(80 if not use_https else 443)}",
+            f"INFO     :: Deploy on {server_location}",
             fg="green",
         )
-        server_location = f"{'http' if not use_https else 'https'}://0.0.0.0:{str(80 if not use_https else 443)}"
     elif mode == "test":
         app.prepare(
             host="0.0.0.0",
@@ -52,11 +56,11 @@ def running(mode: str, name: str | None) -> None:
             coffee=True,
         )
         click.secho("INFO     :: App in `test` mode.", fg="green")
+        server_location = "http://0.0.0.0:80"
         click.secho(
-            "INFO     :: Deploy on http://0.0.0.0:80",
+            f"INFO     :: Deploy on {server_location}",
             fg="green",
         )
-        server_location = "http://0.0.0.0:80"
     else:
         # Run as dev mode, same as `create_app()`.
         app.prepare(
@@ -67,10 +71,10 @@ def running(mode: str, name: str | None) -> None:
             motd=False,
         )
         click.secho("INFO     :: App in `dev` mode.", fg="green")
+        server_location = "http://127.0.0.1:6969"
         click.secho(
-            "INFO     :: Deploy on http://127.0.0.1:6969",
+            f"INFO     :: Deploy on {server_location}",
             fg="green",
         )
-        server_location = "http://127.0.0.1:6969"
 
     Sanic.serve(app, app_loader=loader)

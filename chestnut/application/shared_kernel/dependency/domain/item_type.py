@@ -9,17 +9,14 @@ class ItemType(int, Enum):
     File = 5
 
     def hasnativever(self) -> bool:
-        return (
-            self.value == ItemType.PythonModule
-            or self.value == ItemType.Program
-        )
-    
+        return self.value == ItemType.PythonModule or self.value == ItemType.Program
+
     def caninvoke(self) -> bool:
         return (
             self.value == ItemType.PythonModule
             or self.value == ItemType.PythonObject
             # or self.value == ItemType.Command
         )
-    
+
     def servicerequired(self) -> bool:
         raise NotImplementedError

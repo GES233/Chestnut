@@ -115,6 +115,6 @@ class SimpleMOTD(TinyMOTD):
 class ColorfulMOTD(TinyMOTD):
     def display(self) -> None:
         ...
-    
+
     def _parse_values(self) -> Dict[str, Any]:
         ...

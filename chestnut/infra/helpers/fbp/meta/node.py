@@ -55,7 +55,9 @@ def _func_cover(__bases: Tuple[type], __namespace: Dict[str, Any]) -> Dict[str, 
 
 
 # `__mappings__` => `__mappings_bla__`
-role_convert: Callable[[str], str] = lambda k: "__" + key_conf["mapper"].strip("_") + "_" + k + "__"
+role_convert: Callable[[str], str] = (
+    lambda k: "__" + key_conf["mapper"].strip("_") + "_" + k + "__"
+)
 
 
 def _func_seperate(_mappings_dict: Dict[str, Any], role: Tuple[str]) -> Dict[str, Dict]:

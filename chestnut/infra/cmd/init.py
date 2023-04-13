@@ -20,7 +20,10 @@ def configure_app(customize: bool, app_id: int | str | None = None) -> AppConfig
         )
         click.secho(info_of_app, fg="cyan")
         app_name = click.prompt(
-            click.style("Please type the name of the app (ONLY in Latin-1 character with _ or -)", bg="red")
+            click.style(
+                "Please type the name of the app (ONLY in Latin-1 character with _ or -)",
+                bg="red",
+            )
         )
         if app_id:
             _use_app_id = click.prompt(
@@ -114,6 +117,7 @@ def launch_simple_web_app(host: str, port: str | int | None, mode: str) -> None:
     from ..web.app import create_app
     from ..web.blueprints import reload_paths
     from ..web.settings.location import CONFIG_LOCATION
+    from ..helpers.link import DEPLOY_LINK
 
     loader = AppLoader(
         factory=partial(
@@ -126,11 +130,13 @@ def launch_simple_web_app(host: str, port: str | int | None, mode: str) -> None:
     app: Sanic = loader.load()
     click.secho("INFO     :: Sanic instance created.", fg="green")
 
-    use_https: bool = app.config[CONFIG_LOCATION['app_config']].use_https
+    use_https: bool = app.config[CONFIG_LOCATION["app_config"]].use_https
+
     if port is not None:
         server_port: int = int(port)
     else:
         server_port = 443 if use_https else 80
+
     app.prepare(
         host=host,
         port=server_port,
@@ -139,8 +145,11 @@ def launch_simple_web_app(host: str, port: str | int | None, mode: str) -> None:
         motd=False,
     )
     click.secho("INFO     :: App in `launch` mode.", fg="green")
-    click.secho(f"INFO     :: Deploy on {'http' if  not use_https else 'https'}://{host}{':'+str(port) if port else ''}", fg="green",)
-    server_location = f"{'http' if not use_https else 'https'}://{host}:{server_port}"
+    server_location = DEPLOY_LINK(use_https, host, server_port)
+    click.secho(
+        f"INFO     :: Deploy on {server_location}",
+        fg="green",
+    )
 
     if host not in ["localhost", "127.0.0.1"]:
         logger.warn(
