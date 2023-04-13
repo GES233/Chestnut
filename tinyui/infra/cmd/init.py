@@ -129,8 +129,10 @@ def launch_simple_web_app(host: str, port: str | int | None, mode: str) -> None:
         port=int(port) if port else 6699,
         dev=True if (mode == "dev") else False,
         reload_dir=reload_paths(),
+        motd=False,
     )
     click.secho("INFO     :: App in `launch` mode.", fg="green")
+    click.secho(f"INFO     :: Deploy on http://127.0.0.1:{str(port) if port else '6699'}", fg="green",)
 
     if host not in ["localhost", "127.0.0.1"]:
         logger.warn(
