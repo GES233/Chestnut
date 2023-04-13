@@ -59,11 +59,11 @@ def set_inst_func(
     # Create instance firstly.
     if not INSTANCE_PATH.exists():
         INSTANCE_PATH.mkdir()
-        click.secho("[INFO]    Created instance folder.", fg="green")
+        click.secho("INFO     :: Created instance folder.", fg="green")
 
     # Security
     security_config: DepsConfig = set_security_inst_setting(INSTANCE_PATH)
-    click.secho("[INFO]    App's crypt config is setted.", fg="green")
+    click.secho("INFO     :: App's crypt config is setted.", fg="green")
 
     # Markdown
     # TODO: add it.
@@ -84,7 +84,7 @@ def set_inst_func(
 
     # TODO: Update docs to database.
 
-    click.secho("[INFO]    All has done.", fg="green")
+    click.secho("INFO     :: All has done.", fg="green")
 
 
 set_command = click.option(
@@ -122,12 +122,15 @@ def launch_simple_web_app(host: str, port: str | int | None, mode: str) -> None:
         )
     )
     app: Sanic = loader.load()
+    click.secho("INFO     :: Sanic instance created.", fg="green")
+
     app.prepare(
         host=host,
         port=int(port) if port else 6699,
         dev=True if (mode == "dev") else False,
         reload_dir=reload_paths(),
     )
+    click.secho("INFO     :: App in `launch` mode.", fg="green")
 
     if host not in ["localhost", "127.0.0.1"]:
         logger.warn(

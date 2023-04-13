@@ -27,6 +27,7 @@ def running(mode: str, name: str | None) -> None:
         )
     )
     app: Sanic = loader.load()
+    click.secho("INFO     :: Sanic instance created.", fg="green")
 
     if mode == "prod":
         app.prepare(
@@ -35,8 +36,9 @@ def running(mode: str, name: str | None) -> None:
             debug=False,
             auto_reload=False,
             coffee=True,
-            # motd_display={},
+            motd=False,
         )
+        click.secho("INFO     :: App in `prod` mode.", fg="green")
     elif mode == "test":
         app.prepare(
             host="0.0.0.0",
@@ -44,8 +46,10 @@ def running(mode: str, name: str | None) -> None:
             debug=True,
             coffee=True,
         )
+        click.secho("INFO     :: App in `test` mode.", fg="green")
     else:
         # Run as dev mode, same as `create_app()`.
         app.prepare(host="127.0.0.1", port=6969, dev=True, reload_dir=reload_paths())
+        click.secho("INFO     :: App in `dev` mode.", fg="green")
 
     Sanic.serve(app, app_loader=loader)
