@@ -8,7 +8,7 @@ module.exports = {
     extend: {
       colors: {
         // From https://www.happyhues.co/palettes/16
-        'tinyui-chestnut': {
+        'chestnut-ui': {
           // Let color into degree.
           // The author has not basic knowledge of music theory.
           'tonic': '#55423d',
