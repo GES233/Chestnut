@@ -103,7 +103,7 @@ set_command = click.option(
 
 @manage.command("launch")
 @click.option("--host", "host", default="127.0.0.1")
-@click.option("--port", "port")
+@click.option("--port", "port", default=6699)
 @click.option("--dev", "mode", flag_value="dev")
 @click.option("--pro", "mode", flag_value="prod", default=True)
 def launch_simple_web_app(host: str, port: str | int | None, mode: str) -> None:
@@ -111,7 +111,7 @@ def launch_simple_web_app(host: str, port: str | int | None, mode: str) -> None:
 
     from functools import partial
     from sanic import Sanic
-    from sanic.log import logger
+    from sanic.log import logger as sanic_logger
     from sanic.worker.loader import AppLoader
 
     from ..web.app import create_app
@@ -131,31 +131,28 @@ def launch_simple_web_app(host: str, port: str | int | None, mode: str) -> None:
     click.secho("INFO     :: Sanic instance created.", fg="green")
 
     use_https: bool = app.config[CONFIG_LOCATION["app_config"]].use_https
-
-    if port is not None:
-        server_port: int = int(port)
-    else:
-        server_port = 443 if use_https else 80
+    server_host = host
+    server_port: int = int(port) if port else (443 if use_https else 80)
 
     app.prepare(
-        host=host,
+        host=server_host,
         port=server_port,
         dev=True if (mode == "dev") else False,
         reload_dir=reload_paths(),
         motd=False,
     )
-    click.secho("INFO     :: App in `launch` mode.", fg="green")
-    server_location = DEPLOY_LINK(use_https, host, server_port)
+    click.secho(f"INFO     :: App in `launch[{mode}]` mode.", fg="green")
+    server_location = DEPLOY_LINK(use_https, server_host, server_port)
     click.secho(
         f"INFO     :: Deploy on {server_location}",
         fg="green",
     )
 
     if host not in ["localhost", "127.0.0.1"]:
-        logger.warn(
+        sanic_logger.warn(
             (
-                "This Sanic app instance can present some sentitive info, "
-                "please ensure it is running on Local Area Network."
+                "This Sanic app instance can present some sentitive info of your device, "
+                "It's better to run it on localhost or add security setting."
             ),
         )
 
