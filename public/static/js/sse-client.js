@@ -35,7 +35,7 @@ function sse(subscribe) {
 }
 
 
-const TinyUI = {
+const Chestnut = {
   // Config.
   sse: sse(subscribe="/subscribe"),
   status: "off",

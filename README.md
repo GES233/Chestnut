@@ -1,4 +1,4 @@
-# [WIP] TinyUI
+# [WIP] Chestnut 🌰
 
 > **Warning**
 > 
@@ -32,9 +32,9 @@ Download the source code and run launch app.
 ```bash
 python virtualenv venv python=3.10
 source venv/bin/activate
-git clone https://github.com/GES233/TinyUI.git
+git clone https://github.com/GES233/Chestnut.git
 python -m pip install -r requirements_basic.txt
-python -m tinyui launch
+python -m chestnut launch
 ```
 
 Then, open `http://127.0.0.1:6699` in browser and follow it to install.

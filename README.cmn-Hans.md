@@ -1,4 +1,4 @@
-# 【施工中】TinyUI
+# 【施工中】栗子 🌰
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black) [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
@@ -34,9 +34,9 @@
 ```bash
 python virtualenv venv python=3.10
 source venv/bin/activate
-git clone https://github.com/GES233/TinyUI.git
+git clone https://github.com/GES233/Chestnut.git
 python -m pip install -r requirements_basic.txt
-python -m tinyui launch
+python -m chestnut launch
 ```
 
 在命令行出现相关信息时，就说明引导应用成功运行。
@@ -54,7 +54,7 @@ python -m tinyui launch
 
 ### 依赖项
 
-TinyUI 基于 Python 运行，如果用户的环境里有 Node.js 的话可能会涉及到 Javascript/Typescript 的相关内容。所以这里着重介绍 Python 的依赖项，至于其他的部分，因其主要是面向开发者的，所以在会在 [文档](/docs) 里讲到。
+Chestnut 基于 Python 运行，如果用户的环境里有 Node.js 的话可能会涉及到 Javascript/Typescript 的相关内容。所以这里着重介绍 Python 的依赖项，至于其他的部分，因其主要是面向开发者的，所以在会在 [文档](/docs) 里讲到。
 
 - **Python**
   - WebUI（引导应用）:  *最最基本的，如果想要顺利运行的话一定要有。*
@@ -93,7 +93,7 @@ TinyUI 基于 Python 运行，如果用户的环境里有 Node.js 的话可能�
 
 #### 面向开发者
 
-如果你想通过 TinyUI 来实现你的项目的话，可以看下 [开发者说的话](/docs/development/development.cmn-Hans.md) 。
+如果你想通过 Chestnut 来实现你的项目的话，可以看下 [开发者说的话](/docs/development/development.cmn-Hans.md) 。
 
 规范参见 [规范](/docs/development/spec.cmn-Hans.md) 。
 

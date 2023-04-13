@@ -1,12 +1,12 @@
-# TinyUI 的上下文界限
+# Chestnut 的上下文界限
 
 > **Info**
 > 
 > 本内容是属于战略设计（Strategy design）的范畴。
 
-如 [README](/README.cmn-Hans.md) 所示，TinyUI 包含了引导应用以及主应用，按照使用的目的可以将用户大致分成**使用者**以及**开发者**，所以在正式开发前，需要对 Context 以及其界限进行划分。
+如 [README](/README.cmn-Hans.md) 所示，Chestnut 包含了引导应用以及主应用，按照使用的目的可以将用户大致分成**使用者**以及**开发者**，所以在正式开发前，需要对 Context 以及其界限进行划分。
 
-因为 TinyUI 采用了整洁架构（Clean Architecture），所以通过 ChatGPT 打算简单的介绍下 Bounded Context 以及用例（Usecase）的区别：
+因为 Chestnut 采用了整洁架构（Clean Architecture），所以通过 ChatGPT 打算简单的介绍下 Bounded Context 以及用例（Usecase）的区别：
 
 > Bounded Context 和 Usecase 是 DDD 和整洁架构中两个不同的概念，但是它们之间是有一些关联和相似之处的。
 >

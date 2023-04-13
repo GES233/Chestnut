@@ -9,20 +9,20 @@ from sqlalchemy.orm import registry
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncConnection
 from typing import Any, Callable, Dict, Coroutine, List
 
-from tinyui.application.document.domain.document import Document
-from tinyui.application.document.domain.meta import DocumentMeta
-from tinyui.application.document.domain.repo import DocRepo, DocMetaRepo
-from tinyui.application.document.dto.load import DocumentLoader
-from tinyui.application.document.dto.present import DocumentPresenter
-from tinyui.application.document.usecase.display import DisplayIndex
-from tinyui.application.document.usecase.shown import DisplayDocument
-from tinyui.application.document import exception as doc_exc
-from tinyui.infra.helpers.config import DepsConfig
-from tinyui.infra.helpers.path import INSTANCE_PATH
-from tinyui.infra.deps.database.dao.base import tiny_sqlite_metadata
-from tinyui.infra.deps.database.dao.document import document_table
-from tinyui.infra.deps.database.service import enginefromconfig
-from tinyui.infra.deps.database.settings import database_test
+from chestnut.application.document.domain.document import Document
+from chestnut.application.document.domain.meta import DocumentMeta
+from chestnut.application.document.domain.repo import DocRepo, DocMetaRepo
+from chestnut.application.document.dto.load import DocumentLoader
+from chestnut.application.document.dto.present import DocumentPresenter
+from chestnut.application.document.usecase.display import DisplayIndex
+from chestnut.application.document.usecase.shown import DisplayDocument
+from chestnut.application.document import exception as doc_exc
+from chestnut.infra.helpers.config import DepsConfig
+from chestnut.infra.helpers.path import INSTANCE_PATH
+from chestnut.infra.deps.database.dao.base import tiny_sqlite_metadata
+from chestnut.infra.deps.database.dao.document import document_table
+from chestnut.infra.deps.database.service import enginefromconfig
+from chestnut.infra.deps.database.settings import database_test
 
 
 DOCUMENT_RAW_CONTENT = """# 只因的美学
@@ -59,7 +59,7 @@ class TestDocumentDomain:
             title = None
         demo_meta = DocumentMeta(
             name="awesome_chicken",
-            # from tinyui/infra/deps/document/dir/build_index
+            # from chestnut/infra/deps/document/dir/build_index
             title=title,
             language="cmn-Hans",
             source=Path(__file__),
@@ -78,7 +78,7 @@ class TestDocumentDomain:
 
         demo_meta = DocumentMeta(
             name="awesome_chicken",
-            # from tinyui/infra/deps/document/dir/build_index
+            # from chestnut/infra/deps/document/dir/build_index
             title=title,
             language="cmn-Hans",
             source=Path(__file__),

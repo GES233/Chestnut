@@ -2,7 +2,7 @@ import { Image } from "./Image";
 
 
 /**
- * The type of Card Component in TinyUI.
+ * The type of Card Component in Chestnut.
  * 
  * @param title Title of Card
  * @param image `Image` instance

@@ -2,11 +2,11 @@
 
 ## 用途
 
-简而言之，依赖项（`Prerequisite/ReauiredItem`）包装了对运行 TinyUI 内某些应用的所必需的对象。
+简而言之，依赖项（`Prerequisite/ReauiredItem`）包装了对运行 Chestnut 内某些应用的所必需的对象。
 
 ## 要用到的环境
 
-在 TinyUI 中，有以下的环境需要涉及到依赖项：
+在 Chestnut 中，有以下的环境需要涉及到依赖项：
 
 - 在 launch 下检查当前运行环境中是否存在特定依赖项
 - 在用户端（CLI/WebUI）梳理依赖项、依赖程度以及安装方法

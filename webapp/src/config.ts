@@ -2,7 +2,7 @@
 /**
  * Config Object of Tiny UI.
 */
-export interface TinyUIConfig {
+export interface ChestnutConfig {
   applicationName: string;
   remoteUrl: string;
 }

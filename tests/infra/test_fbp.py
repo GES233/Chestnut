@@ -2,9 +2,9 @@ import pytest
 import typing as t
 import pathlib as p, sys
 
-from tinyui.infra.helpers.fbp.meta.node import NodeMeta
-from tinyui.infra.helpers.fbp.components.node import Node
-from tinyui.infra.helpers.fbp.components.port import Port
+from chestnut.infra.helpers.fbp.meta.node import NodeMeta
+from chestnut.infra.helpers.fbp.components.node import Node
+from chestnut.infra.helpers.fbp.components.port import Port
 
 
 class TestPort:

@@ -1,12 +1,12 @@
 # 规范
 
-关于 TinyUI 项目本体的规范[^field]。
+关于 Chestnut 项目本体的规范[^field]。
 
-[^field]: 仅仅是针对想要给 TinyUI 本体添加代码而非想要用其编写自己的应用的人。从某种意义上讲，我们的规范也是对了用户能够用更自由且不受限制的代码来实现应用。
+[^field]: 仅仅是针对想要给 Chestnut 本体添加代码而非想要用其编写自己的应用的人。从某种意义上讲，我们的规范也是对了用户能够用更自由且不受限制的代码来实现应用。
 
 ## 开发环境
 
-我是用 Windows 11 下的 VSCode 来实现 TinyUI 的。
+我是用 Windows 11 下的 VSCode 来实现 Chestnut 的。
 
 ## Git
 
@@ -30,9 +30,9 @@
 
 > **Note**
 >
-> 关于单一语言文档：原则上**不建议**非英文的语言将这部分省略掉，因为一旦未在文件名中检测出语言，TinyUI 的就会将其识别为英文[^lang_detect]。
+> 关于单一语言文档：原则上**不建议**非英文的语言将这部分省略掉，因为一旦未在文件名中检测出语言，Chestnut 的就会将其识别为英文[^lang_detect]。
 
-[^lang_detect]: 没错， TinyUI 仅仅根据文件名来判断语言。
+[^lang_detect]: 没错， Chestnut 仅仅根据文件名来判断语言。
 
 而当文档作为模板时，其名字为：`{原来的名字}-sample` 或是 `{原来的名字}-template` 。
 
@@ -42,7 +42,7 @@
 
 `README` 并不会在网页的文件读取应用的范畴内。
 
-其参考了 [standard-readme](https://github.com/RichardLitt/standard-readme) ，目前 `TinyUI` 的格式如下：
+其参考了 [standard-readme](https://github.com/RichardLitt/standard-readme) ，目前 `Chestnut` 的格式如下：
 
 - 标题
   - 大写
@@ -63,7 +63,7 @@
 
 ### 实例
 
-项目有一个实例文件夹 `/instance` ，`python -m tinyui set` 命令能够在初始化应用写入包含配置文件的实例的同时创建这个文件夹。
+项目有一个实例文件夹 `/instance` ，`python -m chestnut set` 命令能够在初始化应用写入包含配置文件的实例的同时创建这个文件夹。
 
 ### 关于 Docker
 
@@ -71,7 +71,7 @@
 
 ### 后端
 
-TinyUI 的服务端不管是基建还是应用内部均由 Python 写成，所以本节内容主要针对 Python 。
+Chestnut 的服务端不管是基建还是应用内部均由 Python 写成，所以本节内容主要针对 Python 。
 
 ### Formatter
 
@@ -82,7 +82,7 @@ TinyUI 的服务端不管是基建还是应用内部均由 Python 写成，所�
 我们希望在以下情况，尽量使用**相对导入**：
 
 - 导入的是应用程序内部的包
-  - 在本项目中，「内部」指的是 `tinyui` 这个包的内部
+  - 在本项目中，「内部」指的是 `chestnut` 这个包的内部
   - 不包括插件
 
 在其他情况，尽量使用绝对导入。
@@ -137,7 +137,7 @@ from .c import c_inst
 
 ### 类型注解
 
-由于 TinyUI 运行时需要类型标注，因此我们推荐在源码中尽量多的使用到类型注解。
+由于 Chestnut 运行时需要类型标注，因此我们推荐在源码中尽量多的使用到类型注解。
 
 ## 前端
 

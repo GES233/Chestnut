@@ -2,7 +2,7 @@
 
 ## 怎么用
 
-如果是通过命令行接口来启动应用的话：在安装好 Python 环境后，键入 `python -m tinyui launch` 即可。
+如果是通过命令行接口来启动应用的话：在安装好 Python 环境后，键入 `python -m chestnut launch` 即可。
 
 > **Warning**
 > 
@@ -41,10 +41,10 @@
 
 #### `click.command()`
 
-当我们键入 `python -m tinyui` 时，其结果为：
+当我们键入 `python -m chestnut` 时，其结果为：
 
 ```text
-Usage: python -m tinyui [OPTIONS] COMMAND [ARGS]...
+Usage: python -m chestnut [OPTIONS] COMMAND [ARGS]...
 
   Manager of application.
 
@@ -63,7 +63,7 @@ Commands:
 
 我们只需要在意其中的 `launch` 即可，其他的命令到时再说。
 
-首先，项目的入口为 `tinyui.__main__`，其代码为：
+首先，项目的入口为 `chestnut.__main__`，其代码为：
 
 ```python
 from .infra.cmd import manage
@@ -74,9 +74,9 @@ if __name__ == "__main__":
 
 ```
 
-一旦在命令行键入/程序被调用时，就会执行 `manage()` 。TinyUI 的命令行选择的是 `click` ，`manage` 也就是一个 `click.Group` ，它包含了一系列的 `click.Command` 以及 `click.Group` 。
+一旦在命令行键入/程序被调用时，就会执行 `manage()` 。Chestnut 的命令行选择的是 `click` ，`manage` 也就是一个 `click.Group` ，它包含了一系列的 `click.Command` 以及 `click.Group` 。
 
-`launch` 是在 `tinyui.command.init` 下的一个**命令**。
+`launch` 是在 `chestnut.command.init` 下的一个**命令**。
 
 其有四个选项，分别是 `--dev`、`--pro`、`--host` 以及 `--port`。
 
@@ -88,7 +88,7 @@ if __name__ == "__main__":
 
 #### `create_app() -> Sanic`
 
-该函数位于 `tinyui.infra.web.app` 中，参数如下（都需要显式地指定）：
+该函数位于 `chestnut.infra.web.app` 中，参数如下（都需要显式地指定）：
 
 - `mode` 模式，包括 `dev` `test` `prod` 以及 `launch` ，分别是「开发」、「测试」、「生产」以及「引导安装」
 - `use_instance` 如果为真，将会从实例文件夹 `/instance` 中读取配置
