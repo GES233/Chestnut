@@ -27,7 +27,7 @@ LOGGING_CONFIG: Dict[str, Any] = dict(  # no cov
             "propagate": True,
             "qualname": "sanic.server",
         },
-        "tiny.root": {"level": "INFO", "handlers": ["console"]},
+        "chestnut.root": {"level": "INFO", "handlers": ["console"]},
     },
     handlers={
         "console": {
@@ -50,13 +50,13 @@ LOGGING_CONFIG: Dict[str, Any] = dict(  # no cov
         "generic": {
             "format": "%(levelname)-8s :: %(asctime)s :: %(process)-6s :: %(message)s",
             "datefmt": "%y-%m-%d %H:%M:%S %z",
-            "class": "logging.Formatter",
+            "class": "chestnut.infra.log.service.ChestnutFormatter",
         },
         "access": {
             "format": "%(levelname)-8s :: %(asctime)s :: [%(name)s@%(host)s]: "
             + "%(request)s %(message)s %(status)s %(byte)s",
             "datefmt": "%y-%m-%d %H:%M:%S %z",
-            "class": "logging.Formatter",
+            "class": "chestnut.infra.log.service.ChestnutFormatter",  # logging.Formatter
         },
     },
 )

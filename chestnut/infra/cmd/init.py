@@ -139,8 +139,8 @@ def launch_simple_web_app(host: str, port: str | int | None, mode: str) -> None:
         motd=False,
     )
     click.secho("INFO     :: App in `launch` mode.", fg="green")
-    click.secho(f"INFO     :: Deploy on {'http' if use_https else 'https'}://{host}{':'+str(port) if port else ''}", fg="green",)
-    server_location = f"{'http' if use_https else 'https'}://{host}:{server_port}"
+    click.secho(f"INFO     :: Deploy on {'http' if  not use_https else 'https'}://{host}{':'+str(port) if port else ''}", fg="green",)
+    server_location = f"{'http' if not use_https else 'https'}://{host}:{server_port}"
 
     if host not in ["localhost", "127.0.0.1"]:
         logger.warn(

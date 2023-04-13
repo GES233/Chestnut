@@ -7,11 +7,7 @@ import sanic
 from typing import Any, Dict, Tuple
 
 from ..helpers.config.app import AppConfig
-
-
-# sanic.compat
-def is_atty() -> bool:
-    return bool(sys.stdout and sys.stdout.isatty())
+from ..helpers.utils import is_atty
 
 
 CHESTNUT_ICON = """
