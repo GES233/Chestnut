@@ -110,8 +110,10 @@ def launch_simple_web_app(host: str, port: str | int | None, mode: str) -> None:
     from sanic import Sanic
     from sanic.log import logger
     from sanic.worker.loader import AppLoader
+
     from ..web.app import create_app
     from ..web.blueprints import reload_paths
+    from ..web.settings.location import CONFIG_LOCATION
 
     loader = AppLoader(
         factory=partial(
@@ -124,15 +126,21 @@ def launch_simple_web_app(host: str, port: str | int | None, mode: str) -> None:
     app: Sanic = loader.load()
     click.secho("INFO     :: Sanic instance created.", fg="green")
 
+    use_https: bool = app.config[CONFIG_LOCATION['app_config']].use_https
+    if port is not None:
+        server_port: int = int(port)
+    else:
+        server_port = 443 if use_https else 80
     app.prepare(
         host=host,
-        port=int(port) if port else 6699,
+        port=server_port,
         dev=True if (mode == "dev") else False,
         reload_dir=reload_paths(),
         motd=False,
     )
     click.secho("INFO     :: App in `launch` mode.", fg="green")
-    click.secho(f"INFO     :: Deploy on http://127.0.0.1:{str(port) if port else '6699'}", fg="green",)
+    click.secho(f"INFO     :: Deploy on {'http' if use_https else 'https'}://{host}:{port}", fg="green",)
+    server_location = f"{'http' if use_https else 'https'}://{host}:{server_port}"
 
     if host not in ["localhost", "127.0.0.1"]:
         logger.warn(
