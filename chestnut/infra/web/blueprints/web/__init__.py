@@ -44,5 +44,16 @@ async def add_info(request: Request) -> None:
     request.ctx.page_config = PageConfig()
 
 
+@page_bp.on_response
+async def add_mime_type(request: Request, response: HTTPResponse) -> HTTPResponse:
+    mime_type = response.content_type
+
+    if mime_type and "charset" not in mime_type:
+        mime_type += "; charset=UTF-8"
+        response.content_type = mime_type
+
+    return response
+
+
 web_bp = Blueprint.group(webapp_static, page_bp)
 web_bp_without_webapp = Blueprint.group(webapp_static, template_bp)
