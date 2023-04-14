@@ -11,7 +11,7 @@
     |      +------Domain------+       |
     |      |  Domain Service  |    <==DTO==> Outside
     |      | +--------------+ |       |
-    |      | | Domain Model <-interface----> implementation
+    |      | | Domain Model <-interface----> implementation repository
     |      | +--------------+ |       |
     |      +------------------+       |
     +---------------------------------+
@@ -34,7 +34,7 @@
     Domain Service
     ~~~~~~~~
 
-    Provides some functions of domain models.
+    Provides some service with domain models.
 
     Usecase(Application Service)
     ~~~~~~~~
