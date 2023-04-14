@@ -16,7 +16,7 @@ from chestnut.application.document.dto.load import DocumentLoader
 from chestnut.application.document.dto.present import DocumentPresenter
 from chestnut.application.document.usecase.display import DisplayIndex
 from chestnut.application.document.usecase.shown import DisplayDocument
-from chestnut.application.document import exception as doc_exc
+from chestnut.adapter.document.file import fetchdocumentfromfile as fetchfile
 from chestnut.infra.helpers.config import DepsConfig
 from chestnut.infra.helpers.path import INSTANCE_PATH
 from chestnut.infra.deps.database.dao.base import tiny_sqlite_metadata
@@ -39,16 +39,6 @@ by 呕像恋蜥僧
 > _——《只因你太美》_
 
 """
-
-
-def fetchfile(path: str | Path) -> str:
-    if not isinstance(path, Path):
-        path = Path(path)
-
-    if not path.exists():
-        raise doc_exc.DocumentNotFound
-
-    return path.read_text(encoding="utf-8")
 
 
 class TestDocumentDomain:
