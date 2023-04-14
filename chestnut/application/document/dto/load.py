@@ -7,8 +7,10 @@ from .. import exception as doc_exc
 from ..domain.meta import DocumentMeta
 from ..domain.document import Document
 from ...base.dto.io import InputSchemaMixin
+from ...base.dto.db import DataAccessObjectMixin
 
 
+# TODO: Replace as `DAOMixin`
 class DocumentLoader(InputSchemaMixin, BaseModel):
     content: str
     # Same as DocumentMeta.
