@@ -58,13 +58,14 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
         file_path: Path | str,
         root_path: Path | str | None,
     ) -> dict:
+        # TODO: Move to `Domain Service`.
         # Let the limitation of spec into domain knowledge.
 
         if not isinstance(file_path, Path):
             file_path = Path(file_path).absolute()
 
         # Check suffix.
-        if file_path.suffix not in [".md", ".rst", ".html"]:
+        if file_path.suffix not in [".md", ".txt", ".rst", ".html"]:
             raise doc_exc.DocumentFormatInvalid
         else:
             doc_format = file_path.suffix
