@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Any, Dict
 
 from .meta import DocumentMeta
-from ...base.domain.entity import AggregateRoot, Entity
+from ...core.domain.entity import AggregateRoot, Entity
 
 
 @dataclass

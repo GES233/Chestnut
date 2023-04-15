@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
-from ...base.domain.value_object import ValueObject
+from ...core.domain.value_object import ValueObject
 
 
 @dataclass

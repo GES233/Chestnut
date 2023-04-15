@@ -6,8 +6,8 @@ from typing import List, Any, Tuple, Callable
 from .. import exception as doc_exc
 from ..domain.meta import DocumentMeta
 from ..domain.document import Document
-from ...base.dto.io import InputSchemaMixin
-from ...base.dto.db import DataAccessObjectMixin
+from ...core.dto.io import InputSchemaMixin
+from ...core.dto.db import DataAccessObjectMixin
 
 
 # TODO: Replace as `DAOMixin`

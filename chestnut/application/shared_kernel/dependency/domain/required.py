@@ -1,7 +1,7 @@
 import sys
 from enum import Enum
 
-from ....base.domain.value_object import ValueObject
+from ....core.domain.value_object import ValueObject
 
 
 class RequiredState(tuple, Enum, ValueObject):

@@ -5,7 +5,7 @@ from typing import Iterable, Callable
 from .. import exception as doc_exc
 from ..domain.meta import DocumentMeta
 from ..domain.document import Document
-from ...base.dto.io import OutputSchemaMixin
+from ...core.dto.io import OutputSchemaMixin
 
 
 class DocumentPresenter(OutputSchemaMixin, BaseModel):

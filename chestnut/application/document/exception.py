@@ -1,4 +1,4 @@
-from ..base.exception import AppExcBase
+from ..core.exception import AppExcBase
 
 
 class DomainModelTypeInvalid(AppExcBase, TypeError):
