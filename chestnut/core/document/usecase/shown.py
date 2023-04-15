@@ -12,6 +12,9 @@ class DisplayDocument:
     def __init__(self, repo: DocRepo) -> None:
         self.repo = repo
 
+    async def __call__(self, *args: Any, **kwds: Any) -> Any:
+        return await self.show(*args, **kwds)
+
     async def show(self, name: str) -> DocumentPresenter:
         content = await self.repo.loadbyname(name)
 

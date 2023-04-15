@@ -1,9 +1,9 @@
 import click
 from typing import Any
 
-from ...application.document.domain.document import Document
-from ...application.document.domain.meta import DocumentMeta
-from ...application.document.domain.repo import DocRepo, DocMetaRepo
+from ...core.document.domain.document import Document
+from ...core.document.domain.meta import DocumentMeta
+from ...core.document.domain.repo import DocRepo, DocMetaRepo
 from ...infra.cmd import manage
 from ...infra.cmd.db import initializedb
 

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from ...application.document import exception as doc_exc
+from ...core.document import exception as doc_exc
 
 
 def fetchdocumentfromfile(path: str | Path) -> str:
