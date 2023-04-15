@@ -1,4 +1,4 @@
-""" `chestnut.core.base.dto`
+""" `chestnut.application.base.dto`
     ~~~~~~~~
 
     dto, means data transform object.

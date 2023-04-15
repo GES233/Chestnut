@@ -39,7 +39,7 @@
 - [`/chestnut/infra/web/settings/__init__.py`](/chestnut/infra/web/settings/__init__.py): `create_config()` => 你的引导应用的名字
 - [`/chestnut/infra/helpers/link.py`](/chestnut/infra/helpers/link.py): `APP_LINK` => 你的代码仓库/网站链接
 - [`/chestnut/infra/cli/init.py`](/chestnut/infra/cli/init.py): `configure_app()` => 更新对应的名字以及介绍
-- [`/chestnut/core`](/chestnut/core/) & [`/chestnut/adapter`](/chestnut/adapter/) -> 在这里添加你的代码，并且将其注册到应用上
+- [`/chestnut/application`](/chestnut/application/) & [`/chestnut/adapter`](/chestnut/adapter/) -> 在这里添加你的代码，并且将其注册到应用上
 - [`/chestnut/infra/deps/database/settings.py`](/chestnut/infra/deps/database/settings.py): `database_dev` & `database_prod` => 你起的名字
 - [`/chestnut`](/chestnut/) => 你起的名字
 - [`/alembic.ini`](/alembic.ini): script_location & sqlalchemy.url => 对应的修改到你的包名以及你起的数据库的名

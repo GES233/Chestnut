@@ -9,13 +9,13 @@ from sqlalchemy.orm import registry
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncConnection
 from typing import Any, Callable, Dict, Coroutine, List
 
-from chestnut.core.document.domain.document import Document
-from chestnut.core.document.domain.meta import DocumentMeta
-from chestnut.core.document.domain.repo import DocRepo, DocMetaRepo
-from chestnut.core.document.dto.load import DocumentLoader
-from chestnut.core.document.dto.present import DocumentPresenter
-from chestnut.core.document.usecase.display import DisplayIndex
-from chestnut.core.document.usecase.shown import DisplayDocument
+from chestnut.application.document.domain.document import Document
+from chestnut.application.document.domain.meta import DocumentMeta
+from chestnut.application.document.domain.repo import DocRepo, DocMetaRepo
+from chestnut.application.document.dto.load import DocumentLoader
+from chestnut.application.document.dto.present import DocumentPresenter
+from chestnut.application.document.usecase.display import DisplayIndex
+from chestnut.application.document.usecase.shown import DisplayDocument
 from chestnut.adapter.document.file import fetchdocumentfromfile as fetchfile
 from chestnut.infra.helpers.config import DepsConfig
 from chestnut.infra.helpers.path import INSTANCE_PATH

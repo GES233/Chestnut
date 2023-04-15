@@ -1,4 +1,4 @@
-""" `chestnut.core.base`
+""" `chestnut.application.base`
     ~~~~
 
     This package is a simple demostration for the core part 

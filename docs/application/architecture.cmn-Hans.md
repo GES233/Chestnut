@@ -22,7 +22,7 @@
 
 - `root`
   - `adapter` 适配器
-  - `core` 应用本体，我为了将应用内外分隔开，将 `Domain` 和 `Usecase` 整合到了一起
+  - `application` 应用本体，我为了将应用内外分隔开，将 `Domain` 和 `Usecase` 整合到了一起
     - `{name by context}`
     - `base`
       - `domain`
