@@ -17,3 +17,4 @@ class DocumentMeta(ValueObject):
     location: str
     """How to locate the document object in application."""
     categories: Iterable[str | None]
+    repo_name: str = "main"

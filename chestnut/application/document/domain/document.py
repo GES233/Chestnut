@@ -1,4 +1,5 @@
 import re
+from enum import Enum
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, Tuple, List, Callable, Type
 
@@ -36,31 +37,59 @@ class ParsedDocument(Entity):
     id: str  # Query by MAIN title.
     """In ParsedDocument, `id` refers `title`."""
     index: Iterable[str]  # except title.
-    content:Iterable[Section]
+    content: Iterable[Section]
+
+
+MARKDOWN_HEADER_PATTERN = re.compile(
+    r"^(#+ .*)\n",  # Only one group.
+    re.MULTILINE,
+)
+
+
+def getmarkdownheaderbody(header: str) -> str:
+    header.split(" ").remove(header.split(" ")[0])
+    return " ".join(header)
+
+
+getmarkdownheaderlength: Callable[[str], int] = lambda header: len(header.split(" ")[0])
+"""Return the number of `'#'` in header."""
+
+
+Condition = bool | int | str | Enum
 
 
 class MarkdownContentSplitService:
     """Split content."""
 
-    HEADER_PATTERN = re.compile(
-        r"^(#+ .*)\n",  # Only one group.
-        re.MULTILINE,
-    )
-    getheaderlength: Callable[[str], int] = lambda header: len(header.split(" ")[0])
-    """Return the number of `'#'` in header."""
+    header_split_pattern: re.Pattern
+    getheaderbody: Callable[[str], str]
+    getheaderlevel: Callable[[str], int]
+    pruningservice: Callable[[Iterable[str]], List[str] | None]
 
-    @staticmethod
-    def getheaderbody(header: str) -> str:
-        header.split(" ").remove(header.split(" ")[0])
-        return " ".join(header)
+    def __init__(
+        self,
+        header_split_pattern: re.Pattern,
+        headerbody_parser: Callable[[str], str],
+        headerlevel_parser: Callable[[str], int],
+        pruning_condition: Callable[[Iterable[str]], Condition],
+        pruning_service: Callable[[Iterable[str], Condition], List[str] | None],
+    ) -> None:
+        self.header_split_pattern = header_split_pattern
+        self.getheaderbody = headerbody_parser
+        self.getheaderlevel = headerlevel_parser
+        self.pruningservice = lambda content: pruning_service(content, pruning_condition(content))
 
-    @staticmethod
-    def parse(content: str, strategy: Any) -> ParsedDocument | None:
-        content_chain = re.split(MarkdownContentSplitService.HEADER_PATTERN, content)
+    def parse(self, content: str) -> ParsedDocument | None:
+        content_chain = re.split(self.header_split_pattern, content)
 
+        # TODO: Refrac this.
         # Remove "\n".
         if not content_chain[0].startswith("#"):
             content_chain.pop(0)
+        
+        _res = self.pruningservice(content_chain)
+        if _res:
+            content_chain = _res
 
         paragraph_chain: List[Section] = []
 
@@ -79,13 +108,13 @@ class MarkdownContentSplitService:
             #   2x,    2x+1(may out of index)
             paragraph_chain.append(
                 {
-                    MarkdownContentSplitService.getheaderbody(content_chain[idx * 2]): (
-                        MarkdownContentSplitService.getheaderlength(content_chain[idx * 2]),
+                    self.getheaderbody(content_chain[idx * 2]): (
+                        self.getheaderlevel(content_chain[idx * 2]),
                         content_chain[idx * 2 + 1],
                     )
                 }
             )
-        
+
         # Orgnize.
         section_chain: Iterable[Section] = []
 
