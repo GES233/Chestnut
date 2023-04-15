@@ -1,7 +1,7 @@
 from typing import Callable, Any
 
 from .. import exception as doc_exc
-from ..domain.repo import DocRepo
+from .repo import DocRepo
 
 
 class DocumentFormater:
@@ -13,4 +13,11 @@ class DocumentFormater:
         self.convert_service = convert_service
 
     def __str__(self) -> str:
-        return self.convert_service(self.raw_content) or ""
+        try:
+            content = self.convert_service(self.raw_content)
+        except Exception:
+            raise doc_exc.DocumentFormatInvalid
+        else:
+            if content == "":
+                raise doc_exc.DocumentFormatInvalid
+            return content
