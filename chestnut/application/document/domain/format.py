@@ -1,7 +1,6 @@
 from typing import Callable, Any
 
 from .. import exception as doc_exc
-from .repo import DocRepo
 
 
 class DocumentFormater:
@@ -21,3 +20,7 @@ class DocumentFormater:
             if content == "":
                 raise doc_exc.DocumentFormatInvalid
             return content
+
+
+class ParseService:
+    ...
