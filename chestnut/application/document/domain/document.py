@@ -40,22 +40,8 @@ class ParsedDocument(Entity):
     content: Iterable[Section]
 
 
-MARKDOWN_HEADER_PATTERN = re.compile(
-    r"^(#+ .*)\n",  # Only one group.
-    re.MULTILINE,
-)
-
-
-def getmarkdownheaderbody(header: str) -> str:
-    header.split(" ").remove(header.split(" ")[0])
-    return " ".join(header)
-
-
-getmarkdownheaderlength: Callable[[str], int] = lambda header: len(header.split(" ")[0])
-"""Return the number of `'#'` in header."""
-
-
 Condition = bool | int | str | Enum
+"""`Condition` musrt be same in condition_checker and producer."""
 
 
 class MarkdownContentSplitService:
@@ -90,6 +76,13 @@ class MarkdownContentSplitService:
         _res = self.pruningservice(content_chain)
         if _res:
             content_chain = _res
+        # Strcture of content_chain:
+        # [
+        # <header>, <content>,
+        # <header>, <content>,
+        # ...
+        # <header>, [<content>]
+        # ]
 
         paragraph_chain: List[Section] = []
 
@@ -98,6 +91,7 @@ class MarkdownContentSplitService:
             paragraph_num = int(paragraph_num / 2)
         else:
             # Last one is header.
+            # Last MUST be <header: [...]>, <content: "">
             content_chain.append("")
             paragraph_num = int((paragraph_num + 1) / 2)
 
