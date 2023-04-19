@@ -139,6 +139,10 @@ from .c import c_inst
 
 由于 Chestnut 运行时需要类型标注，因此我们推荐在源码中尽量多的使用到类型注解。
 
+### 测试代码
+
+Chestnut 采用 `pytest` 来完成测试。
+
 ## 前端
 
 可能会参考 [Project Guidelines](https://github.com/elsewhencode/project-guidelines) 的相关内容。
