@@ -1,10 +1,10 @@
 import sys
 from enum import Enum
 
-from ....core.domain.value_object import ValueObject
+from ....core.domain.value_object import ValueObject as VOMixin
 
 
-class RequiredState(tuple, Enum, ValueObject):
+class RequiredState(VOMixin, tuple, Enum):
     REQUIRED = ("Required",)
     REQUIRED_WHEN_INSTALL = ("Required", "Install")
     """Required when installation."""
@@ -19,6 +19,17 @@ class RequiredState(tuple, Enum, ValueObject):
     """Optional to facilitate development."""
     OPTIONAL_IN_OTHER = ("Optional", "Other")
     USELESS = ("Useless",)
+
+    @classmethod
+    def fromvalue(cls, value: tuple | str) -> "RequiredState":
+        if isinstance(value, str):
+            value = (value.title(),)
+        return cls(value)
+        for item in cls:
+            if item.value == value:
+                return item
+        return None
+        # raise Error?
 
     def targetrequired(self) -> bool:
         return (
@@ -41,5 +52,5 @@ class RequiredState(tuple, Enum, ValueObject):
 
 
 class InstallationOption(str, Enum):
-    AutomaticInstallation = "AUTOMATIC"
-    MannualInstallation = "MANNUAL"
+    AutomaticInstallation = "A"
+    MannualInstallation = "M"
