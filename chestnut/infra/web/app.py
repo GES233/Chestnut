@@ -38,7 +38,7 @@ def create_app(
     # Create app.
     app = Sanic(name=config.APP.name, config=config, log_config=LOGGING_CONFIG)
 
-    if launch_mode:
+    if launch_mode or mode is None:
         # Launch app.
         from .blueprints.plain.launch import register_launch
 

@@ -4,13 +4,15 @@
 """
 import sys
 import shutil
+import platform
 from pathlib import Path
 from typing import Any, Callable, Tuple, Type
 from collections import namedtuple
 
 
 PYTHON_VERSION = sys.version_info
-PLATFORM = sys.platform
+PLATFORM: Tuple[str, str, str] = (platform.uname().system, platform.uname().version, platform.uname().machine)
+"""(system_name, system_version, machine)"""
 
 
 def getdisk(path: Path) -> str:
