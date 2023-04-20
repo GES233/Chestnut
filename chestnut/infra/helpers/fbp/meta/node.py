@@ -15,6 +15,8 @@ key_conf: Dict[str, str] = {
 
 
 def _func_entry(__bases: Tuple[type], __namespace: Dict[str, Any]) -> str:
+    """Fetch entry attribute of class."""
+
     # if parent class have __entry__
     if __bases:
         for base in __bases:
@@ -31,6 +33,8 @@ def _func_entry(__bases: Tuple[type], __namespace: Dict[str, Any]) -> str:
 
 
 def _func_cover(__bases: Tuple[type], __namespace: Dict[str, Any]) -> Dict[str, Any]:
+    """Let `Ports` into mapper."""
+
     _mappings = dict()
 
     # Heritage,
@@ -61,6 +65,8 @@ role_convert: Callable[[str], str] = (
 
 
 def _func_seperate(_mappings_dict: Dict[str, Any], role: Tuple[str]) -> Dict[str, Dict]:
+    """Add mappers with role."""
+
     _mappings_with_role = {role_convert(k): dict() for k in role}
 
     for port_name in _mappings_dict:
@@ -74,8 +80,9 @@ def _func_seperate(_mappings_dict: Dict[str, Any], role: Tuple[str]) -> Dict[str
     return _mappings_with_role
 
 
+# TODO: Learning args of Python language.
 def _func_analysefunc(func: Callable[..., Any]) -> Dict[str, Dict]:
-    """Only for 'input' and 'output'."""
+    """Only for 'input' and 'output' of function."""
 
     _args_dict = {"input": dict(), "output": dict()}
 
@@ -106,6 +113,8 @@ def _func_analysefunc(func: Callable[..., Any]) -> Dict[str, Dict]:
 
 
 def _method_setattr():
+    """Implement the `__setattr__` of class."""
+
     # If role is not output:
     # - put.
     # else:
@@ -128,6 +137,8 @@ def _method_setattr():
 
 
 def _method_getattr():
+    """Implement the `__getattr__` of class."""
+
     # Return value via mappers.
     def __getattr__(self: object, __name: str) -> Any:
         if __name in key_conf.values():
@@ -146,6 +157,8 @@ def _method_getattr():
 
 
 def _method_run():
+    """Implement the run method of class."""
+
     # TODO: Add coroutine.
     def run(self, *args, **kwds):
         func: Callable[..., Any] = getattr(self, key_conf["entry"])
@@ -156,10 +169,14 @@ def _method_run():
 
 
 def _method_init():
+    """Implement the `__init__` of class."""
+
     raise NotImplementedError
 
 
 def _method_call():
+    """Implement the `__call__` of class."""
+
     raise NotImplementedError
 
 
@@ -176,7 +193,8 @@ class NodeMeta(FlowMeta):
         #   => __abstract__
         #   => __entry__
         #   => ...
-        abstract: bool = __namespace.get(key_conf["abstract"], False)  # Default: False
+        __namespace["abstract"] = __namespace.get(key_conf["abstract"], False)  # Default: False
+        abstract: bool = __namespace["abstract"]
         entry: str = _func_entry(
             __bases, __namespace
         )  # __namespace.get(key_conf["entry"], "function")
