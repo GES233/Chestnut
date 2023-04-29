@@ -8,6 +8,8 @@ class ItemType(VOMixin, int, Enum):
     Command = 3
     Program = 4
     File = 5
+    Device = 6
+    "Such as GPU, etc."
 
     @classmethod
     def fromvalue(cls, value: int | str) -> "ItemType":
@@ -19,6 +21,8 @@ class ItemType(VOMixin, int, Enum):
             raise NotImplementedError
 
     def hasnativever(self) -> bool:
+        """Has native version."""
+
         return self.value == ItemType.PythonModule or self.value == ItemType.Program
 
     def caninvoke(self) -> bool:
@@ -29,4 +33,13 @@ class ItemType(VOMixin, int, Enum):
         )
 
     def servicerequired(self) -> bool:
+        raise NotImplementedError
+
+
+
+class ItemIdentity(VOMixin, tuple, Enum):
+    """Check the item is valid or not."""
+
+    @classmethod
+    def fromvalue(cls, value) -> "ItemIdentity":
         raise NotImplementedError
