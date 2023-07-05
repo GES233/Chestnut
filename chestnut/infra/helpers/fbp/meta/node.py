@@ -193,7 +193,9 @@ class NodeMeta(FlowMeta):
         #   => __abstract__
         #   => __entry__
         #   => ...
-        __namespace["abstract"] = __namespace.get(key_conf["abstract"], False)  # Default: False
+        __namespace["abstract"] = __namespace.get(
+            key_conf["abstract"], False
+        )  # Default: False
         abstract: bool = __namespace["abstract"]
         entry: str = _func_entry(
             __bases, __namespace

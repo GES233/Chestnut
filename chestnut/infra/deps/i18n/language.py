@@ -2,7 +2,9 @@ from typing import List, Any, Dict
 from multidict import CIMultiDict  # type: ignore
 
 
-def parse_headers(headers: CIMultiDict | Dict) -> List[Dict[str, str | int]]:
+def parseheaders(
+    headers: CIMultiDict[str] | Dict[str, str]
+) -> List[Dict[str, str | int]]:
     language_ = headers.get("Accept-Language")
     if not language_:
         language_ = ["en;q=0.8", "*;q=0.5"]

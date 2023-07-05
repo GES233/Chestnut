@@ -144,10 +144,7 @@ class SimpleMOTD(TinyMOTD):
         )
         #   <dependent items>
         #     - framework...
-        content += (
-            version_align
-            + f"Sanic v{self.version['sanic']}\n"
-        )
+        content += version_align + f"Sanic v{self.version['sanic']}\n"
         #     - front-end settings...
         # <information in AppConfig(loaded from instance)>
         #   <name>

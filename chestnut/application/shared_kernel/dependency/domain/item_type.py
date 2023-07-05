@@ -2,6 +2,7 @@ from enum import Enum
 
 from ....core.domain.value_object import ValueObject as VOMixin
 
+
 class ItemType(VOMixin, int, Enum):
     PythonObject = 1
     PythonModule = 2
@@ -34,7 +35,6 @@ class ItemType(VOMixin, int, Enum):
 
     def servicerequired(self) -> bool:
         raise NotImplementedError
-
 
 
 class ItemIdentity(VOMixin, tuple, Enum):

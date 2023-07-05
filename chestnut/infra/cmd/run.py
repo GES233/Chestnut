@@ -11,7 +11,9 @@ from . import manage
 @click.option("--host", "host", default="127.0.0.1")
 @click.option("--port", "port", default=6699)
 @click.option("--public", "-p", "public", default=False)
-def running(mode: str, name: str | None, host: str, port: int | str, public: bool) -> None:
+def running(
+    mode: str, name: str | None, host: str, port: int | str, public: bool
+) -> None:
     """Run application."""
 
     from functools import partial
@@ -37,9 +39,7 @@ def running(mode: str, name: str | None, host: str, port: int | str, public: boo
     use_https: bool = app.config[CONFIG_LOCATION["app_config"]].use_https
     server_host = host
     server_port = int(port) if not public else (80 if not use_https else 443)
-    server_location = DEPLOY_LINK(
-        use_https, server_host, server_port
-    )
+    server_location = DEPLOY_LINK(use_https, server_host, server_port)
 
     if mode == "prod":
         app.prepare(

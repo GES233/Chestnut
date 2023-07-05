@@ -22,16 +22,12 @@ else:
 
     from pygments.formatters.html import HtmlFormatter
 
+    # Export function code_render.
+    def rendercode(
+        source_code: str, lexer: str | None = None, linestart: int | None = None
+    ) -> str:
+        """Let code into HTML."""
 
-# Export function code_render.
-def rendercode(
-    source_code: str, lexer: str | None = None, linestart: int | None = None
-) -> str:
-    """Let code into HTML."""
-
-    if not COLORFUL_CODE:
-        return r"<pre><code>" + source_code + r"</code></pre>"
-    else:
         if lexer:
             lexer_: Lexer = get_lexer_by_name(lexer, stripall=True)
         else:
@@ -44,7 +40,7 @@ def rendercode(
                 linenos="inline",
                 linenostart=linestart,
             )
-        formatter = HtmlFormatter(**line_args)
+        formatter = HtmlFormatter(**line_args)  # type: ignore
         # formatter = SvgFormatter(**line_args, norwap=True)
 
         return highlight(source_code, lexer_, formatter)

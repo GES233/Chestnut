@@ -1,5 +1,6 @@
 import re
 
+
 LINK_PATTERN = r"(?<!!)\[(.*?)\]\((.*?)(\.md)\)|\[(.*?)\]\((.*?)(.rst)\)"
 """To `[xxx](xxx.md)` and `[xxx](xxx.rst)`"""
 link_pt = re.compile(LINK_PATTERN)

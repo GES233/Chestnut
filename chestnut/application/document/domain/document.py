@@ -63,7 +63,9 @@ class MarkdownContentSplitService:
         self.header_split_pattern = header_split_pattern
         self.getheaderbody = headerbody_parser
         self.getheaderlevel = headerlevel_parser
-        self.pruningservice = lambda content: pruning_service(content, pruning_condition(content))
+        self.pruningservice = lambda content: pruning_service(
+            content, pruning_condition(content)
+        )
 
     def parse(self, content: str) -> ParsedDocument | None:
         content_chain = re.split(self.header_split_pattern, content)
@@ -72,7 +74,7 @@ class MarkdownContentSplitService:
         # Remove "\n".
         if not content_chain[0].startswith("#"):
             content_chain.pop(0)
-        
+
         _res = self.pruningservice(content_chain)
         if _res:
             content_chain = _res

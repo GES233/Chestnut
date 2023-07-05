@@ -9,7 +9,7 @@ from sanic.response import HTTPResponse
 
 from .render import launch_render as render
 from ....helpers.config.page import PageConfig
-from ....deps.i18n.language import parse_headers
+from ....deps.i18n.language import parseheaders
 
 
 index_bp = Blueprint("launch_index_bp")
@@ -18,7 +18,7 @@ index_bp = Blueprint("launch_index_bp")
 @index_bp.route("/")
 async def index(request: Request) -> HTTPResponse:
     # Language.
-    language = parse_headers(request.headers)
+    language = parseheaders(request.headers)
 
     # Page Info.
     request.ctx.page_config.load_items(**PageConfig.addtitle(role="Index"))
