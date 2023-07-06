@@ -48,12 +48,12 @@ LOGGING_CONFIG: Dict[str, Any] = dict(  # no cov
     },
     formatters={
         "generic": {
-            "format": "%(levelname)-8s :: %(asctime)s :: %(process)-6s :: %(message)s",
+            "format": "%(levelname)-8s    %(asctime)s :: %(process)-6s :: %(message)s",
             "datefmt": "%y-%m-%d %H:%M:%S %z",
             "class": "chestnut.infra.log.service.ChestnutFormatter",
         },
         "access": {
-            "format": "%(levelname)-8s :: %(asctime)s :: [%(name)s@%(host)s]: "
+            "format": "%(levelname)-8s    %(asctime)s :: [%(name)s@%(host)s]: "
             + "%(request)s %(message)s %(status)s %(byte)s",
             "datefmt": "%y-%m-%d %H:%M:%S %z",
             "class": "chestnut.infra.log.service.ChestnutFormatter",  # logging.Formatter

@@ -1,6 +1,7 @@
 import click
 
 from . import manage
+from ..log.service import chestnut_logger
 
 
 @manage.command("run")
@@ -34,7 +35,7 @@ def running(
         )
     )
     app: Sanic = loader.load()
-    click.secho("INFO     :: Sanic instance created.", fg="green")
+    chestnut_logger.info("Sanic instance created.")
 
     use_https: bool = app.config[CONFIG_LOCATION["app_config"]].use_https
     server_host = host
@@ -67,10 +68,7 @@ def running(
             motd=False,
         )
         mode = "dev"
-    click.secho(f"INFO     :: App in `{mode}` mode.", fg="green")
-    click.secho(
-        f"INFO     :: Deploy on {server_location}",
-        fg="green",
-    )
+    chestnut_logger.info(f"App in `{mode}` mode.")
+    chestnut_logger.info(f"Deploy on {server_location}")
 
     Sanic.serve(app, app_loader=loader)

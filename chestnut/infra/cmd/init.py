@@ -2,12 +2,13 @@ import click
 
 from . import manage
 from ..helpers.config import AppConfig, DepsConfig
+from ..log.service import chestnut_logger
 
 
 def configure_app(customize: bool, app_id: int | str | None = None) -> AppConfig:
     """A helper function to generate AppConfig."""
 
-    app_config = AppConfig(name="Tiny UI.", introduction="", installed=False)
+    app_config = AppConfig(name="Chestnut UI.", introduction="", installed=False)
 
     if customize:
         info_of_app = (
@@ -62,11 +63,13 @@ def set_inst_func(
     # Create instance firstly.
     if not INSTANCE_PATH.exists():
         INSTANCE_PATH.mkdir()
-        click.secho("INFO     :: Created instance folder.", fg="green")
+        # click.secho("INFO     :: Created instance folder.", fg="green")
+        chestnut_logger.info(f"Created instance folder at {INSTANCE_PATH}")
 
     # Security
     security_config: DepsConfig = set_security_inst_setting(INSTANCE_PATH)
-    click.secho("INFO     :: App's crypt config is setted.", fg="green")
+    # click.secho("INFO     :: App's crypt config is setted.", fg="green")
+    chestnut_logger.info("App's crypt config is setted.")
 
     # Markdown
     # TODO: add it.
@@ -87,7 +90,8 @@ def set_inst_func(
 
     # TODO: Update docs to database.
 
-    click.secho("INFO     :: All has done.", fg="green")
+    # click.secho("INFO     :: All has done.", fg="green")
+    chestnut_logger.info("All has done.")
 
 
 set_command = click.option(
@@ -128,7 +132,7 @@ def launch_simple_web_app(host: str, port: str | int | None, mode: str) -> None:
         )
     )
     app: Sanic = loader.load()
-    click.secho("INFO     :: Sanic instance created.", fg="green")
+    chestnut_logger.info("Sanic instance created.")
 
     use_https: bool = app.config[CONFIG_LOCATION["app_config"]].use_https
     server_host = host
@@ -141,12 +145,10 @@ def launch_simple_web_app(host: str, port: str | int | None, mode: str) -> None:
         reload_dir=reload_paths(),
         motd=False,
     )
-    click.secho(f"INFO     :: App in `launch[{mode}]` mode.", fg="green")
+    # click.secho(f"INFO     :: App in `launch[{mode}]` mode.", fg="green")
+    chestnut_logger.info(f"App in `Launch({mode})` mode.")
     server_location = DEPLOY_LINK(use_https, server_host, server_port)
-    click.secho(
-        f"INFO     :: Deploy on {server_location}",
-        fg="green",
-    )
+    chestnut_logger.info(f"Deploy on {server_location}")
 
     if host not in ["localhost", "127.0.0.1"]:
         sanic_logger.warn(

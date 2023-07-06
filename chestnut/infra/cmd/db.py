@@ -118,6 +118,10 @@ def initializedb(mode: str) -> None:
             click.secho("INFO     :: OK.", fg="green")
 
 
+# @database.command("init")
+# @click.option("--dev", "mode", flag_value="dev", default=True)
+# @click.option("--pro", "mode", flag_value="prod")
+# def initializedb(): ...
 click.option("--dev", "mode", flag_value="dev", default=True)(
     click.option("--pro", "mode", flag_value="prod")(
         database.command("init")(initializedb)

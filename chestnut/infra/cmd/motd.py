@@ -13,7 +13,7 @@ from ..helpers.utils import is_atty
 from ...__version__ import __version__ as chestnut_version
 
 
-class TinyMOTD(ABC):
+class ChestnutMOTD(ABC):
     """"""
 
     icon: str | None
@@ -100,7 +100,7 @@ class TinyMOTD(ABC):
         return class_.display(as_string=True)
 
 
-class SimpleMOTD(TinyMOTD):
+class SimpleMOTD(ChestnutMOTD):
     def __init__(
         self,
         *,
@@ -131,31 +131,41 @@ class SimpleMOTD(TinyMOTD):
         # [LOGO or ICON]
         content += (self.icon + bar + "\n") if self.icon is not None else ""
         # [Welcome]
-        content += f"Welcome to chestnut!(version: {self.version['chestnut']})\n\n"
+        content += f"Welcome to chestnut(v{self.version['chestnut']})\n"
+        # Server info.
+        content += f"at {self.server_location}!"
+        # Enter
+        content += "\n\n"
         # <versions>
         content += "[info]\n"
         #   <system and device info>
         version_align = "  "
-        #   <python versions>
-        content += version_align + f"Python version: {str(self.version['python'])}\n"
         content += (
             version_align
             + f"System: {self.system_info['platform']} {self.system_info['version']}({self.system_info['machine']})\n"
         )
+        #   <python versions>
+        content += version_align + f"Python  {str(self.version['python'])}\n"
         #   <dependent items>
         #     - framework...
-        content += version_align + f"Sanic v{self.version['sanic']}\n"
+        content += version_align * 2 + f"Sanic v{self.version['sanic']}\n"
         #     - front-end settings...
+        #       TODO: Add dependent item:
+        #         Nodejs,
+        #         Tailwindcss(from Phoenix framework's wrap),
+        #         AppRun...
         # <information in AppConfig(loaded from instance)>
+        content += "\n[app]\n"
         #   <name>
-        content += "\n[application]\n"
-        content += f"Application name: {self.app_config.name}\n"
+        #   TODO: present in middle.
+        content += version_align + f"Name: `{self.app_config.name}`\n"
+        #    <intro>
         if self.app_config.introduction and self.app_config.introduction != "":
             content += self.app_config.introduction + "\n"
         ...
         return content
 
 
-class ColorfulMOTD(TinyMOTD):
+class ColorfulMOTD(ChestnutMOTD):
     def _parse_values(self) -> Dict[str, Any]:
         ...
