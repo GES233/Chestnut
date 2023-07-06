@@ -110,7 +110,7 @@ set_command = click.option(
 @click.option("--port", "port", default=6699)
 @click.option("--dev", "mode", flag_value="dev")
 @click.option("--pro", "mode", flag_value="prod", default=True)
-def launch_simple_web_app(host: str, port: str | int | None, mode: str) -> None:
+def launchsimplewebapp(host: str, port: str | int | None, mode: str) -> None:
     """Launch user to install all dependencies(web solution of set)."""
 
     from functools import partial

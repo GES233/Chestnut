@@ -1,6 +1,7 @@
 from sanic import Sanic
-from sanic.log import logger
 from typing import List
+
+from ...log.service import chestnut_logger
 
 
 def register_blueprint(app: Sanic) -> None:
@@ -11,7 +12,7 @@ def register_blueprint(app: Sanic) -> None:
     if app.config.APP.build:
         from .web import web_bp as web_bp
     else:
-        logger.warn("Build not enabled, now use same one as launch app.")
+        chestnut_logger.warn("Build not enabled, now use same one as launch app.")
         from .web import web_bp_without_webapp as web_bp
 
     # Web.

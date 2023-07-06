@@ -1,7 +1,6 @@
-from collections.abc import Mapping
 import logging
 from logging import LogRecord
-from typing import Any, Callable, Dict
+from typing import Dict
 
 from ..helpers.utils import is_atty
 
@@ -24,10 +23,6 @@ if COLORFUL_TTY:
         "ERROR": Fore.GREEN + "ERROR" + Fore.RESET + "    ",
         "CRITICAL": Back.RED + "CRITICAL" + Back.RESET + " ",
     }
-
-    datetime_fmt: Callable[[str], str] = (
-        lambda datetime: Fore.BLUE + datetime + Fore.RESET
-    )
 
 
 class ChestnutFormatter(logging.Formatter):

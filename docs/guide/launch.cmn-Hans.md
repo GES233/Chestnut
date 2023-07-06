@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
 后两者为部署的地址以及端口，如果在 `0.0.0.0` 启动引导应用，将会抛出警告。因为那意味着其他设备也能够服务器，而在引导应用中，并没有**任何**能够确保你的设备的安全的手段。
 
-在 `launch` 对应的路由函数 `launch_simple_web_app()` 中，使用了 Sanic 的 [动态应用](https://sanic.dev/en/guide/deployment/app-loader.html) 的功能，因为我们使用了带参数（模式以及暂时用不到的 APP_ID 参数）的工厂函数。
+在 `launch` 对应的路由函数 `launchsimplewebapp()` （launch simple web app）中，使用了 Sanic 的 [动态应用](https://sanic.dev/en/guide/deployment/app-loader.html) 的功能，因为我们使用了带参数（模式以及暂时用不到的 APP_ID 参数）的工厂函数。
 
 #### `create_app() -> Sanic`
 

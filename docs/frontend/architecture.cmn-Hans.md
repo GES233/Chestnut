@@ -7,7 +7,7 @@ Jinja2 的服务端渲染到 HTML + PicoCSS 美化 + 简单的 JS （在 /public
 ## 主应用
 
 计划采用 AppRun 实现 SPA 。
-也有使用 Jinja + PicoCSS + mistinue 的计划（在用户未安装 Node 时选择）。
+也有使用 Jinja + PicoCSS + mistinue 的计划（这是用户的电脑未安装 Node 时的备用选择）。
 
 ## 报错
 

@@ -11,7 +11,7 @@ def manage():
 # Import commands here.
 # Application-agnostic:
 from .db import database
-from .init import launch_simple_web_app, set_command
+from .init import launchsimplewebapp, set_command
 from .run import running
 
 

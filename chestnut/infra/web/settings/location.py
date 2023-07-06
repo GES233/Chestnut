@@ -2,12 +2,19 @@
 
 
 CONFIG_LOCATION = dict(
-    app_config="APP",  # type: AppConfig
-    sse_message="MESSAGE",  # type: DepsConfig
-    database="database".upper(),  # type: DepsConfig
-    security="security".upper(),  # type: DepsConfig
-)
-"""Config location related to Sanic Config."""
+    app_config="APP",  # AppConfig
+    sse_message="MESSAGE",  # DepsConfig
+    database="database".upper(),  # DepsConfig
+    security="security".upper(),  # DepsConfig
+)  # type: ignore
+"""
+Config location related to Sanic Config.
+
+e.g.
+```python
+app.config.update({CONFIG_LOCATION["app_config"]: app_config})
+```
+"""
 
 
 REQUEST_CONTEXT_LOCATION = dict(
