@@ -14,8 +14,7 @@ from chestnut.application.document.domain.meta import DocumentMeta
 from chestnut.application.document.domain.repo import DocRepo, DocMetaRepo
 from chestnut.application.document.dto.load import DocumentLoader
 from chestnut.application.document.dto.present import DocumentPresenter
-from chestnut.application.document.usecase.display import DisplayIndex
-from chestnut.application.document.usecase.shown import DisplayDocument
+from chestnut.application.document.usecase.display import DisplayIndex, DisplayDocument
 from chestnut.adapter.document.file import fetchdocumentfromfile as fetchfile
 from chestnut.infra.helpers.config import DepsConfig
 from chestnut.infra.helpers.path import INSTANCE_PATH
@@ -53,7 +52,7 @@ class TestDocumentDomain:
             title=title,
             language="cmn-Hans",
             source=Path(__file__),
-            location="/".join(["wild", "breeding", "chicken"]),
+            location=["wild", "breeding", "chicken"],
             categories=[],
             # content=DOCUMENT_RAW_CONTENT
         )
@@ -72,7 +71,7 @@ class TestDocumentDomain:
             title=title,
             language="cmn-Hans",
             source=Path(__file__),
-            location="/".join(["wild", "breeding", "chicken"]),
+            location=["wild", "breeding", "chicken"],
             categories=[],
             # content=DOCUMENT_RAW_CONTENT
         )

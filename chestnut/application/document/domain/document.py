@@ -57,7 +57,10 @@ class MarkdownContentSplitService:
 
     header_split_pattern: re.Pattern
     getheaderbody: Callable[[str], str]
+    """Get body of header.`('## Bla bla' => 'Bla bla')`"""
     getheaderlevel: Callable[[str], int]
+    """Get header level.`('## Bla bla' => 2)`"""
+    getmetadata: Callable[[str], Iterable[Dict[str, Any]]]
     pruningservice: Callable[[Iterable[str]], List[str] | None]
 
     def __init__(
@@ -75,13 +78,18 @@ class MarkdownContentSplitService:
             content, pruning_condition(content)
         )
 
-    def parse(self, content: str) -> ParsedDocumentBody | None:
+    def parse(self, content: str) -> Tuple[DocumentMeta | None, ParsedDocumentBody] | None:
         content_chain = re.split(self.header_split_pattern, content)
 
         # TODO: Refrac this.
         # Remove "\n".
         if not content_chain[0].startswith("#"):
             content_chain.pop(0)
+        
+        # TODO: Add metadata in markdown.
+        metadata_in_file = self.getmetadata(content)
+        if metadata_in_file:
+            ...
 
         _res = self.pruningservice(content_chain)
         if _res:

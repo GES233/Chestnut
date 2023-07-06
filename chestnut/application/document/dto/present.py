@@ -14,7 +14,7 @@ class DocumentPresenter(OutputSchemaMixin, BaseModel):
     title: str
     language: str
     source: str | Path
-    location: str
+    location: Iterable[str]
     categories: Iterable[str | None]
 
     @classmethod

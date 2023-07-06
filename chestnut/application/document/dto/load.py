@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
 from pydantic import BaseModel, Field
-from typing import List, Any, Tuple, Callable
+from typing import List, Any, Iterable, Callable
 
 from .. import exception as doc_exc
 from ..domain.meta import DocumentMeta
@@ -18,7 +18,7 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
     title: str | None
     language: str
     source: Path
-    location: str
+    location: Iterable[str]
     categories: List[str | None]
 
     @classmethod
@@ -58,6 +58,8 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
         file_path: Path | str,
         root_path: Path | str | None,
     ) -> dict:
+        """Fetch metedata from file dir"""
+
         # TODO: Move to `Domain Service`.
         # Let the limitation of spec into domain knowledge.
 
@@ -83,6 +85,7 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
                     "doc",
                     "docs",
                     "document",
+                    "documents",
                 ]:
                     break
                 else:
@@ -92,13 +95,14 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
         if not root_path.is_absolute():
             root_path = root_path.absolute()
 
-        location = (
+        location = [
             str(file_path)
             .removeprefix(str(file_path.anchor))
             # Avoid "C:\" & "c:\"
             .removeprefix(str(root_path).removeprefix(str(root_path.anchor)))
             .replace("\\", "/")
-        )
+            .split("/")
+        ]
 
         # assert len(file_path.suffixes.remove(file_path.suffix)) == 1
         suffixes = file_path.suffixes.copy()

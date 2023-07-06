@@ -14,7 +14,7 @@ class DocumentMeta(ValueObject):
     language: str
     source: Path
     """The path of the raw document."""
-    location: str
-    """How to locate the document object in application."""
+    location: Iterable[str]
+    """How to locate the document object in application, e.g.`/aaa/bbb/cc`"""
     categories: Iterable[str | None]
     repo_name: str = "main"
