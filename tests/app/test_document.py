@@ -78,12 +78,12 @@ class TestDocumentDomain:
         )
 
         demo = Document(
-            id=demo_meta.name,
+            file_id=demo_meta.name,
             meta=demo_meta,
             content=DOCUMENT_RAW_CONTENT,
         )
 
-        assert demo.meta.name == demo.id
+        assert demo.meta.name == demo.file_id
 
 
 class TestDTO:

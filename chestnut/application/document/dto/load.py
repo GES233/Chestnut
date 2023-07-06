@@ -131,4 +131,4 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
     @staticmethod
     def sqeeze(content: str, meta_dict: dict) -> Document:
         meta = DocumentLoader.sqeezetometa(meta_dict=meta_dict)
-        return Document(id=meta.name, meta=meta, content=content)
+        return Document(file_id=meta.name, meta=meta, content=content)

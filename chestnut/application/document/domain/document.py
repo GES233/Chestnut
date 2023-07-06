@@ -11,31 +11,39 @@ from ...core.domain.entity import AggregateRoot, Entity
 class Document(AggregateRoot):
     """Present a markdown file into DomainObject."""
 
-    id: str
+    file_id: str
     meta: DocumentMeta
     content: str | None
 
     # SQLAlchemy mapper args.
     __mapper_args__ = dict()
 
+    # Overwrite.
+
+    def __eq__(self, __o: object) -> bool:
+        return __o.file_id == self.file_id if isinstance(__o, type(self)) else False
+
+    def __hash__(self) -> int:
+        return hash(self.file_id)
+
     @classmethod
     def load(cls, meta: DocumentMeta, content: str) -> "Document":
-        return Document(id=meta.name, meta=meta, content=content)
+        return Document(file_id=meta.name, meta=meta, content=content)
 
     @classmethod
-    def onlymeta(cls, meta: DocumentMeta) -> "Document":
-        return Document(id=meta.name, meta=meta, content="")
+    def getmeta(cls, meta: DocumentMeta) -> "Document":
+        return Document(file_id=meta.name, meta=meta, content="")
 
 
-Section = Dict[str, Tuple[int, str | Type["Section"] | Iterable[str | Type["Section"]]]]
+Section = Dict[str, Tuple[int | Tuple[int], str | Type["Section"] | Iterable[str | Type["Section"]]]]
 """{header name: (header level, content/sub paragraph)}"""
 
 
-class ParsedDocument(Entity):
+class ParsedDocumentBody(Entity):
     """"""
 
     id: str  # Query by MAIN title.
-    """In ParsedDocument, `id` refers `title`."""
+    """In ParsedDocumentBody, `id` refers `title`."""
     index: Iterable[str]  # except title.
     content: Iterable[Section]
 
@@ -67,7 +75,7 @@ class MarkdownContentSplitService:
             content, pruning_condition(content)
         )
 
-    def parse(self, content: str) -> ParsedDocument | None:
+    def parse(self, content: str) -> ParsedDocumentBody | None:
         content_chain = re.split(self.header_split_pattern, content)
 
         # TODO: Refrac this.

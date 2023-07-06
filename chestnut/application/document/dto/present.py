@@ -22,7 +22,7 @@ class DocumentPresenter(OutputSchemaMixin, BaseModel):
         if isinstance(entity, Document):
             return DocumentPresenter(**DocumentPresenter.parse(document=entity))
         elif isinstance(entity, DocumentMeta):
-            document_entity = Document(id=entity.name, meta=entity, content="")
+            document_entity = Document(file_id=entity.name, meta=entity, content="")
             return DocumentPresenter(
                 **DocumentPresenter.parse(document=document_entity)
             )

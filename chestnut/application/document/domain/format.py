@@ -3,7 +3,7 @@ from typing import Callable, Any
 from .. import exception as doc_exc
 
 
-class DocumentFormater:
+class DocumentFormatter:
     raw_content: str
     convert_service: Callable[[str], str]
 
