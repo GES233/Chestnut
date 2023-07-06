@@ -1,8 +1,14 @@
+""" `chestnut.infra.helpers.link`
+
+    Some link related to app.
+"""
 from typing import Callable
 
 
-APP_LINK: str = "https://www.bing.com/new/"
+# If you want to update, replace this to your website or repository.
+APP_LINK: str = "https://github.com/GES233/Chestnut"
 """The link of application's website."""
+
 
 DEPLOY_LINK: Callable[
     [bool, str, str | int], str

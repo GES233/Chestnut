@@ -1,4 +1,7 @@
-"""ASCII Art of Chestnut."""
+""" `chestnut.infra.helpers.logo`
+
+    Logo in ASCII art.
+"""
 from typing import Any, Tuple
 
 

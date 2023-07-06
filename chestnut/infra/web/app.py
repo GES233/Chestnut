@@ -1,3 +1,7 @@
+""" `chestnut.infra.web.app`
+
+    Implement application factory.
+"""
 from sanic import Sanic
 from sanic.exceptions import SanicException
 from sanic.config import Config

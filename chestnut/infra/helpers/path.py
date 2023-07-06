@@ -1,5 +1,4 @@
 """ `chestnut.infra.helpers.path`
-    ~~~~
 
     Present Paths.
 """

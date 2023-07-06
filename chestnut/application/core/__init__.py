@@ -1,5 +1,4 @@
 """ `chestnut.application.core`
-    ~~~~
 
     This package is a simple demostration for the core part 
     of Clean Architecture, and it provides some basic 

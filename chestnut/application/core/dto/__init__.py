@@ -1,5 +1,4 @@
 """ `chestnut.application.core.dto`
-    ~~~~~~~~
 
-    dto, means data transform object.
+    DTO, means data transform object.
 """

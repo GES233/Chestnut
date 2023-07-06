@@ -1,4 +1,7 @@
-"""Exception warpper."""
+""" `chestnut.application.core.dto.exc`
+
+    Exception warpper.
+"""
 from abc import ABC, abstractmethod
 from typing import Any
 
