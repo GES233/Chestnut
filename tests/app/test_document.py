@@ -16,6 +16,7 @@ from chestnut.application.document.dto.load import DocumentLoader
 from chestnut.application.document.dto.present import DocumentPresenter
 from chestnut.application.document.usecase.display import DisplayIndex, DisplayDocument
 from chestnut.adapter.document.file import fetchdocumentfromfile as fetchfile
+from chestnut.adapter.document.parse.metedata import FilePathAdapter
 from chestnut.infra.helpers.config import DepsConfig
 from chestnut.infra.helpers.path import INSTANCE_PATH
 from chestnut.infra.deps.database.dao.base import tiny_sqlite_metadata
@@ -107,7 +108,7 @@ class TestDTO:
             "C:/root/docs/why/chicken/is/beautiful/chicken_is_nice.zh.md"
         )
         fake_root_path = Path("C:/root/docs")
-        parsed_meta = DocumentLoader.parse(
+        parsed_meta = FilePathAdapter.parse(
             content=DOCUMENT_RAW_CONTENT,
             file_path=fake_file_path,
             root_path=fake_root_path,
@@ -124,6 +125,7 @@ class TestDTO:
         demo_loader = DocumentLoader.fromdict(
             input_dict=dict(file_path=file_path, root_path=root_path),
             read_service=fetchfile,
+            parse_service=FilePathAdapter.parse,
         )
         demo_obj = demo_loader.toentity()
 
@@ -227,6 +229,7 @@ class TestUsecase:
             add_object=DocumentLoader.fromdict(
                 input_dict=dict(file_path=file_path, root_path=root_path),
                 read_service=fetchfile,
+                parse_service=FilePathAdapter.parse,
             ).toentity(),
         )
 
@@ -236,6 +239,7 @@ class TestUsecase:
             add_object=DocumentLoader.fromdict(
                 input_dict=dict(file_path=file_path, root_path=root_path),
                 read_service=fetchfile,
+                parse_service=FilePathAdapter.parse,
             ).toentity(),
         )
 

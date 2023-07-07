@@ -23,7 +23,10 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
 
     @classmethod
     def fromdict(
-        cls, input_dict: dict, read_service: Callable[[str | Path], str]
+        cls,
+        input_dict: dict,
+        read_service: Callable[[str | Path], str],
+        parse_service: Callable[..., dict],
     ) -> "DocumentLoader":
         """`file_path` and `root_path` required."""
 
@@ -32,7 +35,7 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
 
         return DocumentLoader(
             content=content,
-            **DocumentLoader.parse(
+            **parse_service(
                 content=content,
                 file_path=input_dict["file_path"],
                 root_path=input_dict["root_path"],
@@ -50,75 +53,6 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
                 location=self.location,
                 categories=self.categories,
             ),
-        )
-
-    @staticmethod
-    def parse(
-        content: str,
-        file_path: Path | str,
-        root_path: Path | str | None,
-    ) -> dict:
-        """Fetch metedata from file dir"""
-
-        # TODO: Move to `Domain Service`.
-        # Let the limitation of spec into domain knowledge.
-
-        if not isinstance(file_path, Path):
-            file_path = Path(file_path).absolute()
-
-        # Check suffix.
-        if file_path.suffix not in [".md", ".txt", ".rst", ".html"]:
-            raise doc_exc.DocumentFormatInvalid
-        else:
-            doc_format = file_path.suffix
-
-        # Parse paths.
-        if root_path is not None:
-            if isinstance(root_path, str):
-                root_path = Path(root_path)
-        else:
-            # Let's guess root_path.
-            path_segments = file_path.parts
-            root_path_list: List[Any] = []
-            for dir_ in path_segments:
-                if dir_ in [
-                    "doc",
-                    "docs",
-                    "document",
-                    "documents",
-                ]:
-                    break
-                else:
-                    root_path_list.append(dir_)
-            root = root_path_list.pop(0)
-            root_path = Path(root).joinpath(*root_path_list)
-        if not root_path.is_absolute():
-            root_path = root_path.absolute()
-
-        location = [
-            str(file_path)
-            .removeprefix(str(file_path.anchor))
-            # Avoid "C:\" & "c:\"
-            .removeprefix(str(root_path).removeprefix(str(root_path.anchor)))
-            .replace("\\", "/")
-            .split("/")
-        ]
-
-        # assert len(file_path.suffixes.remove(file_path.suffix)) == 1
-        suffixes = file_path.suffixes.copy()
-        suffixes.remove(doc_format)
-        language = (suffixes or [".en"])[0].strip(".")
-
-        if title := re.match(r"^# (.*)\n", content, re.MULTILINE):
-            title = title.group(1)
-
-        return dict(
-            name=file_path.name.split(".")[0],
-            title=title,
-            language=language,
-            source=file_path,
-            location=location,
-            categories=[],
         )
 
     @staticmethod
