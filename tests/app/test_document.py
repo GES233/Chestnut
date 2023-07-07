@@ -18,7 +18,7 @@ from chestnut.application.document.usecase.display import DisplayIndex, DisplayD
 from chestnut.adapter.document.file import fetchdocumentfromfile as fetchfile
 from chestnut.adapter.document.parse.metadata import FilePathAdapter
 from chestnut.infra.helpers.config import DepsConfig
-from chestnut.infra.helpers.path import INSTANCE_PATH
+from chestnut.infra.helpers.path import INSTANCE_PATH, INSTANCE_TEST_PATH
 from chestnut.infra.deps.database.dao.base import chestnut_sqlite_metadata
 from chestnut.infra.deps.database.dao.document import document_table
 from chestnut.infra.deps.database.service import enginefromconfig
@@ -90,8 +90,8 @@ class TestDTO:
     def _store_file(self, file_name: str, content: str) -> tuple:
         if not INSTANCE_PATH.exists():
             INSTANCE_PATH.mkdir()
-        if not (INSTANCE_PATH / "test").exists():
-            (INSTANCE_PATH / "test").mkdir()
+        if not (INSTANCE_TEST_PATH).exists():
+            (INSTANCE_TEST_PATH).mkdir()
         if not (INSTANCE_PATH / "test/docs/").exists():
             (INSTANCE_PATH / "test/docs/").mkdir()
 
@@ -210,8 +210,8 @@ class TestUsecase:
     def _store_file(self, file_name: str, content: str) -> tuple:
         if not INSTANCE_PATH.exists():
             INSTANCE_PATH.mkdir()
-        if not (INSTANCE_PATH / "test").exists():
-            (INSTANCE_PATH / "test").mkdir()
+        if not (INSTANCE_TEST_PATH).exists():
+            (INSTANCE_TEST_PATH).mkdir()
         if not (INSTANCE_PATH / "test/docs/").exists():
             (INSTANCE_PATH / "test/docs/").mkdir()
 

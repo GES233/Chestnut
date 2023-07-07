@@ -10,9 +10,7 @@ from chestnut.infra.helpers.config.inst import (
     createdepsconfig,
     createappconfig,
 )
-from chestnut.infra.helpers.path import INSTANCE_PATH
-
-TEST_PATH = Path(INSTANCE_PATH / "test")
+from chestnut.infra.helpers.path import INSTANCE_PATH, INSTANCE_TEST_PATH
 
 
 class TestConfig:
@@ -91,8 +89,8 @@ class TestConfigInstance:
         # Initialize first
         if not INSTANCE_PATH.exists():
             INSTANCE_PATH.mkdir()
-        if not TEST_PATH.exists():
-            TEST_PATH.mkdir()
+        if not INSTANCE_TEST_PATH.exists():
+            INSTANCE_TEST_PATH.mkdir()
 
         # Store.
         config_1 = DepsConfig(
@@ -107,15 +105,15 @@ class TestConfigInstance:
         # assert r"\\" in renderer
 
         setinstance(
-            Path(TEST_PATH / "test_1.toml"),
+            Path(INSTANCE_TEST_PATH / "test_1.toml"),
             "\n\n".join(
                 [createappconfig(app_config), createdepsconfig([config_1, config_2])]
             ),
         )
 
         # Load.
-        loaded_app_config = loadappconfig(Path(TEST_PATH / "test_1.toml"))
-        loaded_deps_config = loaddepsconfig(Path(TEST_PATH / "test_1.toml"))
+        loaded_app_config = loadappconfig(Path(INSTANCE_TEST_PATH / "test_1.toml"))
+        loaded_deps_config = loaddepsconfig(Path(INSTANCE_TEST_PATH / "test_1.toml"))
 
         app_config_new = AppConfig("", "", False)
         app_config_new.load(loaded_app_config)

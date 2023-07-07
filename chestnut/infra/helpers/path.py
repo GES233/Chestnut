@@ -18,6 +18,7 @@ INSTANCE_CONFIG_PATH: Callable[[str | int | None], Path] = lambda app_id: Path(
     if not app_id
     else INSTANCE_PATH / ("config_" + str(app_id) + ".toml")
 )
+INSTANCE_TEST_PATH = INSTANCE_PATH / "test"
 
 # docs/
 DOCS_PATH = Path(PROJECT_PATH / "docs")
