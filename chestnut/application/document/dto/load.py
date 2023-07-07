@@ -25,22 +25,42 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
     def fromdict(
         cls,
         input_dict: dict,
-        read_service: Callable[[str | Path], str],
+        read_service: Callable[[str | Path], str] | None,
         parse_service: Callable[..., dict],
     ) -> "DocumentLoader":
-        """`file_path` and `root_path` required."""
+        """
+            if load from path, `file_path` and `root_path` in input_dict are required;
 
-        # input_dict: ["file_path"], ["root_path"]
-        content = read_service(input_dict["file_path"])
+            else, `assets_path` and `content` is required.
+        """
 
-        return DocumentLoader(
-            content=content,
-            **parse_service(
+        if "file_path" in input_dict:
+            # FilePathAdapter
+
+            assert read_service
+
+            content = read_service(input_dict["file_path"])
+
+            return DocumentLoader(
                 content=content,
-                file_path=input_dict["file_path"],
-                root_path=input_dict["root_path"],
-            ),
-        )
+                **parse_service(
+                    content=content,
+                    file_path=input_dict["file_path"],
+                    root_path=input_dict["root_path"],
+                ),
+            )
+        else:
+            # MetadataParserAdapter
+
+            assert "content" in input_dict
+
+            return DocumentLoader(
+                content=input_dict["content"],
+                **parse_service(
+                    content=input_dict["content"],
+                    assets_path=input_dict["assets_path"],
+                ),
+            )
 
     def toentity(self) -> Document:
         return DocumentLoader.sqeeze(

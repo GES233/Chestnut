@@ -16,7 +16,7 @@ from chestnut.application.document.dto.load import DocumentLoader
 from chestnut.application.document.dto.present import DocumentPresenter
 from chestnut.application.document.usecase.display import DisplayIndex, DisplayDocument
 from chestnut.adapter.document.file import fetchdocumentfromfile as fetchfile
-from chestnut.adapter.document.parse.metedata import FilePathAdapter
+from chestnut.adapter.document.parse.metadata import FilePathAdapter
 from chestnut.infra.helpers.config import DepsConfig
 from chestnut.infra.helpers.path import INSTANCE_PATH
 from chestnut.infra.deps.database.dao.base import tiny_sqlite_metadata
@@ -103,7 +103,7 @@ class TestDTO:
 
         return (TEST_FILE_PATH / file_name), TEST_FILE_PATH
 
-    def test_parse(self) -> None:
+    def test_parse_from_path(self) -> None:
         fake_file_path = Path(
             "C:/root/docs/why/chicken/is/beautiful/chicken_is_nice.zh.md"
         )
