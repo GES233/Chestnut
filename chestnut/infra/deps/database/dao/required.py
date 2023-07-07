@@ -6,11 +6,11 @@ from sqlalchemy import (
     DateTime,
     PrimaryKeyConstraint,
 )
-from .base import tiny_sqlite_metadata
+from .base import chestnut_sqlite_metadata
 
 required_table = Table(
     "required",
-    tiny_sqlite_metadata,
+    chestnut_sqlite_metadata,
     Column("name", String),
     Column("item_type", String),
     Column("info", String),

@@ -8,12 +8,12 @@ from sqlalchemy import (
     UniqueConstraint,
     Index,
 )
-from .base import tiny_sqlite_metadata
+from .base import chestnut_sqlite_metadata
 
 
 document_repo_table = Table(
     "document_repo",
-    tiny_sqlite_metadata,
+    chestnut_sqlite_metadata,
     Column("name", String, default="main"),
     Column("path", String),
     Column("lang", String),  # Root path.
@@ -26,7 +26,7 @@ document_repo_table = Table(
 # This table will deleted if re-update/re-install.
 document_table = Table(
     "document",
-    tiny_sqlite_metadata,
+    chestnut_sqlite_metadata,
     Column("name", String),  # Route `a/b` => `a_b`
     Column("repo_name", String, default="main"),
     Column("lang", String, nullable=True),

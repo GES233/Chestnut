@@ -68,6 +68,10 @@ def initializedb(mode: str) -> None:
                 chestnut_logger.info("OK.")
         else:
             chestnut_logger.info("OK.")
+    elif mode == "test":
+        # TODO: Use a test database or memory database.
+
+        raise NotImplementedError
     else:
         # Create database.
         conn = sqlite3.connect("." + database_config.uri.split("//")[-1])
@@ -117,8 +121,10 @@ def initializedb(mode: str) -> None:
 # @click.option("--pro", "mode", flag_value="prod")
 # def initializedb(): ...
 click.option("--dev", "mode", flag_value="dev", default=True)(
-    click.option("--pro", "mode", flag_value="prod")(
-        database.command("init")(initializedb)
+    click.option("--test", "mode", flag_value="test")(
+        click.option("--pro", "mode", flag_value="prod")(
+            database.command("init")(initializedb)
+        )
     )
 )
 

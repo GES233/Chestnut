@@ -19,7 +19,7 @@ from chestnut.adapter.document.file import fetchdocumentfromfile as fetchfile
 from chestnut.adapter.document.parse.metadata import FilePathAdapter
 from chestnut.infra.helpers.config import DepsConfig
 from chestnut.infra.helpers.path import INSTANCE_PATH
-from chestnut.infra.deps.database.dao.base import tiny_sqlite_metadata
+from chestnut.infra.deps.database.dao.base import chestnut_sqlite_metadata
 from chestnut.infra.deps.database.dao.document import document_table
 from chestnut.infra.deps.database.service import enginefromconfig
 from chestnut.infra.deps.database.settings import database_test
@@ -198,6 +198,12 @@ class DefaultRepo(DocRepo, DocMetaRepo):
             stmt = update(document_table).where().values()
             ...
         raise NotImplementedError
+
+
+def _createdatabase() -> None:
+    from chestnut.infra.cmd.db import initializedb
+
+    initializedb(mode="test")
 
 
 class TestUsecase:

@@ -1,6 +1,6 @@
 from sqlalchemy import MetaData
 
-from .base import tiny_sqlite_metadata
+from .base import chestnut_sqlite_metadata
 
 # Import tables to adapt alembic's autogenerate here.
 # repository also required.

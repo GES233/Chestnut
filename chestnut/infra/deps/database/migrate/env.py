@@ -30,9 +30,9 @@ if config.config_file_name is not None:
 
 # add MetaData object here
 # for 'autogenerate' support
-from chestnut.infra.deps.database.dao import tiny_sqlite_metadata
+from chestnut.infra.deps.database.dao import chestnut_sqlite_metadata
 
-target_metadata = tiny_sqlite_metadata
+target_metadata = chestnut_sqlite_metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
