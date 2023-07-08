@@ -1,3 +1,4 @@
+from datetime import datetime
 from pathlib import Path
 from pydantic import BaseModel
 from typing import Iterable, Callable
@@ -13,9 +14,10 @@ class DocumentPresenter(OutputSchemaMixin, BaseModel):
     name: str
     title: str
     language: str
-    source: str | Path
+    source: str | Path = ""
     location: Iterable[str]
     categories: Iterable[str | None]
+    change_time: datetime | None
 
     @classmethod
     def fromentity(cls, entity: Document | DocumentMeta) -> "DocumentPresenter":
@@ -38,6 +40,7 @@ class DocumentPresenter(OutputSchemaMixin, BaseModel):
             source=document.meta.source,
             location=document.meta.location,
             categories=document.meta.categories,
+            change_time=document.meta.change_time
         )
 
     def present(

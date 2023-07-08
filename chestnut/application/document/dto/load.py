@@ -14,6 +14,7 @@ from ...core.dto.db import DataAccessObjectMixin
 class DocumentLoader(InputSchemaMixin, BaseModel):
     content: str
     meta: DocumentMeta
+    """This is too useful to use it at this layer."""
 
     @classmethod
     def fromdict(
@@ -23,9 +24,9 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
         parse_service: Callable[..., dict],
     ) -> "DocumentLoader":
         """
-            if load from path, `file_path` and `root_path` in input_dict are required;
+        if load from path, `file_path` and `root_path` in input_dict are required;
 
-            else, `assets_path` and `content` is required.
+        else, `assets_path` and `content` is required.
         """
 
         if "file_path" in input_dict:
@@ -34,26 +35,30 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
             assert read_service
 
             content = read_service(input_dict["file_path"])
-
-            return DocumentLoader(
-                content=content,
-                **parse_service(
+            meta = DocumentLoader.sqeezetometa(
+                parse_service(
                     content=content,
                     file_path=input_dict["file_path"],
                     root_path=input_dict["root_path"],
-                ),
+                )
             )
+
+            return DocumentLoader(content=content, meta=meta)
         else:
             # MetadataParserAdapter
 
             assert "content" in input_dict
 
-            return DocumentLoader(
-                content=input_dict["content"],
-                **parse_service(
+            meta = DocumentLoader.sqeezetometa(
+                parse_service(
                     content=input_dict["content"],
                     assets_path=input_dict["assets_path"],
-                ),
+                )
+            )
+
+            return DocumentLoader(
+                content=input_dict["content"],
+                meta=meta,
             )
 
     def toentity(self) -> Document:

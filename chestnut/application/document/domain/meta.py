@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Iterable
 
@@ -22,3 +23,5 @@ class DocumentMeta(ValueObject):
     """
     categories: Iterable[str | None]
     repo_name: str = "main"
+    # Compat with database.
+    change_time: datetime | None = datetime.utcnow()

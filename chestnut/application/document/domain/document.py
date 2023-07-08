@@ -9,14 +9,21 @@ from ...core.domain.entity import AggregateRoot, Entity
 
 @dataclass
 class Document(AggregateRoot):
-    """Present a markdown file into DomainObject."""
+    """Document file into domain object."""
 
     file_id: str
     meta: DocumentMeta
     content: str | None
 
+    # TODO: sqlalchemy table Document.meta
     # SQLAlchemy mapper args.
-    __mapper_args__ = dict()
+    # name <--> file_id/meta.name
+    # repo_name <--> meta.repo_name
+    # lang <--> meta.language
+    # path <--> meta.source
+    # title <--> meta.title
+    # content <--> content
+    # change_time <--> meta.change_time
 
     # Overwrite.
 
@@ -25,6 +32,9 @@ class Document(AggregateRoot):
 
     def __hash__(self) -> int:
         return hash(self.file_id)
+    
+    #def __composite_values__(self) -> Tuple:
+    #    return (self.meta.repo_name, self.file_id)
 
     @classmethod
     def load(cls, meta: DocumentMeta, content: str) -> "Document":
@@ -105,14 +115,15 @@ class ContentSplitService:
 
         paragraph_chain: List[Section] = []
 
-        if paragraph_num := len(content_chain) % 2 == 0:
-            # Last one in content.
-            paragraph_num = int(paragraph_num / 2)
-        else:
+        if paragraph_num := len(content_chain) % 2 != 0:
             # Last one is header.
             # Last MUST be <header: [...]>, <content: "">
             content_chain.append("")
-            paragraph_num = int((paragraph_num + 1) / 2)
+            paragraph_num += 1
+
+        # else last paragraph is content.
+
+        paragraph_num = int(paragraph_num / 2)
 
         # Build.
         for idx in range(paragraph_num):

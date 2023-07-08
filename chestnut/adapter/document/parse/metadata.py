@@ -63,19 +63,25 @@ class FilePathAdapter:
         if not root_path.is_absolute():
             root_path = root_path.absolute()
 
-        location = [
+        location = (
             str(file_path)
             .removeprefix(str(file_path.anchor))
             # Avoid "C:\" & "c:\"
             .removeprefix(str(root_path).removeprefix(str(root_path.anchor)))
             .replace("\\", "/")
             .split("/")
-        ]
+        )
+        # location.remove("")
+        del location[0]
+        del location[-1]
+        location.append(file_path.name.split(".")[0])
 
         # assert len(file_path.suffixes.remove(file_path.suffix)) == 1
         suffixes = file_path.suffixes.copy()
         suffixes.remove(doc_format)
         language = (suffixes or [".en"])[0].strip(".")
+
+        # Add create_time/update_time.
 
         return dict(
             name=file_path.name.split(".")[0],

@@ -30,7 +30,7 @@ document_table = Table(
     Column("name", String),  # Route `a/b` => `a_b`
     Column("repo_name", String, default="main"),
     Column("lang", String, nullable=True),
-    Column("path", String),  # Physical path in device.
+    Column("path", String, nullable=True),  # Physical path in device.
     Column("title", String, nullable=True),
     Column("content", String),
     Column("change_time", DateTime),

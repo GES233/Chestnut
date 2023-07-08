@@ -40,6 +40,23 @@ by 呕像恋蜥僧
 
 """
 
+DOCUMENT_RAW_CONTENT_META = """\
+---
+title: 只因的美学
+language: cmn-Hans
+---
+
+> 迎面走来的你让我如此蠢蠢欲动
+> 这种感觉我从未有 Cause I got a crush on you, who you
+> 你是我的，我是你的谁
+> 再多一眼看一眼就会爆炸
+> 再近一点靠近点快被融化
+> 想要把你占为己有baby bae
+> 不管走到哪里都会想起的人是you you
+> _——《只因你太美》_
+
+"""
+
 
 class TestDocumentDomain:
     def test_document_meta(self) -> None:
@@ -117,6 +134,22 @@ class TestDTO:
         assert parsed_meta.get("name") == "chicken_is_nice"
         assert parsed_meta.get("language") == "zh"
 
+        # Guess path.
+        parsed_meta_without_path = FilePathAdapter.parse(
+            content=DOCUMENT_RAW_CONTENT,
+            file_path=fake_file_path,
+            root_path=None,
+        )
+
+        assert parsed_meta_without_path.get("location") == [
+            "docs",
+            "why",
+            "chicken",
+            "is",
+            "beautiful",
+            "chicken_is_nice",
+        ]
+
     def test_fetchfile_and_present(self) -> None:
         # 1. Fetch.
         file_path, root_path = self._store_file(
@@ -168,11 +201,16 @@ class DefaultRepo(DocRepo, DocMetaRepo):
     engine: AsyncEngine
     table: Table
 
-    def __init__(self, config: DepsConfig, table: Table) -> None:
+    async def __init__(self,
+        config: DepsConfig=database_test,
+        table: Table=document_table
+    ) -> None:
         self.engine = enginefromconfig(config)
         self.table = table
 
-        # TODO: create all.
+        async with self.engine.begin() as conn:
+            await conn.run_sync(mapper_registry.metadata.create_all)
+
         mapper_registry.map_imperatively(Document, document_table)
 
     async def display(self) -> List[DocumentMeta | None]:
@@ -198,12 +236,6 @@ class DefaultRepo(DocRepo, DocMetaRepo):
             stmt = update(document_table).where().values()
             ...
         raise NotImplementedError
-
-
-def _createdatabase() -> None:
-    from chestnut.infra.cmd.db import initializedb
-
-    initializedb(mode="test")
 
 
 class TestUsecase:
