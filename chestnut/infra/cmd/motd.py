@@ -10,6 +10,7 @@ from ..helpers.config.app import AppConfig
 from ..helpers.device import getdiskstatus, PYTHON_VERSION, PLATFORM
 from ..helpers.logo import sizecalc
 from ..helpers.utils import is_atty
+from ..log.service import chestnut_logger
 from ...__version__ import __version__ as chestnut_version
 
 
@@ -86,8 +87,7 @@ class ChestnutMOTD(ABC):
         if as_string:
             return content
         else:
-            # TODO: Replace with log.
-            print(content)
+            chestnut_logger.info(content)
 
     @classmethod
     def show(cls, *args, **kwds) -> None:

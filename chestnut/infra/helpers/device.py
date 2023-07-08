@@ -34,6 +34,3 @@ def getdiskstatus(path: Path, convert_: int = 0) -> Tuple[Any, ...]:
     total, used, free = shutil.disk_usage(disk)
     disk = diskStatus(disk)
     return disk(*map(lambda item: item / (1024**convert_), (total, used, free)))
-
-
-## TODO: Add CPU, GPU, etc.

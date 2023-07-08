@@ -52,44 +52,45 @@ Condition = bool | int | str | Enum
 """`Condition` musrt be same in condition_checker and producer."""
 
 
-class MarkdownContentSplitService:
-    """Split content."""
+class ContentSplitService:
+    """Generic content splitor interface."""
 
     header_split_pattern: re.Pattern
     getheaderbody: Callable[[str], str]
     """Get body of header.`('## Bla bla' => 'Bla bla')`"""
     getheaderlevel: Callable[[str], int]
     """Get header level.`('## Bla bla' => 2)`"""
-    getmetadata: Callable[[str], Iterable[Dict[str, Any]]]
+    getmetadata: Callable[[str], Dict[str, Any]]
     pruningservice: Callable[[Iterable[str]], List[str] | None]
+    poptitleservice: Callable[[str], Tuple[str, str | None]]
 
     def __init__(
         self,
+        metadata_service: Callable[[str], Dict[str, Any]],
         header_split_pattern: re.Pattern,
         headerbody_parser: Callable[[str], str],
         headerlevel_parser: Callable[[str], int],
         pruning_condition: Callable[[Iterable[str]], Condition],
         pruning_service: Callable[[Iterable[str], Condition], List[str] | None],
+        pop_title_service: Callable[[str], Tuple[str, str | None]],
     ) -> None:
+        self.getmetadata = metadata_service
         self.header_split_pattern = header_split_pattern
         self.getheaderbody = headerbody_parser
         self.getheaderlevel = headerlevel_parser
         self.pruningservice = lambda content: pruning_service(
             content, pruning_condition(content)
         )
+        self.poptitleservice = pop_title_service
 
     def parse(self, content: str) -> Tuple[DocumentMeta | None, ParsedDocumentBody] | None:
         content_chain = re.split(self.header_split_pattern, content)
 
-        # TODO: Refrac this.
-        # Remove "\n".
-        if not content_chain[0].startswith("#"):
-            content_chain.pop(0)
-        
-        # TODO: Add metadata in markdown.
+        content, title = self.poptitleservice(content)
+
         metadata_in_file = self.getmetadata(content)
-        if metadata_in_file:
-            ...
+        
+        title = title or metadata_in_file.get("title", None)
 
         _res = self.pruningservice(content_chain)
         if _res:

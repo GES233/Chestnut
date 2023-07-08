@@ -2,8 +2,15 @@ import click
 from typing import Any
 
 from . import manage
+from ..deps.database import SQLALCHEMY_INSTALLED
 from ..deps.database.settings import database_dev, database_test, database_prod
 from ..log.service import chestnut_logger
+
+
+if not SQLALCHEMY_INSTALLED:
+    chestnut_logger.error("SQLAlchemy not installed.")
+
+    # TODO: raise ModuleLackException.
 
 
 @manage.group

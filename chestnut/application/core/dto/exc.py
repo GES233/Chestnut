@@ -20,7 +20,6 @@ class ExceptionSchemaMixin(ABC):
     @classmethod
     @abstractmethod
     def set(cls, exc_: AppExcBase) -> "ExceptionSchemaMixin" | Any:
-        # TODO: Desine and update here.
         raise NotImplementedError
 
     @abstractmethod

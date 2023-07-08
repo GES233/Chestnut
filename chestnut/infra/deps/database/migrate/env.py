@@ -38,7 +38,6 @@ target_metadata = chestnut_sqlite_metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-# TODO: Add sqlalchemy url to here.
 # sqlalchemy.url reseted every time if you set here.
 # config.set_main_option("sqlalchemy.url", get_sqlalchemy_url())
 
