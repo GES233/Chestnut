@@ -63,9 +63,6 @@ Before running, you need install Python and Git.
   - WebUI(All):
     - Launch items
     - [`sanic_ext`](https://sanic.dev/en/plugins/sanic-ext/getting-started.html) Sanic's official extensions
-  - Model:
-    - [`torch`](https://pytorch.org)
-    - [`safetensors`](https://github.com/huggingface/safetensors) A freamwork-agnostic method to load/store Tensors
   - Security:
     - [`ecdsa`](https://github.com/tlsfuzzer/python-ecdsa) Cryptography
 - Decoration for launch application

@@ -4,7 +4,7 @@
 
 [English](/README.md) [繁體中文](/README.cmn-Hant.md)
 
-基于 [Sanic](https://github.com/sanic-org/sanic) 以及 [AppRun](https://apprun.js.org) 构建的演示以及使用 AI 项目的脚手架。
+基于 [Sanic](https://github.com/sanic-org/sanic) 以及 [AppRun](https://apprun.js.org) 构建的演示以及使用~~ AI 项目~~内容的脚手架。
 
 灵感来自于 [AUTOMATIC1111's WebUI](https://github.com/AUTOMATIC1111/stable-diffusion-webui) 及其丰富的生态；以及更早地，之前采用编程方法所完成、而且能够随机生成不同结果以便其他同学借鉴~~抄袭~~的大作业。
 
@@ -75,8 +75,6 @@ Chestnut 基于 Python 运行，如果用户的环境里有 Node.js 的话可能
     - 上者所有（仅包括必需以及 `ecdsa`）。
     - [`sanic_ext`](https://sanic.dev/en/plugins/sanic-ext/getting-started.html) Sanic 的官方插件，我们主要要用到 DI （依赖注入）、 template （针对 Jinja2 的浅封装[^templating]）以及 OpenAI （API 文档）等等。
   - 模型: _具体需要哪些取决于应用，因此未在 `requirements` 中体现出来。_
-    - [`torch`](https://pytorch.org) 因为项目的目标是演示**机器学习**项目，所以需要 `PyTorch` 。
-    - [`safetensors`](https://github.com/huggingface/safetensors) 装载/保存 `*.safetensors` 模型。
 - 装饰美化
   - [**PicoCSS**](https://picocss.com) *这个被放在模型里了。*
 - 前端[不是必须的]
