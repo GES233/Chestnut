@@ -9,7 +9,7 @@ from ....application.document.dto.load import DocumentLoader
 
 class FilePathAdapter:
     """file path -> metadata."""
-    
+
     @staticmethod
     def parse(
         content: str,
@@ -64,8 +64,19 @@ class FilePathAdapter:
         suffixes.remove(doc_format)
         language = (suffixes or [".en"])[0].strip(".")
 
-        if title := re.match(r"^# (.*)\n", content, re.MULTILINE):
-            title = title.group(1)
+        if title := re.match(
+            r"(^# (.*)\n)|(.*\n# (.*)\n)|((.*)\n^=.*\n)", content, re.MULTILINE
+        ):
+            title = (
+                title.group(2)
+                # r"(^# (.*)\n)"    =>      ("# ABC\n..." -> "ABC")
+                or title.group(4)
+                # r"(.*\n# (.*)\n)" => ("...\n# ABC\n..." -> "ABC")
+                or title.group(6)
+                # r"((.*)\n^=.*\n)" =>        ("ABC\n=.." -> "ABC")
+            )
+        
+        # TODO: Add validator.
 
         return dict(
             name=file_path.name.split(".")[0],
@@ -77,10 +88,18 @@ class FilePathAdapter:
         )
 
 
-
 class MetadataParserAdapter:
     """metadata segment -> metadata"""
-    
-    @staticmethod
-    def parse(content: str) -> dict:
+
+    @classmethod
+    def parse(cls, content: str) -> dict:
+        ...
+
+    def _fetch_metadata(self, raw_content: str) -> str:
+        """"""
+
+        # """---\n...\n---\n...""" => "---\n...\n---"
+        ...
+
+    def _validate_metadata(self, metadata: dict) -> None:
         ...
