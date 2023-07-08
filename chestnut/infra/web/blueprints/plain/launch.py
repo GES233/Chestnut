@@ -7,7 +7,7 @@ from sanic import Sanic
 from sanic import Blueprint
 from sanic.request import Request
 
-from .paths import launch_static
+from .path import launch_static
 from ...settings.location import CONFIG_LOCATION, REQUEST_CONTEXT_LOCATION
 from ....helpers.config.app import AppConfig
 from ....helpers.config.page import PageConfig

@@ -1,7 +1,7 @@
 # TODO: Change this into a RequredItem/PrerequisiteItem.
 import subprocess
 
-from .paths import WEB_DIR_PATH
+from .path import WEB_DIR_PATH
 from ....helpers.config.app import AppConfig
 
 

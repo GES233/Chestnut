@@ -24,4 +24,4 @@ async def index(request: Request) -> HTTPResponse:
     request.ctx.page_config.load_items(**PageConfig.addtitle(role="Index"))
 
     # Return.
-    return await render(request, "index.html")
+    return await render(request, "launch.html")

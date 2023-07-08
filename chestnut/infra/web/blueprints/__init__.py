@@ -12,8 +12,8 @@ def register_blueprint(app: Sanic) -> None:
     if app.config.APP.build:
         from .web import web_bp as web_bp
     else:
-        chestnut_logger.warn("Build not enabled, now use same one as launch app.")
-        from .web import web_bp_without_webapp as web_bp
+        chestnut_logger.warn("Build not enabled, now use launch-app-like layout.")
+        from .web import web_plain_bp as web_bp
 
     # Web.
     app.blueprint(web_bp)
@@ -21,7 +21,7 @@ def register_blueprint(app: Sanic) -> None:
 
 
 def reload_paths() -> List:
-    from .web.paths import MAIN_PUBLIC_PATH
+    from .web.path import MAIN_PUBLIC_PATH
     from ...helpers.path import BACKEND_PATH, DOCS_PATH
 
     return [MAIN_PUBLIC_PATH, BACKEND_PATH, DOCS_PATH]

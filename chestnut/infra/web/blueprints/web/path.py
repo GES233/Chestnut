@@ -1,7 +1,7 @@
 from pathlib import Path
 from sanic import Blueprint
 
-from ..plain.paths import CSS_PATH, JS_PATH
+from ..plain.path import CSS_PATH, JS_PATH
 from ....helpers.path import MAIN_PUBLIC_PATH, ASSETS_PATH
 
 

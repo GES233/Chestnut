@@ -1,4 +1,4 @@
-""" `chestnut.adapter.plain.paths`
+""" `chestnut.adapter.plain.path`
     ~~~~
 
     Some file path related to render-template.
