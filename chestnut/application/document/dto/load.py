@@ -13,13 +13,7 @@ from ...core.dto.db import DataAccessObjectMixin
 # TODO: Replace as `DAOMixin`
 class DocumentLoader(InputSchemaMixin, BaseModel):
     content: str
-    # Same as DocumentMeta.
-    name: str
-    title: str | None
-    language: str
-    source: Path
-    location: Iterable[str]
-    categories: List[str | None]
+    meta: DocumentMeta
 
     @classmethod
     def fromdict(
@@ -66,12 +60,12 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
         return DocumentLoader.sqeeze(
             content=self.content,
             meta_dict=dict(
-                name=self.name,
-                title=self.title,
-                language=self.language,
-                source=self.source,
-                location=self.location,
-                categories=self.categories,
+                name=self.meta.name,
+                title=self.meta.title,
+                language=self.meta.language,
+                source=self.meta.source,
+                location=self.meta.location,
+                categories=self.meta.categories,
             ),
         )
 

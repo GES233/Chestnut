@@ -12,9 +12,13 @@ class DocumentMeta(ValueObject):
     name: str
     title: str | None
     language: str
-    source: Path
+    source: Path | None
     """The path of the raw document."""
     location: Iterable[str]
-    """How to locate the document object in application, e.g.`/aaa/bbb/cc`"""
+    """
+    How to locate the document object in application.
+
+    `/aaa/bbb/cc` => ['aaa', 'bbb', 'cc'].
+    """
     categories: Iterable[str | None]
     repo_name: str = "main"

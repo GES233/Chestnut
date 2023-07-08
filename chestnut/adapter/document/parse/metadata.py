@@ -7,6 +7,19 @@ from ....application.document.domain.meta import DocumentMeta
 from ....application.document.dto.load import DocumentLoader
 
 
+MD_TITLE_PATTERN = re.compile(r"(^# (.*)\n)|(.*\n# (.*)\n)|((.*)\n^=.*\n)", re.MULTILINE)
+# match-group-2: r"(^# (.*)\n)"    =>      ("# ABC\n..." -> "ABC")
+# match-group-4: r"(.*\n# (.*)\n)" => ("...\n# ABC\n..." -> "ABC")
+# match-group-6: r"((.*)\n^=.*\n)" =>        ("ABC\n=.." -> "ABC")
+
+
+# from https://github.com/Python-Markdown/markdown/blob/master/markdown/extensions/meta.py
+#META_PATTERN = re.compile(r'^[ ]{0,3}(?P<key>[A-Za-z0-9_-]+):\s*(?P<value>.*)')
+#META_MORE_PATTERN = re.compile(r'^[ ]{4,}(?P<value>.*)')
+META_BEGIN_PATTERN = re.compile(r"^-{3}(\s.*)?")
+META_END_PATTERN = re.compile(r"^(-{3}|\.{3})(\s.*)?")
+
+
 class FilePathAdapter:
     """file path -> metadata."""
 
@@ -64,9 +77,20 @@ class FilePathAdapter:
         suffixes.remove(doc_format)
         language = (suffixes or [".en"])[0].strip(".")
 
-        if title := re.match(
-            r"(^# (.*)\n)|(.*\n# (.*)\n)|((.*)\n^=.*\n)", content, re.MULTILINE
-        ):
+        return dict(
+            name=file_path.name.split(".")[0],
+            title=FilePathAdapter._gettitle(content),
+            language=language,
+            source=file_path,
+            location=location,
+            categories=[],
+        )
+
+    @staticmethod
+    def _gettitle(content: str) -> str | None:
+        """Return title."""
+
+        if title := MD_TITLE_PATTERN.match(content):
             title = (
                 title.group(2)
                 # r"(^# (.*)\n)"    =>      ("# ABC\n..." -> "ABC")
@@ -75,17 +99,11 @@ class FilePathAdapter:
                 or title.group(6)
                 # r"((.*)\n^=.*\n)" =>        ("ABC\n=.." -> "ABC")
             )
-        
-        # TODO: Add validator.
 
-        return dict(
-            name=file_path.name.split(".")[0],
-            title=title,
-            language=language,
-            source=file_path,
-            location=location,
-            categories=[],
-        )
+        if isinstance(title, str):
+            return title
+        else:
+            return None
 
 
 class MetadataParserAdapter:
@@ -95,11 +113,9 @@ class MetadataParserAdapter:
     def parse(cls, content: str) -> dict:
         ...
 
-    def _fetch_metadata(self, raw_content: str) -> str:
+    def _fetchmetadata(self, raw_content: str) -> str:
         """"""
 
         # """---\n...\n---\n...""" => "---\n...\n---"
         ...
 
-    def _validate_metadata(self, metadata: dict) -> None:
-        ...
