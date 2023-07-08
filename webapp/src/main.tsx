@@ -20,3 +20,17 @@ const update: Update<State> = {
 };
 
 app.start("chestnut", state, view, update, {history: true});
+
+// In real-world app.
+
+/*
+app.on('#', (route, ...p) => {
+  app.run(`#/${route || ''}`, ...p);
+});
+
+app.once('/set-user', () => {
+  app.route(location.hash);
+});
+
+app.run('/get-user');
+*/
