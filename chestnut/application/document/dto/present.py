@@ -1,7 +1,7 @@
 from datetime import datetime
 from pathlib import Path
-from pydantic import BaseModel
-from typing import Iterable, Callable
+from pydantic import BaseModel, Field, validator
+from typing import Iterable, Callable, Optional
 
 from .. import exception as doc_exc
 from ..domain.meta import DocumentMeta
@@ -17,7 +17,16 @@ class DocumentPresenter(OutputSchemaMixin, BaseModel):
     source: str | Path = ""
     location: Iterable[str]
     categories: Iterable[str | None]
-    change_time: datetime | None
+    create_time: Optional[datetime] = None
+    change_time: Optional[datetime] = None
+
+    @validator("create_time", pre=True, always=True)
+    def default_create(cls, v: datetime):
+        return v or datetime.utcnow()
+    
+    @validator("change_time", pre=True, always=True)
+    def default_update(cls, v: datetime, values: dict):
+        return v or values["change_time"]
 
     @classmethod
     def fromentity(cls, entity: Document | DocumentMeta) -> "DocumentPresenter":
@@ -40,7 +49,8 @@ class DocumentPresenter(OutputSchemaMixin, BaseModel):
             source=document.meta.source,
             location=document.meta.location,
             categories=document.meta.categories,
-            change_time=document.meta.change_time
+            create_time=document.meta.create_time,
+            change_time=document.meta.change_time,
         )
 
     def present(

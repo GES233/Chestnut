@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 from pathlib import Path
 from pydantic import BaseModel, Field
 from typing import List, Any, Iterable, Callable
@@ -83,6 +84,8 @@ class DocumentLoader(InputSchemaMixin, BaseModel):
             source=meta_dict["source"],
             location=meta_dict["location"],
             categories=meta_dict["categories"],
+            create_time=meta_dict.get("create_time", datetime.utcnow()),
+            change_time=meta_dict.get("change_time", datetime.utcnow()),
         )
 
     @staticmethod

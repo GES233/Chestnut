@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 from typing import Iterable
@@ -22,6 +22,7 @@ class DocumentMeta(ValueObject):
     `/aaa/bbb/cc` => ['aaa', 'bbb', 'cc'].
     """
     categories: Iterable[str | None]
+    create_time: datetime | None
+    change_time: datetime | None
     repo_name: str = "main"
-    # Compat with database.
-    change_time: datetime | None = datetime.utcnow()
+

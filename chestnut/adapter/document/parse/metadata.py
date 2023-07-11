@@ -81,7 +81,7 @@ class FilePathAdapter:
         suffixes.remove(doc_format)
         language = (suffixes or [".en"])[0].strip(".")
 
-        # Add create_time/update_time.
+        # TODO: Add create_time/update_time.
 
         return dict(
             name=file_path.name.split(".")[0],

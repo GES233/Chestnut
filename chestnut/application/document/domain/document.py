@@ -49,6 +49,10 @@ Section = Dict[str, Tuple[int | Tuple[int], str | Type["Section"] | Iterable[str
 """{header name: (header level, content/sub paragraph)}"""
 
 
+Condition = bool | int | str | Enum
+"""`Condition` must be same in condition_checker and producer."""
+
+
 class ParsedDocumentBody(Entity):
     """"""
 
@@ -56,10 +60,6 @@ class ParsedDocumentBody(Entity):
     """In ParsedDocumentBody, `id` refers `title`."""
     index: Iterable[str]  # except title.
     content: Iterable[Section]
-
-
-Condition = bool | int | str | Enum
-"""`Condition` musrt be same in condition_checker and producer."""
 
 
 class ContentSplitService:
