@@ -21,12 +21,17 @@ class DocumentPresenter(OutputSchemaMixin, BaseModel):
     change_time: Optional[datetime] = None
 
     @validator("create_time", pre=True, always=True)
-    def default_create(cls, v: datetime):
-        return v or datetime.utcnow()
-    
+    def default_create(cls, v: datetime | float):
+        if not v:
+            return datetime.utcnow()
+        else:
+            return v if isinstance(v, datetime) else datetime.fromtimestamp(v)
+
     @validator("change_time", pre=True, always=True)
-    def default_update(cls, v: datetime, values: dict):
-        return v or values["change_time"]
+    def default_update(cls, v: datetime | float, values: dict):
+        return (
+            v if isinstance(v, datetime) else datetime.fromtimestamp(v)
+        ) or values["change_time"]
 
     @classmethod
     def fromentity(cls, entity: Document | DocumentMeta) -> "DocumentPresenter":
