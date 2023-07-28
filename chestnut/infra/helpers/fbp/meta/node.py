@@ -171,13 +171,28 @@ def _method_run():
 def _method_init():
     """Implement the `__init__` of class."""
 
+    def __init__(self):
+        ...
+
     raise NotImplementedError
 
 
 def _method_call():
     """Implement the `__call__` of class."""
 
-    raise NotImplementedError
+    def __call__(self, *args, **kwds):
+        # TODO: Padding.
+        return self
+
+    return __call__
+
+
+def _method_rrshift():
+    """Implement the `__rrshift__` of class."""
+
+    def __rrshift__(self): ...
+
+    return __rrshift__
 
 
 class NodeMeta(FlowMeta):
@@ -243,8 +258,9 @@ class NodeMeta(FlowMeta):
             setattr(class_, "run", _method_run())
             #   - `__init__()`
             #   - `__call__()`
+            #   - `__rrshift__()`
             # setattr(class_, "__init__", ...)
-            # setattr(class_, "__call__", ...)
+            setattr(class_, "__call__", _method_call)
             # setattr(class_, "__repr__", ...)
 
         return class_

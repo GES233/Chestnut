@@ -198,6 +198,10 @@ class SimpleRepoImpl(DocRepo, DocMetaRepo):
     async def upgrade(self, add_object: Document) -> None:
         self.db.append(add_object)
 
+    # fix.
+    async def check(self) -> bool:
+        return await super().check()
+
 
 mapper_registry = registry()
 
