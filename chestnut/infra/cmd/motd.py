@@ -80,14 +80,19 @@ class ChestnutMOTD(ABC):
 
     @abstractmethod
     def construct(self) -> str:
+        """Let properties and infomations into text."""
+
         raise NotImplementedError
 
-    def display(self, as_string: bool = False) -> str | None:
+    def display(self, as_string: bool = False, via_logger: bool = True) -> str | None:
         content = self.construct()
         if as_string:
             return content
         else:
-            chestnut_logger.info(content)
+            if via_logger:
+                chestnut_logger.info(content)
+            else:
+                print(content)
 
     @classmethod
     def show(cls, *args, **kwds) -> None:
