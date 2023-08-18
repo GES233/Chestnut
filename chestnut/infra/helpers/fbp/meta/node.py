@@ -11,6 +11,7 @@ key_conf: Dict[str, str] = {
     "abstract": "__abstract__",
     "entry": "__entry__",  # IS NOT A METHOD.
     "mapper": "__mappings__",
+    "hook": "__hook__",
 }
 
 
@@ -112,6 +113,20 @@ def _func_analysefunc(func: Callable[..., Any]) -> Dict[str, Dict]:
     return _args_dict
 
 
+def _func_prepare():
+    ...
+
+
+def _func_execute():
+    # TODO: Add coroutine.
+    def run(self, *args, **kwds):
+        func: Callable[..., Any] = getattr(self, key_conf["entry"])
+        result = func(*args, **kwds)
+        return result
+
+    return run
+
+
 def _method_setattr():
     """Implement the `__setattr__` of class."""
 
@@ -130,7 +145,9 @@ def _method_setattr():
                 )
             else:
                 # TODO: Check role.
-                raise NotImplementedError
+                ...
+
+                setattr(self, __name, __value)
         raise NotImplementedError
 
     return __setattr__
@@ -159,13 +176,7 @@ def _method_getattr():
 def _method_run():
     """Implement the run method of class."""
 
-    # TODO: Add coroutine.
-    def run(self, *args, **kwds):
-        func: Callable[..., Any] = getattr(self, key_conf["entry"])
-        result = func(*args, **kwds)
-        return result
-
-    return run
+    return _func_execute()
 
 
 def _method_init():
@@ -174,7 +185,7 @@ def _method_init():
     def __init__(self):
         ...
 
-    raise NotImplementedError
+    return __init__
 
 
 def _method_call():
@@ -257,10 +268,16 @@ class NodeMeta(FlowMeta):
             # - Bind specific method to class.
             setattr(class_, "run", _method_run())
             #   - `__init__()`
+            setattr(class_, "__init__", _method_init)
             #   - `__call__()`
-            #   - `__rrshift__()`
-            # setattr(class_, "__init__", ...)
             setattr(class_, "__call__", _method_call)
             # setattr(class_, "__repr__", ...)
+            #   - Operator
+            #     - `__rrshift__()`
+            setattr(class_, "__rrshift__", _method_rrshift)
+            #     - ...
+
+        setattr(class_, "__getattr__", _method_getattr)
+        setattr(class_, "__setattr__", _method_setattr)
 
         return class_

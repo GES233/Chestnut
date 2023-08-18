@@ -7,7 +7,7 @@ from typing import Dict
 from .location import CONFIG_LOCATION
 from ...helpers.config import AppConfig, DepsConfig
 from ...helpers.config.inst import loadappconfig, loaddepsconfig
-from ...helpers.path import INSTANCE_CONFIG_PATH
+from ...helpers.path import INSTANCE_PATH
 
 
 def create_app_config(
@@ -35,7 +35,16 @@ def create_app_config(
         # Load from instance.
         if use_instance:
             try:
-                prod_config.load(loadappconfig(INSTANCE_CONFIG_PATH(app_id)))
+                prod_config.load(
+                    loadappconfig(
+                        (
+                            lambda app_id: "config.toml"
+                            if not app_id
+                            else ("config_" + str(app_id) + ".toml")
+                        )(app_id),
+                        INSTANCE_PATH,
+                    )
+                )
             except FileNotFoundError:
                 raise SanicException(f"Wrong App's name {app_id}.")
 
@@ -77,7 +86,14 @@ def create_deps_config(
     # Load from instance.
     if use_instance and mode not in ["dev", "test"]:
         try:
-            deps_list_raw = loaddepsconfig(INSTANCE_CONFIG_PATH(app_id))
+            deps_list_raw = loaddepsconfig(
+                (
+                    lambda app_id: "config.toml"
+                    if not app_id
+                    else ("config_" + str(app_id) + ".toml")
+                )(app_id),
+                INSTANCE_PATH,
+            )
         except FileNotFoundError:
             if app_id:
                 raise SanicException(f"Wrong App's name {app_id}.")

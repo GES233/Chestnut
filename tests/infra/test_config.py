@@ -105,15 +105,16 @@ class TestConfigInstance:
         # assert r"\\" in renderer
 
         setinstance(
-            Path(INSTANCE_TEST_PATH / "test_1.toml"),
+            "test_1.toml",
             "\n\n".join(
                 [createappconfig(app_config), createdepsconfig([config_1, config_2])]
             ),
+            Path(INSTANCE_TEST_PATH),
         )
 
         # Load.
-        loaded_app_config = loadappconfig(Path(INSTANCE_TEST_PATH / "test_1.toml"))
-        loaded_deps_config = loaddepsconfig(Path(INSTANCE_TEST_PATH / "test_1.toml"))
+        loaded_app_config = loadappconfig("test_1.toml", INSTANCE_TEST_PATH)
+        loaded_deps_config = loaddepsconfig("test_1.toml", INSTANCE_TEST_PATH)
 
         app_config_new = AppConfig("", "", False)
         app_config_new.load(loaded_app_config)
