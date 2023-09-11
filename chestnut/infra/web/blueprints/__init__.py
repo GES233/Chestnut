@@ -9,7 +9,9 @@ def register_blueprint(app: Sanic) -> None:
 
     from .api import api_bp
 
-    if app.config.APP.build:
+    from .web.webapp import WEB_DIR_PATH
+
+    if app.config.APP.build and WEB_DIR_PATH.exists():
         from .web import web_bp as web_bp
     else:
         chestnut_logger.warn("Build not enabled, now use launch-app-like layout.")
