@@ -1,35 +1,36 @@
 from sqlalchemy import (
-    Table,
-    Column,
-    Integer,
     String,
     Text,
     DateTime,
-    PrimaryKeyConstraint,
-    ForeignKeyConstraint,
-    UniqueConstraint,
-    Index,
+    ForeignKey,
 )
-from .base import chestnut_sqlite_metadata
+from datetime import datetime
+from sqlalchemy.orm import relationship, Mapped, mapped_column
+
+from .base import ChestnutBase
 
 
-content_base_table = Table(
-    "content_base",
-    chestnut_sqlite_metadata,
-    Column("id", Integer, primary_key=True, autoincrement=True),
-    Column("index", Integer),
-    Column("author", Integer),
-    Column("status", String(16)),
-    Column("create_at", DateTime),
-    # FK author -> user.id
-    ForeignKeyConstraint(["author"], ["users.id"]),
-)
+class ContentBaseDAO(ChestnutBase):
+    __tablename__ = "content_base"
+
+    index_id: Mapped[int] = mapped_column(unique=True, primary_key=True)
+    count_id: Mapped[int] = mapped_column(unique=False, nullable=False, primary_key=True)
+    author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    status: Mapped[str] = mapped_column(String(16))
+    created_at: Mapped[datetime] = mapped_column(DateTime)
+
+    # author = relationship()
 
 
-feeds_table = Table(
-    "feeds",
-    chestnut_sqlite_metadata,
-    Column("feeds_id", Integer, primary_key=True),
-    Column("content", Text),
-    ForeignKeyConstraint(["feeds_id"], ["content_base.index"]),
-)
+class FeedDAO(ChestnutBase):
+    __tablename__ = "feeds"
+
+    feeds_id: Mapped[int] = mapped_column(ForeignKey("content_base.count_id"), primary_key=True)
+    content: Mapped[str] = mapped_column(Text)
+
+
+class ThreadDAO(ChestnutBase):
+    __tablename__ = "threads"
+
+    feeds_id: Mapped[int] = mapped_column(ForeignKey("content_base.count_id"), primary_key=True)
+    title: Mapped[str] = mapped_column()
