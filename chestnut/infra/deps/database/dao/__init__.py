@@ -4,10 +4,8 @@ from .base import chestnut_sqlite_metadata
 
 # Import tables to adapt alembic's autogenerate here.
 # repository also required.
-from .document import document_table, document_repo_table
+from .user import UserDAO
 
-# from .required import required_table
-# from .prerequisite import prerequisite_table
 
 # Import DAO's here.
 ...

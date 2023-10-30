@@ -1,14 +1,14 @@
 from dataclasses import dataclass
 from typing import List, Any
 
-from .base import Content, ContentBody
+from ...shared_kernel.content.domain import Content, ContentBody, TagRef
 
 
 class FeedBody(ContentBody):
     content: str
-    tags: List[str | None]
+    tags: List[TagRef]
 
-    def __init__(self, body: str, tags: List[Any] = []) -> None:
+    def __init__(self, body: str, tags: List[TagRef] = []) -> None:
         self.content = body
         self.tags = tags
 

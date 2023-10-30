@@ -1,9 +1,9 @@
 from enum import Enum
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Callable, Any
+from typing import NamedTuple, Any
 
-from ....core.domain import Entity, ValueObject as VOMixin
+from ...core.domain import Entity, ValueObject as VOMixin
 
 
 class Status(VOMixin, str, Enum):
@@ -28,20 +28,21 @@ class Status(VOMixin, str, Enum):
         return self.value == self.normal
 
     @classmethod
-    def fromvalue(cls, value: str) -> "Status" | None:
+    def fromvalue(cls, value: str) -> Any:
         if isinstance(value, str):
             # value = (value.title(),)
             return cls(value)
         for item in cls:
             if item.value == value:
                 return item
+        return None
 
 
 @dataclass
 class Content(Entity):
     inner_id: int
     status: Status
-    author = None
+    author: "UserRef"
     # UserRef: VO
     content: "ContentBody"
     create_at: datetime
@@ -61,3 +62,13 @@ class Content(Entity):
 
 class ContentBody(VOMixin):
     ...
+
+
+class UserRef(NamedTuple):
+    id: int
+    nickname: str
+
+
+class TagRef(NamedTuple):
+    value: str
+    id: int
