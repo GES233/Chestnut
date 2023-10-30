@@ -10,6 +10,10 @@ try:
 except (ModuleNotFoundError, ImportError):
     security_enable = False
 
+    # To surpass the warning.
+    from types import SimpleNamespace
+    ecdsa = SimpleNamespace()
+
 from ...helpers.config import DepsConfig
 
 

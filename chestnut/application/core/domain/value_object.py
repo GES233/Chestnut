@@ -1,4 +1,5 @@
 # from dataclasses import field
+from typing import Any
 
 
 class ValueObject:
@@ -6,5 +7,6 @@ class ValueObject:
 
     `value` required.
     """
+    value: Any
 
     pass
