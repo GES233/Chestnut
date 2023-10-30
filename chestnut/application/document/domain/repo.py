@@ -23,6 +23,12 @@ class DocRepo(ABC):
         """Upgrade document and meta."""
 
         raise NotImplementedError
+    
+    @abstractmethod
+    async def check(self) -> bool:
+        """Is there has data in this repo?"""
+
+        raise NotImplementedError
 
 
 class DocMetaRepo(ABC):
@@ -30,4 +36,8 @@ class DocMetaRepo(ABC):
     async def display(self) -> List[DocumentMeta | None]:
         """Display ALL existed documents's META(except raw content)."""
 
+        raise NotImplementedError
+
+    @abstractmethod
+    async def check(self) -> bool:
         raise NotImplementedError

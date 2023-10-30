@@ -4,7 +4,7 @@
 
 [English](/README.md) [繁體中文](/README.cmn-Hant.md)
 
-基于 [Sanic](https://github.com/sanic-org/sanic) 以及 [AppRun](https://apprun.js.org) 构建的演示以及使用~~ AI 项目~~内容的脚手架。
+基于 [Sanic](https://github.com/sanic-org/sanic) 以及 [AppRun](https://apprun.js.org) 构建的演示以及使用 ~~AI 项目~~ 内容的脚手架。
 
 灵感来自于 [AUTOMATIC1111's WebUI](https://github.com/AUTOMATIC1111/stable-diffusion-webui) 及其丰富的生态；以及更早地，之前采用编程方法所完成、而且能够随机生成不同结果以便其他同学借鉴~~抄袭~~的大作业。
 

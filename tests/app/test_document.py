@@ -2,6 +2,7 @@ import pytest
 
 import re
 import asyncio
+from datetime import datetime
 from pathlib import Path
 from sqlalchemy import Table
 from sqlalchemy.sql import select, update
@@ -73,6 +74,8 @@ class TestDocumentDomain:
             location=["wild", "breeding", "chicken"],
             categories=[],
             # content=DOCUMENT_RAW_CONTENT
+            create_time=datetime.utcnow(),
+            change_time=datetime.utcnow(),
         )
 
         assert demo_meta.title is not None and "\n" not in demo_meta.title
@@ -82,6 +85,8 @@ class TestDocumentDomain:
             title = title_.group(1)
         else:
             title = None
+        
+        current = datetime.utcnow()
 
         demo_meta = DocumentMeta(
             name="awesome_chicken",
@@ -90,6 +95,8 @@ class TestDocumentDomain:
             language="cmn-Hans",
             source=Path(__file__),
             location=["wild", "breeding", "chicken"],
+            create_time=current,
+            change_time=current,
             categories=[],
             # content=DOCUMENT_RAW_CONTENT
         )
@@ -190,6 +197,10 @@ class SimpleRepoImpl(DocRepo, DocMetaRepo):
 
     async def upgrade(self, add_object: Document) -> None:
         self.db.append(add_object)
+
+    # fix.
+    async def check(self) -> bool:
+        return await super().check()
 
 
 mapper_registry = registry()

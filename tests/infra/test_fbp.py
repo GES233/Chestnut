@@ -1,11 +1,10 @@
 import pytest
 import typing as t
-import pathlib as p, sys
+import pathlib as p
 
 from chestnut.infra.helpers.fbp.meta.node import NodeMeta
 from chestnut.infra.helpers.fbp.components.node import Node
 from chestnut.infra.helpers.fbp.components.port import Port
-
 
 class TestPort:
     def test_singleton(self):
@@ -39,12 +38,22 @@ class TestNode:
         class Node4Test(Node):
             __abstract__ = True
 
-            input = Port("input", type_=int | str)
-            output = Port("output", type_=int)
+            input = Port("input", type_=int | str, role=None)
+            output = Port("output", type_=int, role=None)
 
 
 class TestPipe:
     ...
+    def test_oprator(self):
+        class A(Node): ...
+        class B(Node): ...
+
+        a = A()
+        b = B()
+
+        x = a >> b >> a
+
+        ...
 
 
 class TestConfig:

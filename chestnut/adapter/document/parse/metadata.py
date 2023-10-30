@@ -1,4 +1,4 @@
-import re
+import os, re
 from pathlib import Path
 from typing import Any, List
 
@@ -81,7 +81,8 @@ class FilePathAdapter:
         suffixes.remove(doc_format)
         language = (suffixes or [".en"])[0].strip(".")
 
-        # Add create_time/update_time.
+        create_time = os.path.getctime(file_path)
+        change_time = os.path.getmtime(file_path)
 
         return dict(
             name=file_path.name.split(".")[0],
@@ -89,6 +90,8 @@ class FilePathAdapter:
             language=language,
             source=file_path,
             location=location,
+            create_time=create_time,
+            change_time=change_time,
             categories=[],
         )
 

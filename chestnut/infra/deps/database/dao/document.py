@@ -33,6 +33,7 @@ document_table = Table(
     Column("path", String, nullable=True),  # Physical path in device.
     Column("title", String, nullable=True),
     Column("content", String),
+    Column("create_time", DateTime),
     Column("change_time", DateTime),
     PrimaryKeyConstraint("name", "repo_name", name="document_pk"),  # Name and language
     ForeignKeyConstraint(

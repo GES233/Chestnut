@@ -6,7 +6,9 @@ from ....helpers.path import MAIN_PUBLIC_PATH, ASSETS_PATH
 
 
 # Configure Paths(it is stable).
-WEB_DIR_PATH = Path(MAIN_PUBLIC_PATH / "webapp")
+WEBAPP_DIR = "webapp"
+WEB_DIR_PATH = Path(MAIN_PUBLIC_PATH / WEBAPP_DIR)
+
 
 STATIC_PATH = Path(WEB_DIR_PATH / "static")
 FONTS_PATH = Path(MAIN_PUBLIC_PATH / "fonts")
