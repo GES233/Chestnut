@@ -7,7 +7,7 @@ from sanic import Sanic
 from sanic import Blueprint
 from sanic.request import Request
 
-from .path import launch_static
+from .path import plain_static
 from ...settings.location import CONFIG_LOCATION, REQUEST_CONTEXT_LOCATION
 from ....helpers.config.app import AppConfig
 from ....helpers.config.page import PageConfig
@@ -19,7 +19,7 @@ from .index import index_bp
 # from .docs import docs_bp
 
 
-launch_bp = Blueprint.group(launch_static, index_bp)
+launch_bp = Blueprint.group(plain_static, index_bp)
 
 
 def register_launch(app: Sanic) -> None:

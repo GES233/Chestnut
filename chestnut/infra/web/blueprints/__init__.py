@@ -4,18 +4,22 @@ from typing import List
 from ...log.service import chestnut_logger
 
 
-def register_blueprint(app: Sanic) -> None:
+def register_blueprint(app: Sanic, from_webapp: bool = False) -> None:
     """Register all blueprints."""
 
     from .api import api_bp
 
     from .web.webapp import WEB_DIR_PATH
 
-    if app.config.APP.build and WEB_DIR_PATH.exists():
+    if from_webapp and WEB_DIR_PATH.exists():
         from .web import web_bp as web_bp
     else:
-        chestnut_logger.warn("Build not enabled, now use launch-app-like layout.")
+        if from_webapp:
+            chestnut_logger.warn("Build not enabled, now use template layout.")
         from .web import web_plain_bp as web_bp
+        from .plain.web import register_plain
+
+        register_plain(app)
 
     # Web.
     app.blueprint(web_bp)

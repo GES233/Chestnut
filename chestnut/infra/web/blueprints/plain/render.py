@@ -81,7 +81,7 @@ async def launch_render(
         app=request.app,  # used when have sanic_ext
         context=appended_context,
         environment=(
-            launch_environment
+            launch_environment  # type: ignore
             if not EXTENSION_INSTLLED
             else request.app.ext.environment
         ),
