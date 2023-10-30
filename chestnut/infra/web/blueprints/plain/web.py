@@ -8,22 +8,24 @@ from sanic import Blueprint
 from sanic.request import Request
 
 # Using launch blurprints' static service.
-from ..path import plain_static
-from ....settings.location import CONFIG_LOCATION, REQUEST_CONTEXT_LOCATION
-from .....helpers.config.app import AppConfig
-from .....helpers.config.page import PageConfig
+from .path import plain_static
+from ...settings.location import CONFIG_LOCATION, REQUEST_CONTEXT_LOCATION
+from ....helpers.config.app import AppConfig
+from ....helpers.config.page import PageConfig
 
 
 page_bp = Blueprint("page")
 # Import lib here.
 # ...
-from ..index import index_bp
+from .index import index_bp
+from .....adapter.user.blueprint import user_bp
 
 
 web_plain_bp = Blueprint.group(
     plain_static,
     page_bp,
     index_bp,
+    user_bp,
 )
 
 

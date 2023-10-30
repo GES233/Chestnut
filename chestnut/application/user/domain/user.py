@@ -18,6 +18,13 @@ class User(Entity):
     nickname: str
     status: Status
     email: str
-    birthday: date
-    description: str
+    birthday: date | None
+    description: str | None
     join_at: datetime
+
+
+@dataclass
+class PasswordForm(ValueObject):
+    nickname: str
+    email: str
+    password: str
