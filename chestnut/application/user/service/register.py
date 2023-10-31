@@ -1,5 +1,6 @@
-from typing import Callable, ByteString
+from typing import Callable
 
+from ..exception import CommonUser
 from ..domain.user import PasswordForm, User
 from ..domain.repo import UserRepo
 
@@ -14,12 +15,15 @@ class RegisterService:
     async def __call__(self) -> User:
         common_user = await self.repo.checkcommonuser(self.user.email)
 
+        if common_user:
+            raise CommonUser(conflict_email=self.user.email)
+
         return await self.repo.add(self.user)
 
 
 class PasswordService:
-    en_func: Callable[[str], ByteString]
-    de_func: Callable[[str, ByteString], bool]
+    en_func: Callable[[str], bytes]
+    de_func: Callable[[str, bytes], bool]
 
     def __init__(self, en, de) -> None:
         self.en_func = en

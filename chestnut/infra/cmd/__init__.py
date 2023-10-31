@@ -17,3 +17,4 @@ from .run import running
 
 # Application related:
 from ...adapter.document.command import document
+from ...adapter.user.command import user

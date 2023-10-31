@@ -6,7 +6,4 @@ from .base import chestnut_sqlite_metadata
 # repository also required.
 from .user import UserDAO
 from .content import ContentBaseDAO, FeedDAO, ThreadDAO
-
-
-# Import DAO's here.
-...
+from .token import UserTokenDAO

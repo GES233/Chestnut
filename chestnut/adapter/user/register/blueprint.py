@@ -1,24 +1,20 @@
-from sanic import Sanic
-from sanic import Blueprint
 from sanic.request import Request
 from sanic.response import HTTPResponse, redirect
 from typing import Any
 
-from ..forms.register import (
+from .form import (
     SignUpForm,
     common_email,
-    common_nickname,
     check_signup_form,
     SignUpModel,
 )
 from ...password import pswd_bcrypt_adapter
 from ....infra.web.blueprints.plain.render import launch_render as render
-from ....infra.web.blueprints.plain.path import plain_static
-from ....infra.web.settings.location import CONFIG_LOCATION, REQUEST_CONTEXT_LOCATION
 from ....infra.web.dependency.database import DatabaseDep
 from ....infra.helpers.config.app import AppConfig
 from ....infra.helpers.config.page import PageConfig
-from ....infra.deps.database.dao.user import defaultUserRepo, UserDAO
+from ....infra.deps.database.dao.user import defaultUserRepo
+from ....application.user.exception import CommonUser
 from ....application.user.usecase.register import RegisterUsecase
 
 
@@ -37,7 +33,9 @@ async def register(request: Request, dep: DatabaseDep) -> HTTPResponse:
         k: form_data.get(k)
         for k in ["nickname", "email", "password", "confirm", "remember"]
     }
-    model = check_signup_form(SignUpForm(data=data_lists))
+    remember = data_lists["remember"]
+    form = SignUpForm(data=data_lists)
+    model = check_signup_form(form)
     if isinstance(model, SignUpForm):
         return await render(request, "register.html", context=dict(form=model))
 
@@ -47,12 +45,20 @@ async def register(request: Request, dep: DatabaseDep) -> HTTPResponse:
             session=dep.session_maker, password_service=pswd_bcrypt_adapter
         )
     )
-    user = await service(model)
+    try:
+        user = await service(model)
+    except CommonUser:
+        # Add modal?
+        return await render(request, "register.html", context=dict(form=common_email(form)))
 
     request.ctx.page_config.load_items()
 
     # return redirect("/user/register")
-    return await render(request, "register.html", context=dict(form=SignUpForm()))
+    if not remember:
+        return redirect("/user/login")
+    else:
+        # Add auth.
+        return await render(request, "register.html", context=dict(form=SignUpForm()))
 
 
 def formcheck(form):
