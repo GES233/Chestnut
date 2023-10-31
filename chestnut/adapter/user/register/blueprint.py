@@ -8,14 +8,17 @@ from .form import (
     check_signup_form,
     SignUpModel,
 )
+from ...auth.service import givesessionfromuser
 from ...password import pswd_bcrypt_adapter
 from ....infra.web.blueprints.plain.render import launch_render as render
 from ....infra.web.dependency.database import DatabaseDep
 from ....infra.helpers.config.app import AppConfig
 from ....infra.helpers.config.page import PageConfig
 from ....infra.deps.database.dao.user import defaultUserRepo
+from ....infra.deps.database.dao.token import defaultUserTokenRepo
 from ....application.user.exception import CommonUser
 from ....application.user.usecase.register import RegisterUsecase
+from ....application.user.usecase.token import AppendTokenUsecase
 
 
 async def registerpresentation(request: Request) -> HTTPResponse:
@@ -49,16 +52,22 @@ async def register(request: Request, dep: DatabaseDep) -> HTTPResponse:
         user = await service(model)
     except CommonUser:
         # Add modal?
-        return await render(request, "register.html", context=dict(form=common_email(form)))
+        return await render(
+            request, "register.html", context=dict(form=common_email(form))
+        )
 
-    request.ctx.page_config.load_items()
-
-    # return redirect("/user/register")
     if not remember:
         return redirect("/user/login")
     else:
-        # Add auth.
-        return await render(request, "register.html", context=dict(form=SignUpForm()))
+        add_token = AppendTokenUsecase(
+            repo=defaultUserTokenRepo(session=dep.session_maker),
+            service_user2session=givesessionfromuser,
+        )
+        await add_token(user)
+        # Add it to cookie.
+        ...
+
+        return redirect("/")
 
 
 def formcheck(form):

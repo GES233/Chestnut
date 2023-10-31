@@ -11,7 +11,11 @@ from sqlalchemy.sql import select, update, and_
 from sqlalchemy.ext.asyncio.session import AsyncSession, async_sessionmaker
 from sqlalchemy.orm import relationship, Mapped, mapped_column, Mapper
 
+from chestnut.application.user.domain.user import User
+
 from .base import ChestnutBase
+from .user import UserDAO
+from .....application.user.exception import NoUserMatched
 from .....application.user.domain.token import TokenScope, UserToken
 from .....application.user.domain.repo import UserTokenRepo
 
@@ -47,6 +51,21 @@ class defaultUserTokenRepo(UserTokenRepo):
     ) -> None:
         self.session = session
 
+    async def getuserbytoken(self, token: bytes) -> User:
+        stmt = select(UserDAO).where(
+            UserDAO.id
+            == (select(UserTokenDAO.user_id).where(UserTokenDAO.token == token))
+        )
+
+        async with self.session() as session:
+            user_ref = await session.scalars(stmt)
+            user = user_ref.one_or_none()
+
+        if not user:
+            raise NoUserMatched
+
+        return user.todomain()
+
     async def gettokenbyuser(self, user_id: int) -> Dict[str, UserToken]:
         return await super().gettokenbyuser(user_id)
 
@@ -69,27 +88,52 @@ class defaultUserTokenRepo(UserTokenRepo):
             await session.commit()
 
             token = await session.scalars(
-                select(UserTokenDAO)
-                .where(UserTokenDAO.token == user_token.raw_token)
+                select(UserTokenDAO).where(UserTokenDAO.token == user_token.raw_token)
             )
-        
+
         return token.one_or_none().id, token.one_or_none().todomain()  # type: ignore
 
     async def removetoken(self, session_id: int) -> None:
-        return await super().removetoken(session_id)
+        stmt = (
+            update(UserTokenDAO)
+            .where(UserTokenDAO.id == session_id)
+            .values(scope=TokenScope.nil)
+        )
+
+        async with self.session() as session:
+            await session.execute(stmt)
+
 
     async def removetokenbyuser(self, user_id: int) -> None:
-        return await super().removetokenbyuser(user_id)
+        stmt = (
+            update(UserTokenDAO)
+            .where(UserTokenDAO.user_id == user_id)
+            .values(scope=TokenScope.nil)
+        )
+
+        async with self.session() as session:
+            await session.execute(stmt)
 
     async def removetokenbyuserandscope(self, user_id: int, scope: TokenScope) -> None:
-        return await super().removetokenbyuserandscope(user_id, scope)
-    
+        stmt = (
+            update(UserTokenDAO)
+            .where(and_(
+                UserTokenDAO.user_id == user_id,
+                UserTokenDAO.scope == scope.value
+            ))
+            .values(scope=TokenScope.nil)
+        )
+
+        async with self.session() as session:
+            await session.execute(stmt)
+
     async def updatesametoken(self, user_id: int, scope: TokenScope) -> None:
         current = datetime.utcnow()
 
-        stmt = update(UserTokenDAO).where(and_(
-            UserTokenDAO.id == user_id,
-            UserTokenDAO.scope == scope.value
-        )).values(create_at=current)
+        stmt = (
+            update(UserTokenDAO)
+            .where(and_(UserTokenDAO.id == user_id, UserTokenDAO.scope == scope.value))
+            .values(create_at=current)
+        )
         async with self.session() as session:
             await session.execute(stmt)

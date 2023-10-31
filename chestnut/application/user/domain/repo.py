@@ -34,6 +34,10 @@ class UserRepo(ABC):
 
 class UserTokenRepo(ABC):
     @abstractmethod
+    async def getuserbytoken(self, token: bytes) -> User:
+        raise NotImplementedError
+
+    @abstractmethod
     async def gettokenbyuser(self, user_id: int) -> Dict[str, UserToken]:
         raise NotImplementedError
 

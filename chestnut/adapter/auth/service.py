@@ -2,14 +2,14 @@ import secrets, base64, hashlib
 from datetime import timedelta
 from typing import Callable
 
-from ...application.user.exception import TokenExpire, TokenInvalid
+from ...application.user.exception import TokenExpire, TokenInvalid, NoUserMatched
 from ...application.user.domain.user import User
 from ...application.user.domain.token import UserToken
+from ...application.user.domain.repo import UserTokenRepo
 from ...application.user.service.user_auth import (
     givetokenundersession,
     verifytokenundersession,
 )
-from ...infra.deps.database.dao.token import defaultUserTokenRepo
 
 
 def random_char_adpter() -> Callable[[int], bytes]:
@@ -31,15 +31,23 @@ def givesessionfromuser(user: User) -> UserToken:
     )
 
 
-async def checksession(raw_session: bytes, user: User, session_fac, exp: timedelta) -> bool:
+async def checksession(raw_session: bytes, user: User, repo: UserTokenRepo, exp: timedelta) -> bool:
     try:
         await verifytokenundersession(
             raw_session=raw_session,
             user=user,
-            repo=defaultUserTokenRepo(session=session_fac),
+            repo=repo,
             expire=exp
         )
     except (TokenInvalid, TokenExpire):
         return False
     else:
         return True
+
+
+async def returnuserfromsession(raw_session: bytes, repo: UserTokenRepo) -> User | None:
+    try:
+        user = await repo.getuserbytoken(raw_session)
+    except NoUserMatched:
+        return None
+    return user

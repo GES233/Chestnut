@@ -13,3 +13,7 @@ class TokenInvalid(AppExcBase):
 
 class TokenExpire(TokenInvalid):
     ...
+
+
+class NoUserMatched(AppExcBase):
+    ...
