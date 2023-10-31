@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from typing import Dict
 
 from ..domain.user import PasswordForm as DomainForm
@@ -9,6 +9,8 @@ class RegisterForm(BaseModel, InputSchemaMixin):
     nickname: str
     email: EmailStr
     password: str
+    remember: bool = Field(default=True)
+    # Not related to the 
 
     @classmethod
     def fromdict(cls, input_dict: Dict) -> "RegisterForm":

@@ -13,4 +13,4 @@ def _config_validation(config: DepsConfig, assert_items: Iterable[str]) -> None:
 
 
 def asyncsession_factory(engine: AsyncEngine) -> async_sessionmaker:
-    return async_sessionmaker(engine=engine, expire_on_commit=False)
+    return async_sessionmaker(bind=engine, expire_on_commit=False)

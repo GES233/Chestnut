@@ -5,15 +5,20 @@
   <article>
     <div>
         <hgroup><h1>注册</h1><h3>加入{{ app_config.name }}吧，就现在</h3></hgroup>
-        <form action="post">
-        <input type="text" name="email" placeholder="邮件" aria-label="Email" autocomplete="email" required>
+        <form action="/user/register" method="POST">
+        <!--<input type="text" name="email" placeholder="邮件" aria-label="Email" autocomplete="email" required>
         <input type="text" name="nickname" placeholder="昵称" aria-label="Nickname" autocomplete="nickname" required>
         <input type="text" name="password" placeholder="密码" aria-label="Password" autocomplete="new-password" required>
         <input type="text" name="confirm-password" placeholder="确认密码" aria-label="Password" autocomplete="new-password" required>
+        -->
+        {{ form.nickname }}
+        {{ form.email }}
+        {{ form.password }}
+        {{ form.confirm }}
         <fieldset>
             <label for="remember">
             <input type="checkbox" role="switch" id="remember" name="remember">
-            "记住我"
+            记住我
             </label>
         </fieldset>
         <button type="submit" class="contrast">注册</button>
