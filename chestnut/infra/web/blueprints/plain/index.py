@@ -7,7 +7,7 @@ from sanic import Blueprint
 from sanic.request import Request
 from sanic.response import HTTPResponse
 
-from .render import launch_render as render
+from .render import plain_render as render
 from ....helpers.config.page import PageConfig
 from .....adapter.auth.decorators import mountuserfromsession
 
@@ -25,4 +25,4 @@ async def index(request: Request) -> HTTPResponse:
     request.ctx.page_config.load_items(**PageConfig.addtitle(role="Index"))
 
     # Return.
-    return await render(request, "launch.html")
+    return await render(request, "launch.html", has_user=True)

@@ -12,7 +12,7 @@ from .form import (
 from ...auth.client.cookie import setsession
 from ...auth.service.session import append_session_usecase
 from ...password import pswd_bcrypt_adapter
-from ....infra.web.blueprints.plain.render import launch_render as render
+from ....infra.web.blueprints.plain.render import plain_render as render
 from ....infra.web.dependency.database import DatabaseDep
 from ....infra.helpers.config.app import AppConfig
 from ....infra.helpers.config.page import PageConfig

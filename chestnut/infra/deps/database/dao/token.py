@@ -132,6 +132,16 @@ class defaultUserTokenRepo(UserTokenRepo):
         async with self.session() as session:
             await session.execute(stmt)
 
+    async def removetokenbyself(self, token: bytes) -> None:
+        stmt1 = (
+            update(UserTokenDAO)
+            .where(UserTokenDAO.token == token)
+            .values(scope=TokenScope.nil)
+        )
+
+        async with self.session() as session:
+            await session.execute(stmt1)
+
     async def removetokenbyuser(self, user_id: int) -> None:
         stmt = (
             update(UserTokenDAO)

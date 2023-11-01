@@ -57,21 +57,24 @@ else:
     from sanic_ext.extensions.templating.render import render
 
 
-async def launch_render(
+async def plain_render(
     request: Request,
     template_name: str = "",
     status: int = 200,
     headers: Dict[str, str] | None = None,
     content_type: str = "text/html; charset=utf-8",
+    has_user: bool = False,
     context: Dict[str, Any] = {},
 ) -> HTTPResponse:
-    """Only in launched environment."""
 
     appended_context = context
 
     # Fetch some content registed on middleware.
     appended_context.update(app_config=request.ctx.app_config)
     appended_context.update(page_config=request.ctx.page_config)
+
+    if has_user:
+        appended_context.update(current_user=request.ctx.current_user)
 
     return await render(
         template_name=template_name,

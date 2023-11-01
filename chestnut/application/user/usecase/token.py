@@ -35,6 +35,9 @@ class RemoveTokenUsecase:
     def __init__(self, repo: UserTokenRepo) -> None:
         self.repo = repo
 
+    async def removebytoken(self, token: bytes) -> None:
+        await self.repo.removetokenbyself(token)
+
     async def removebyuser(self, user: User) -> None:
         ...
 

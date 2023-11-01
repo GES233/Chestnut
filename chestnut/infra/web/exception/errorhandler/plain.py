@@ -9,7 +9,7 @@ from ....deps.html.service import returnloaderandenv
 from ....deps.highlight import rendercode
 
 
-def launch_render_sync(
+def plain_render_sync(
     request: Request,
     template_name: str = "",
     status: int = 200,
@@ -63,7 +63,7 @@ class CustomeHTMLRenderer(HTMLRenderer):
             debug=debug, full=full, request=request, title=title, text=text, exc=exc
         )
 
-        return launch_render_sync(
+        return plain_render_sync(
             request=request,
             template_name="exception.html",
             status=self.status,

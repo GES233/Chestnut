@@ -1,7 +1,7 @@
 from sanic import HTTPResponse
 from sanic.errorpages import HTMLRenderer
 
-from .plain import launch_render_sync, parse_error
+from .plain import plain_render_sync, parse_error
 
 
 class WebAppHTMLRenderer(HTMLRenderer):

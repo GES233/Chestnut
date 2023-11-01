@@ -2,7 +2,6 @@ import base64
 from datetime import datetime, timedelta
 from sanic.request import Request
 from sanic.response import HTTPResponse
-from sanic.cookies import Cookie
 
 # from ..service.session import
 
@@ -18,6 +17,13 @@ def setsession(
         str(base64.b64encode(session_token), encoding="utf-8"),
         expires=datetime.utcnow() + expire if expire else None,
     )
+
+    return response
+
+def releasesession(
+    response: HTTPResponse
+) -> HTTPResponse:
+    response.delete_cookie(SESSION_KEY)
 
     return response
 

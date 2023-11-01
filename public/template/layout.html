@@ -47,9 +47,27 @@
       {%- endif %}
     </ul>
     <ul>
-      <li><details role="list">
-        <!-- 关于用户的身份 -->
-      </details></li>
+      <li>
+        <div class="user-status">
+          {%- if current_user -%}
+            <details role="list" dir="rtl"><!-- CSS need, if wanna a HTML5 env, remove it. -->
+                <summary aria-haspopup="listbox" role="link">{{ current_user.nickname }}</summary>
+                <ul>
+                    <li><a href="/me">个人主页</a></li>
+                    <li><a href="/user/logout">登出</a></li>
+                </ul>
+            </details>
+            {% else %}
+            <details role="list" dir="rtl"><!-- CSS need, if wanna a HTML5 env, remove it. -->
+                <summary aria-haspopup="listbox" role="link">未登录</summary>
+                <ul>
+                    <li><a href="/user/login">登录</a></li>
+                    <li><a href="/user/register">注册</a></li>
+                </ul>
+            </details>
+            {%- endif -%}
+          </div>
+        </li>
       <li><details role="list">
         <summary aria-haspopup="listbox" role="button" class="secondary">
           <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="25px">

@@ -54,6 +54,10 @@ class UserTokenRepo(ABC):
     @abstractmethod
     async def removetoken(self, session_id: int) -> None:
         raise NotImplementedError
+    
+    @abstractmethod
+    async def removetokenbyself(self, token: bytes) -> None:
+        raise NotImplementedError
 
     @abstractmethod
     async def removetokenbyuser(self, user_id: int) -> None:
