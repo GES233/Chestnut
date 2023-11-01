@@ -42,6 +42,15 @@ class UserTokenDAO(ChestnutBase):
             scope=TokenScope.fromvalue(self.scope),  # type: ignore
             create_at=self.create_at,
         )
+    
+    @classmethod
+    def fromdomain(cls, model: UserToken) -> "UserTokenDAO":
+        return UserTokenDAO(
+            token = model.raw_token,
+            user_id = model.user_id,
+            scope = model.scope.value,
+            create_at = model.create_at,
+        )
 
 
 class defaultUserTokenRepo(UserTokenRepo):
@@ -55,6 +64,25 @@ class defaultUserTokenRepo(UserTokenRepo):
         stmt = select(UserDAO).where(
             UserDAO.id
             == (select(UserTokenDAO.user_id).where(UserTokenDAO.token == token))
+        )
+
+        async with self.session() as session:
+            user_ref = await session.scalars(stmt)
+            user = user_ref.one_or_none()
+
+        if not user:
+            raise NoUserMatched
+
+        return user.todomain()
+
+    async def getuserbytokenandscope(self, token: bytes, scope: TokenScope) -> User:
+        stmt = select(UserDAO).where(
+            UserDAO.id
+            == (
+                select(UserTokenDAO.user_id).where(
+                    and_(UserTokenDAO.token == token, UserTokenDAO.scope == scope.value)
+                )
+            )
         )
 
         async with self.session() as session:
@@ -84,14 +112,15 @@ class defaultUserTokenRepo(UserTokenRepo):
 
     async def addtoken(self, user_token: UserToken) -> Tuple[int, UserToken]:
         async with self.session() as session:
-            session.add(user_token)
+            session.add(UserTokenDAO.fromdomain(user_token))
             await session.commit()
 
             token = await session.scalars(
                 select(UserTokenDAO).where(UserTokenDAO.token == user_token.raw_token)
             )
+            token = token.one_or_none()
 
-        return token.one_or_none().id, token.one_or_none().todomain()  # type: ignore
+        return token.id, token.todomain()  # type: ignore
 
     async def removetoken(self, session_id: int) -> None:
         stmt = (
@@ -102,7 +131,6 @@ class defaultUserTokenRepo(UserTokenRepo):
 
         async with self.session() as session:
             await session.execute(stmt)
-
 
     async def removetokenbyuser(self, user_id: int) -> None:
         stmt = (
@@ -117,10 +145,9 @@ class defaultUserTokenRepo(UserTokenRepo):
     async def removetokenbyuserandscope(self, user_id: int, scope: TokenScope) -> None:
         stmt = (
             update(UserTokenDAO)
-            .where(and_(
-                UserTokenDAO.user_id == user_id,
-                UserTokenDAO.scope == scope.value
-            ))
+            .where(
+                and_(UserTokenDAO.user_id == user_id, UserTokenDAO.scope == scope.value)
+            )
             .values(scope=TokenScope.nil)
         )
 

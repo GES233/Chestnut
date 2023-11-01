@@ -34,3 +34,17 @@ class ThreadDAO(ChestnutBase):
 
     feeds_id: Mapped[int] = mapped_column(ForeignKey("content_base.count_id"), primary_key=True)
     title: Mapped[str] = mapped_column()
+
+
+class SegmentBse(ChestnutBase):
+    __tablename__ = "segment_base"
+
+    segment_id: Mapped[int] = mapped_column(primary_key=True)
+    author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    status: Mapped[str] = mapped_column(String(16))
+    created_at: Mapped[datetime] = mapped_column(DateTime)
+
+"""
+class Comments(ChestnutBase):
+    __tablename__ = "comments"
+"""

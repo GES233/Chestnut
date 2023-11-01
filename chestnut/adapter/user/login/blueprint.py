@@ -2,7 +2,8 @@ from sanic.request import Request
 from sanic.response import HTTPResponse, redirect
 from typing import Any
 
-from ...auth.service import givesessionfromuser, checksession, returnuserfromsession
+from ...auth.service.session import check_session_usecase, append_session_usecase, remove_session_usecase
+from ...auth.client.cookie import fetchsession
 from ....infra.web.dependency.database import DatabaseDep
 from ....infra.deps.database.dao.token import defaultUserTokenRepo
 

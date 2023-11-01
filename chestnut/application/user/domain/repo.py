@@ -38,6 +38,10 @@ class UserTokenRepo(ABC):
         raise NotImplementedError
 
     @abstractmethod
+    async def getuserbytokenandscope(self, token: bytes, scope: TokenScope) -> User:
+        raise NotImplementedError
+
+    @abstractmethod
     async def gettokenbyuser(self, user_id: int) -> Dict[str, UserToken]:
         raise NotImplementedError
 
@@ -66,9 +70,3 @@ class UserTokenRepo(ABC):
     async def gettokenbyuserandscope(self, user_id: int, scope: TokenScope) -> UserToken | None:
         tokens = await self.gettokenbyuser(user_id=user_id)
         return tokens[scope.value]
-
-    async def getsessionbyuser(self, user_id: int) -> UserToken | None:
-        return await self.gettokenbyuserandscope(user_id=user_id, scope=TokenScope.session)
-
-    async def removesessionbyuser(self, user_id: int) -> None:
-        return await self.removetokenbyuserandscope(user_id=user_id, scope=TokenScope.session)

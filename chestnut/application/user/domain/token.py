@@ -21,13 +21,14 @@ class TokenScope(str, Enum):
         return self.value == TokenScope.token
     
     @classmethod
-    def fromvalue(cls, value: str | Any) -> "TokenScope" | None:
+    def fromvalue(cls, value: str | Any) -> "TokenScope":
         if isinstance(value, str):
             return cls(value)
         else:
             for item in cls:
                 if item.value == value:
                     return item
+            return cls.nil
 
 
 @dataclass

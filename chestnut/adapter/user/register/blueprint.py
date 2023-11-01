@@ -1,3 +1,4 @@
+from datetime import timedelta
 from sanic.request import Request
 from sanic.response import HTTPResponse, redirect
 from typing import Any
@@ -8,7 +9,8 @@ from .form import (
     check_signup_form,
     SignUpModel,
 )
-from ...auth.service import givesessionfromuser
+from ...auth.client.cookie import setsession
+from ...auth.service.session import append_session_usecase
 from ...password import pswd_bcrypt_adapter
 from ....infra.web.blueprints.plain.render import launch_render as render
 from ....infra.web.dependency.database import DatabaseDep
@@ -59,15 +61,10 @@ async def register(request: Request, dep: DatabaseDep) -> HTTPResponse:
     if not remember:
         return redirect("/user/login")
     else:
-        add_token = AppendTokenUsecase(
-            repo=defaultUserTokenRepo(session=dep.session_maker),
-            service_user2session=givesessionfromuser,
-        )
-        await add_token(user)
+        append_session = append_session_usecase(dep.session_maker)
+        token = await append_session(user)
         # Add it to cookie.
-        ...
-
-        return redirect("/")
+        return setsession(redirect("/"), token.raw_token, timedelta(days=60))
 
 
 def formcheck(form):

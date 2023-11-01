@@ -3,7 +3,7 @@ from typing import Callable, Any
 
 from ..domain.token import TokenScope, UserToken
 from ..domain.user import User
-from ..domain.repo import UserRepo, UserTokenRepo
+from ..domain.repo import UserTokenRepo
 from ..exception import TokenInvalid, TokenExpire
 
 
@@ -26,14 +26,14 @@ def givetokenundersession(
 
 
 async def verifytokenundersession(
-    raw_session: bytes, user: User, repo: UserTokenRepo, expire: timedelta
+    raw_session: bytes, user: User, scope: TokenScope, repo: UserTokenRepo, expire: timedelta
 ) -> None:
-    session = await repo.getsessionbyuser(user.id)
+    session = await repo.gettokenbyuserandscope(user.id, scope)
 
     if (
         not session
         or session.raw_token == raw_session
-        or session.scope.valid()
+        or not session.scope.valid()
     ):
         raise TokenInvalid
 
