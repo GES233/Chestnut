@@ -9,13 +9,14 @@ from sanic.response import HTTPResponse
 
 from .render import launch_render as render
 from ....helpers.config.page import PageConfig
-# from ....deps.i18n.language import parseheaders
+from .....adapter.auth.decorators import mountuserfromsession
 
 
 index_bp = Blueprint("launch_index_bp")
 
 
 @index_bp.route("/")
+@mountuserfromsession
 async def index(request: Request) -> HTTPResponse:
     # Language.
     # language = parseheaders(request.headers)

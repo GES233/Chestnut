@@ -7,7 +7,7 @@ from sanic.cookies import Cookie
 # from ..service.session import
 
 SESSION_KEY = "Authentication"
-SESSION_FROM_ = lambda cookie_jar: cookie_jar[SESSION_KEY]
+SESSION_FROM_ = lambda cookie_jar: cookie_jar.get(SESSION_KEY)
 
 
 def setsession(

@@ -81,7 +81,7 @@ class defaultUserTokenRepo(UserTokenRepo):
             == (
                 select(UserTokenDAO.user_id).where(
                     and_(UserTokenDAO.token == token, UserTokenDAO.scope == scope.value)
-                )
+                ).scalar_subquery()
             )
         )
 

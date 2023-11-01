@@ -15,7 +15,7 @@ from ....helpers.config.page import PageConfig
 
 
 page_bp = Blueprint("page")
-# Import lib here.
+# Import blueprints here.
 # ...
 from .index import index_bp
 from .....adapter.user.blueprint import user_bp

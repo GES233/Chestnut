@@ -1,4 +1,6 @@
 from datetime import timedelta
+from sqlalchemy.ext.asyncio.session import async_sessionmaker
+from typing import Callable
 
 from .encrypt import random_char_adpter, hash_sha256_adapter
 from ....application.user.exception import TokenExpire, TokenInvalid, NoUserMatched
@@ -13,6 +15,7 @@ from ....application.user.usecase.token import (
     AppendTokenUsecase,
     RemoveTokenUsecase,
     CheckTokenUsecase,
+    ReturnUserUsecase,
 )
 from ....infra.deps.database.dao.token import defaultUserTokenRepo
 
@@ -52,14 +55,20 @@ async def returnuserfromsession(raw_session: bytes, repo: UserTokenRepo) -> User
 append_session_usecase = lambda db_session_fac: AppendTokenUsecase(
     repo=defaultUserTokenRepo(db_session_fac),
     service_user2session=givesessionfromuser
-)
+)  # type: Callable[[async_sessionmaker], AppendTokenUsecase]
 
 
 remove_session_usecase = lambda db_session_fac: RemoveTokenUsecase(
     repo=defaultUserTokenRepo(db_session_fac)
-)
+)  # type: Callable[[async_sessionmaker], RemoveTokenUsecase]
 
 
 check_session_usecase = lambda db_session_fac: CheckTokenUsecase(
     repo=defaultUserTokenRepo(db_session_fac)
-)
+)  # type: Callable[[async_sessionmaker], CheckTokenUsecase]
+
+return_user_usecase_from_session = lambda db_session_fec, parse_req_service: ReturnUserUsecase(
+    repo=defaultUserTokenRepo(db_session_fec),
+    current_scope=TokenScope.session,
+    analyse_request=parse_req_service
+)  # type: Callable[[async_sessionmaker, Callable[..., bytes]], ReturnUserUsecase]

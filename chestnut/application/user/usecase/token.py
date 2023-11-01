@@ -1,11 +1,11 @@
 from datetime import datetime
 from typing import Any, Callable
 
+from ..exception import NoUserMatched, TokenInvalid, TokenExpire
 from ..domain.user import User
 from ..domain.token import UserToken, TokenScope
-from ..domain.repo import UserRepo, UserTokenRepo
-from ..exception import TokenExpire, TokenInvalid
-from ..service.user_auth import givetokenundersession, verifytokenundersession
+from ..domain.repo import UserTokenRepo
+from ..dto.present import UserPresentTable
 
 
 class AppendTokenUsecase:
@@ -38,6 +38,9 @@ class RemoveTokenUsecase:
     async def removebyuser(self, user: User) -> None:
         ...
 
+    async def removebyuserandscope(self, user: User, scope: TokenScope) -> None:
+        ...
+
 
 class CheckTokenUsecase:
     repo: UserTokenRepo
@@ -49,8 +52,44 @@ class CheckTokenUsecase:
         return await self.repo.getuserbytokenandscope(token, scope)
 
     async def token_valid(self, token: bytes, scope: TokenScope) -> bool:
-        has_user = await self.token_to_user(token, scope)
+        try:
+            has_user = await self.token_to_user(token, scope)
+        except (NoUserMatched, TokenInvalid):
+            return False
+
         if has_user:
             return True
         else:
             return False
+
+
+class ReturnUserUsecase:
+    repo: UserTokenRepo
+    scope: TokenScope
+    parse_request_service: Callable[..., bytes]
+
+    def __init__(
+        self,
+        repo: UserTokenRepo,
+        current_scope: TokenScope,
+        analyse_request: Callable[..., bytes],
+    ) -> None:
+        self.repo = repo
+        self.scope = current_scope
+        self.parse_request_service = analyse_request
+
+    async def request_to_user(self, request) -> User | None:
+        token = self.parse_request_service(request)
+
+        return await self.repo.getuserbytokenandscope(token, self.scope)
+
+    async def request2user_slience(self, request):
+        try:
+            user = await self.request_to_user(request)
+        except:
+            return None
+        return user
+
+    @staticmethod
+    def domain2dto(user: User) -> UserPresentTable:
+        return UserPresentTable.fromdomain(user)

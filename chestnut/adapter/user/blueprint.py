@@ -19,4 +19,5 @@ user_bp.add_route(logout, uri="/logout", methods=["GET", "POST"])
 
 
 # User Profile.
-...
+me_bp = Blueprint("me", "/me")
+
