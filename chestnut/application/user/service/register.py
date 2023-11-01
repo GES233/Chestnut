@@ -19,12 +19,3 @@ class RegisterService:
             raise CommonUser(conflict_email=self.user.email)
 
         return await self.repo.add(self.user)
-
-
-class PasswordService:
-    en_func: Callable[[str], bytes]
-    de_func: Callable[[str, bytes], bool]
-
-    def __init__(self, en, de) -> None:
-        self.en_func = en
-        self.de_func = de

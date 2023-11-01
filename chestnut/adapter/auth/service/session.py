@@ -64,7 +64,8 @@ remove_session_usecase = lambda db_session_fac: RemoveTokenUsecase(
 
 
 check_session_usecase = lambda db_session_fac: CheckTokenUsecase(
-    repo=defaultUserTokenRepo(db_session_fac)
+    repo=defaultUserTokenRepo(db_session_fac),
+    default_scope=TokenScope.session,
 )  # type: Callable[[async_sessionmaker], CheckTokenUsecase]
 
 return_user_usecase_from_session = lambda db_session_fec, parse_req_service: ReturnUserUsecase(

@@ -1,5 +1,5 @@
 
-from ..application.user.service.register import PasswordService
+from ..application.user.service.user_auth import PasswordService
 from ..infra.deps.password import hashpassword, checkpassword
 
 

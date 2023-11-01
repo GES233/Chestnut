@@ -31,6 +31,10 @@ class UserRepo(ABC):
     async def checkcommonuser(self, email: str) -> bool:
         return True if await self.getbyemail(email) else False
 
+    @abstractmethod
+    async def returnpassword(self, user: User) -> bytes:
+        raise NotImplementedError
+
 
 class UserTokenRepo(ABC):
     @abstractmethod

@@ -10,9 +10,11 @@ from typing import Any, Callable, Dict, Coroutine, List
 from chestnut.application.user.domain.user import User, PasswordForm, Status
 from chestnut.application.user.domain.repo import UserRepo
 from chestnut.application.user.dto.register import RegisterForm
-from chestnut.application.user.service.register import RegisterService, PasswordService
+from chestnut.application.user.service.register import RegisterService
+from chestnut.application.user.service.user_auth import PasswordService
 from chestnut.application.user.usecase.register import RegisterUsecase
 from chestnut.infra.deps.database.dao.user import defaultUserRepo, UserDAO
+from chestnut.adapter.auth.service.encrypt import hash_sha256_adapter
 
 
 def run_sync(func):
@@ -40,7 +42,7 @@ class UserRepoTest(UserRepo):
         return self.container_email[email]
     
     async def add(self, user: PasswordForm) -> User:
-        user_dao = UserDAO.fromregister(user)
+        user_dao = UserDAO.fromregister(user, hash_sha256_adapter())
 
         id_scalar = len(self.container_id) + 1
         user_dao.id = id_scalar

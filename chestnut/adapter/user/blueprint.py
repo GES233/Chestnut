@@ -5,19 +5,20 @@ user_bp = Blueprint("user_plain", "/user")
 
 
 # Register
-from .register.blueprint import registerpresentation, register
+from .register.view import registerpresentation, register
 
 user_bp.add_route(registerpresentation, uri="/register", methods=["GET"])
 user_bp.add_route(register, uri="/register", methods=["POST"])
 
 
 # Login
-from .login.blueprint import login, loginpresentation, logout
+from .login.view import login, loginpresentation, logout
 user_bp.add_route(loginpresentation, uri="/login", methods=["GET"])
 user_bp.add_route(login, uri="/login", methods=["POST"])
 user_bp.add_route(logout, uri="/logout", methods=["GET", "POST"])
 
 
 # User Profile.
-me_bp = Blueprint("me", "/me")
-
+user_info_bp = Blueprint("user_info")
+from .me.view import returnuserprofile
+user_info_bp.add_route(returnuserprofile, "/me", methods=["GET"])

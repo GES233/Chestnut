@@ -39,3 +39,12 @@ async def verifytokenundersession(
 
     if session.create_at + expire < datetime.utcnow():
         raise TokenExpire
+
+
+class PasswordService:
+    en_func: Callable[[str], bytes]
+    de_func: Callable[[str, bytes], bool]
+
+    def __init__(self, en, de) -> None:
+        self.en_func = en
+        self.de_func = de

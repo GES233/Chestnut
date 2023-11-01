@@ -22,3 +22,9 @@ class UserProfile(BaseModel):
     id: int
     nickname: str
     email: str
+
+    @classmethod
+    def fromdomain(cls, user: User) -> "UserProfile":
+        return UserProfile(
+            id=user.id, nickname=user.nickname, email=user.email
+        )

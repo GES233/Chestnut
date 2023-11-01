@@ -67,7 +67,7 @@ from sqlalchemy.ext.asyncio.session import AsyncSession, async_sessionmaker
 from typing import List
 
 from .....application.user.domain.repo import UserRepo
-from .....application.user.service.register import PasswordService
+from .....application.user.service.user_auth import PasswordService
 
 
 class defaultUserRepo(UserRepo):

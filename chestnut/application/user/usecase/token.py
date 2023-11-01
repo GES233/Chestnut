@@ -47,16 +47,18 @@ class RemoveTokenUsecase:
 
 class CheckTokenUsecase:
     repo: UserTokenRepo
+    scope: TokenScope
 
-    def __init__(self, repo: UserTokenRepo) -> None:
+    def __init__(self, repo: UserTokenRepo, default_scope: TokenScope) -> None:
         self.repo = repo
+        self.scope = default_scope
 
-    async def token_to_user(self, token: bytes, scope: TokenScope) -> User:
-        return await self.repo.getuserbytokenandscope(token, scope)
+    async def token_to_user(self, token: bytes) -> User:
+        return await self.repo.getuserbytokenandscope(token, self.scope)
 
-    async def token_valid(self, token: bytes, scope: TokenScope) -> bool:
+    async def token_valid(self, token: bytes) -> bool:
         try:
-            has_user = await self.token_to_user(token, scope)
+            has_user = await self.token_to_user(token)
         except (NoUserMatched, TokenInvalid):
             return False
 
@@ -96,3 +98,10 @@ class ReturnUserUsecase:
     @staticmethod
     def domain2dto(user: User) -> UserPresentTable:
         return UserPresentTable.fromdomain(user)
+
+
+class UpdateTokenUsecase:
+    def __init__(self) -> None:
+        pass
+
+    async def update(self): ...
