@@ -6,14 +6,15 @@
     <div>
         <hgroup><h1>登录</h1><h3>没有账号？那就<a href="/user/register">注册</a></h3></hgroup>
         <form action="/user/login" method="POST">
-        {{ form.nickname }}
+        {{ form.email }}
         {{ form.password }}
         <fieldset>
-            <label for="remember">
-            <input type="checkbox" role="switch" id="remember" name="remember">
-            记住我
-            </label>
-        </fieldset>
+          <label for="remember">
+            <!--<input type="checkbox" role="switch" id="remember" name="remember">-->
+            {{ form.remember }}
+            <span style="font-size: small;" data-tooltip="如果不是自己的电脑请不要设置这个！">记住我</span>
+          </label>
+      </fieldset>
         <button type="submit" class="contrast">登录</button>
         </form>
     </div>

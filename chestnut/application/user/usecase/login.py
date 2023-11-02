@@ -8,7 +8,7 @@ from ..exception import NoUserMatched
 
 class LoginUsecase:
 
-    def __init__(self, repo: UserRepo, password_check_service: Callable[[bytes, str], bool]) -> None:
+    def __init__(self, repo: UserRepo, password_check_service: Callable[[str, bytes], bool]) -> None:
         self.repo = repo
         self.check_service = password_check_service
 
@@ -16,6 +16,6 @@ class LoginUsecase:
         user = await self.repo.getbyemail(dto.email)
         if user:
             password = await self.repo.returnpassword(user)
-            if self.check_service(password, dto.password):
+            if self.check_service(dto.password, password):
                 return user
         raise NoUserMatched

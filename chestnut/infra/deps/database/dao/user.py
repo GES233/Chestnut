@@ -66,6 +66,7 @@ from sqlalchemy.ext.asyncio.engine import AsyncEngine
 from sqlalchemy.ext.asyncio.session import AsyncSession, async_sessionmaker
 from typing import List
 
+from .....application.user.exception import NoUserMatched
 from .....application.user.domain.repo import UserRepo
 from .....application.user.service.user_auth import PasswordService
 
@@ -122,6 +123,15 @@ class defaultUserRepo(UserRepo):
             user_res = user_res.all()
 
         return user_res[0].todomain()
+    
+    async def returnpassword(self, user: User) -> bytes | None:
+        stmt = select(UserDAO.password).where(UserDAO.id == user.id)
+
+        async with self.session() as session:
+            pswd_scalar = await session.scalars(stmt)
+            pswd = pswd_scalar.one_or_none()
+
+        return pswd  # type: ignore
 
     async def edit(self, user: User) -> User:
         return await super().edit(user)
