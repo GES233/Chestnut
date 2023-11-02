@@ -81,7 +81,7 @@ class defaultUserRepo(UserRepo):
         self.password_service = password_service
 
     async def getbyid(self, id: int) -> User | None:
-        stmt = select(UserDAO).where(UserDAO.__table__.c.id == id)
+        stmt = select(UserDAO).where(UserDAO.id == id)
 
         async with self.session() as session:
             user = await session.scalars(stmt)
@@ -90,7 +90,7 @@ class defaultUserRepo(UserRepo):
         return user.todomain() if isinstance(user, UserDAO) else None
 
     async def getbyemail(self, email: str) -> User | None:
-        stmt = select(UserDAO).where(UserDAO.__table__.c.email == email)
+        stmt = select(UserDAO).where(UserDAO.email == email)
 
         async with self.session() as session:
             user = await session.scalars(stmt)

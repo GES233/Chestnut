@@ -47,8 +47,7 @@ async def login(request: Request, dep: DatabaseDep) -> HTTPResponse:
     )
     try:
         user = await service(model)
-    except NoUserMatched:
-        # Return form.
+    except NoUserMatched as e:
         return await render(request, "login.html", context=dict(form=no_user_matched(form)))
 
     # Update session.

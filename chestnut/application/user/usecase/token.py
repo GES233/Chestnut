@@ -86,7 +86,8 @@ class ReturnUserUsecase:
     async def request_to_user(self, request) -> User | None:
         token = self.parse_request_service(request)
 
-        return await self.repo.getuserbytokenandscope(token, self.scope)
+        # return await self.repo.getuserbytokenandscope(token, self.scope)
+        return await self.repo.getuserbytoken(token)
 
     async def request2user_slience(self, request):
         try:

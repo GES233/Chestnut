@@ -14,7 +14,8 @@ def setsession(
 ) -> HTTPResponse:
     response.add_cookie(
         SESSION_KEY,
-        str(base64.b64encode(session_token), encoding="utf-8"),
+        sessionbytes2str(session_token),
+        secure=False,
         expires=datetime.utcnow() + expire if expire else None,
     )
 
@@ -29,4 +30,12 @@ def releasesession(
 
 
 def fetchsession(request: Request) -> bytes:
-    return base64.b64decode(bytes(SESSION_FROM_(request.cookies), encoding="utf-8"))
+    return sessionstr2bytes(SESSION_FROM_(request.cookies))
+
+
+def sessionstr2bytes(cookie: str) -> bytes:
+    return base64.b64decode(bytes(cookie, encoding="utf-8"))
+
+
+def sessionbytes2str(en: bytes) -> str:
+    return str(base64.b64encode(en), encoding="utf-8")

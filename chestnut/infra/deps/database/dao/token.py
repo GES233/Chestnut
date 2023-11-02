@@ -7,7 +7,7 @@ from sqlalchemy import (
     UniqueConstraint,
 )
 from datetime import datetime
-from sqlalchemy.sql import select, update, and_
+from sqlalchemy.sql import select, update, and_, or_
 from sqlalchemy.ext.asyncio.session import AsyncSession, async_sessionmaker
 from sqlalchemy.orm import relationship, Mapped, mapped_column, Mapper
 
@@ -42,14 +42,14 @@ class UserTokenDAO(ChestnutBase):
             scope=TokenScope.fromvalue(self.scope),  # type: ignore
             create_at=self.create_at,
         )
-    
+
     @classmethod
     def fromdomain(cls, model: UserToken) -> "UserTokenDAO":
         return UserTokenDAO(
-            token = model.raw_token,
-            user_id = model.user_id,
-            scope = model.scope.value,
-            create_at = model.create_at,
+            token=model.raw_token,
+            user_id=model.user_id,
+            scope=model.scope.value,
+            create_at=model.create_at,
         )
 
 
@@ -76,10 +76,9 @@ class defaultUserTokenRepo(UserTokenRepo):
         return user.todomain()
 
     async def getuserbytokenandscope(self, token: bytes, scope: TokenScope) -> User:
-        stmt = select(UserDAO).where(
-            UserDAO.id
-            == (
-                select(UserTokenDAO.user_id).where(
+        stmt = select(UserDAO).where(UserDAO.id == (
+                select(UserTokenDAO.user_id)
+                .where(
                     and_(UserTokenDAO.token == token, UserTokenDAO.scope == scope.value)
                 ).scalar_subquery()
             )
@@ -88,6 +87,8 @@ class defaultUserTokenRepo(UserTokenRepo):
         async with self.session() as session:
             user_ref = await session.scalars(stmt)
             user = user_ref.one_or_none()
+
+            users = user_ref.all()
 
         if not user:
             raise NoUserMatched
@@ -112,8 +113,32 @@ class defaultUserTokenRepo(UserTokenRepo):
 
     async def addtoken(self, user_token: UserToken) -> Tuple[int, UserToken]:
         async with self.session() as session:
-            session.add(UserTokenDAO.fromdomain(user_token))
-            await session.commit()
+            # Query before insert.
+            stmt_q = select(UserTokenDAO).where(
+                and_(
+                    UserTokenDAO.user_id == user_token.user_id,
+                    UserTokenDAO.scope == user_token.scope.value,
+                )
+            )
+            has_token = await session.scalars(stmt_q)
+            has_token = has_token.one_or_none()
+
+            if has_token:
+                stmt_update = (
+                    update(UserTokenDAO)
+                    .where(
+                        and_(
+                            UserTokenDAO.scope == has_token.scope,  # type: ignore
+                            UserTokenDAO.user_id == has_token.user_id,  # type: ignore
+                        )
+                    )
+                    .values(token=user_token.raw_token)
+                )
+                await session.execute(stmt_update)
+
+            else:
+                session.add(UserTokenDAO.fromdomain(user_token))
+                await session.commit()
 
             token = await session.scalars(
                 select(UserTokenDAO).where(UserTokenDAO.token == user_token.raw_token)
